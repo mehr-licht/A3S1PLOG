@@ -2,10 +2,15 @@
 
 
 
-
 ## Instructions for running
 $ sicstus
 
+or
+
+$ rlwrap sicstus     [uses the directional arrows/need to install first
+                        sudo apt-get install rlwrap ]
+
+check the difusal blog for detail information
 
 .    %indica um facto
 ?    %indica uma query
