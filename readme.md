@@ -2,7 +2,19 @@
 
 ### Notes
 
-para exectuar o ou
+#Agrupamento de funcoes
+
+( funcao(X,Z); funcao(VinhoVerde,Z)  ) , funcaoAzul(X). 
+
+#Debug
+
+spy (funcao).
+
+retirar
+
+nospy (funcao).
+
+#para exectuar o ou
 regra:-def1.
 regra:-def2.
 Isto é, fazer os dois predicatos com atomos diferentes
