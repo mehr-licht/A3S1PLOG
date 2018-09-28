@@ -1,6 +1,26 @@
 # **PLOG**
 
+### Notes
 
+para exectuar o ou
+regra:-def1.
+regra:-def2.
+Isto é, fazer os dois predicatos com atomos diferentes
+
+pred(+A,-B,?C) 
+%A tem de estar instanciado
+%B elemento de saída
+%C elemento de entrada e de saída
+
+\= %diferente
+\+  %negação
+
+male(_X).  %devolve apenas yes se existir valores possiveis
+
+male(C). %vai devolvendo os valores possiveis um a um
+
+##Consult and resconsult
+reconsult('nomeFicheiro.pl')
 
 ## Instructions for running
 $ sicstus

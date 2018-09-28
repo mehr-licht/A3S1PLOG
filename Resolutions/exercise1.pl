@@ -17,4 +17,6 @@ parent(sara,ella).
 
 
 %parent(X,michael).
-%son(Y,X):-parent(Y,X).
+son(Y,X):-parent(X,Y),male(Y).
+father(X,Y):-parent(X,Y),male(X).
+
