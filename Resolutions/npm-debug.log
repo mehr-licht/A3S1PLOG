@@ -1,0 +1,93 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'electron',
+1 verbose cli   '--save-dev',
+1 verbose cli   '[--save-exact]' ]
+2 info using npm@3.5.2
+3 info using node@v8.10.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData electron
+8 silly fetchPackageMetaData [--save-exact]
+9 silly fetchNamedPackageData electron
+10 silly mapToRegistry name electron
+11 silly mapToRegistry using default registry
+12 silly mapToRegistry registry https://registry.npmjs.org/
+13 silly mapToRegistry uri https://registry.npmjs.org/electron
+14 silly fetchOtherPackageData [--save-exact]
+15 silly cache add args [ '[--save-exact]', null ]
+16 verbose cache add spec [--save-exact]
+17 silly cache add parsed spec Result {
+17 silly cache add   raw: '[--save-exact]',
+17 silly cache add   scope: null,
+17 silly cache add   name: null,
+17 silly cache add   rawSpec: '[--save-exact]',
+17 silly cache add   spec: '/home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]',
+17 silly cache add   type: 'local' }
+18 error addLocal Could not install /home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]
+19 silly fetchPackageMetaData Error: ENOENT: no such file or directory, open '/home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]'
+19 silly fetchPackageMetaData  error for [--save-exact] { Error: ENOENT: no such file or directory, open '/home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]'
+19 silly fetchPackageMetaData   errno: -2,
+19 silly fetchPackageMetaData   code: 'ENOENT',
+19 silly fetchPackageMetaData   syscall: 'open',
+19 silly fetchPackageMetaData   path: '/home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]' }
+20 verbose request uri https://registry.npmjs.org/electron
+21 verbose request no auth needed
+22 info attempt registry request try #1 at 8:54:33 PM
+23 verbose request id d56a068ca44697d8
+24 verbose etag W/"88a7952c55984d854dae2ab5f36d459a"
+25 verbose lastModified Wed, 24 Oct 2018 23:29:38 GMT
+26 http request GET https://registry.npmjs.org/electron
+27 http 304 https://registry.npmjs.org/electron
+28 verbose headers { date: 'Thu, 25 Oct 2018 19:54:33 GMT',
+28 verbose headers   connection: 'keep-alive',
+28 verbose headers   'set-cookie':
+28 verbose headers    [ '__cfduid=da9f1975237ec5e20a81c04acbbfd987b1540497273; expires=Fri, 25-Oct-19 19:54:33 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
+28 verbose headers   'cf-cache-status': 'HIT',
+28 verbose headers   'cache-control': 'max-age=300',
+28 verbose headers   'cf-ray': '46f73c55e9be620c-LIS',
+28 verbose headers   etag: '"88a7952c55984d854dae2ab5f36d459a"',
+28 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+28 verbose headers   'last-modified': 'Wed, 24 Oct 2018 23:29:38 GMT',
+28 verbose headers   vary: 'accept-encoding, accept',
+28 verbose headers   'x-amz-meta-rev': '385-aaeeed836c0b623262554da17cb1d843',
+28 verbose headers   server: 'cloudflare' }
+29 silly get cb [ 304,
+29 silly get   { date: 'Thu, 25 Oct 2018 19:54:33 GMT',
+29 silly get     connection: 'keep-alive',
+29 silly get     'set-cookie':
+29 silly get      [ '__cfduid=da9f1975237ec5e20a81c04acbbfd987b1540497273; expires=Fri, 25-Oct-19 19:54:33 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
+29 silly get     'cf-cache-status': 'HIT',
+29 silly get     'cache-control': 'max-age=300',
+29 silly get     'cf-ray': '46f73c55e9be620c-LIS',
+29 silly get     etag: '"88a7952c55984d854dae2ab5f36d459a"',
+29 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+29 silly get     'last-modified': 'Wed, 24 Oct 2018 23:29:38 GMT',
+29 silly get     vary: 'accept-encoding, accept',
+29 silly get     'x-amz-meta-rev': '385-aaeeed836c0b623262554da17cb1d843',
+29 silly get     server: 'cloudflare' } ]
+30 verbose etag https://registry.npmjs.org/electron from cache
+31 verbose get saving electron to /home/notus/.npm/registry.npmjs.org/electron/.cache.json
+32 silly rollbackFailedOptional Starting
+33 silly rollbackFailedOptional Finishing
+34 silly runTopLevelLifecycles Starting
+35 silly runTopLevelLifecycles Finishing
+36 silly install printInstalled
+37 verbose stack Error: ENOENT: no such file or directory, open '/home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]'
+38 verbose cwd /home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions
+39 error Linux 4.15.0-36-generic
+40 error argv "/usr/bin/node" "/usr/bin/npm" "install" "electron" "--save-dev" "[--save-exact]"
+41 error node v8.10.0
+42 error npm  v3.5.2
+43 error path /home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]
+44 error code ENOENT
+45 error errno -2
+46 error syscall open
+47 error enoent ENOENT: no such file or directory, open '/home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]'
+48 error enoent ENOENT: no such file or directory, open '/home/notus/Desktop/5_PLOG/A3S1PLOG/Resolutions/[--save-exact]'
+48 error enoent This is most likely not a problem with npm itself
+48 error enoent and is related to npm not being able to find a file.
+49 verbose exit [ -2, true ]

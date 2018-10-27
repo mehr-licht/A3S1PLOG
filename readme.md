@@ -8,11 +8,10 @@
 
 #Debug
 
-spy (funcao).
-
+    spy (funcao).
 retirar
+    nospy (funcao).
 
-nospy (funcao).
 
 #para exectuar o ou
 regra:-def1.
