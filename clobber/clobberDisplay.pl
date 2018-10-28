@@ -4,8 +4,8 @@ initialBoard([
     [white,black,white,black,white],
     [black,white,black,white,black],
     [white,black,white,black,white],
-    [black,white,black,white,white],
-    [white,black,black,black,white]
+    [black,white,black,white,black],
+    [white,black,white,black,white]
 ]).
 
 
@@ -42,14 +42,20 @@ printLine([Head|Tail]) :-
 tabuleiroInicial(Board,getPeca(+Linha,+Coluna,+Tabuleiro,-Peca)).
 tabuleiroInicial(Board,setPeca(+Linha,+Coluna,+Tabuleiro,+Peca,-TabOut)).
 
-validMove(estadoTotal(tab, jogador),jogada,novoTab, novoJogo).
+%jogada eh um termo composto de-para
+%estadoActual é tabuleiroActual e Jogador que está a jogar (tab,jogador)
+validMove(tab, jogador, jogada, novoTab, novoJogador).
 
-%para ter a avaliacao do tabuleiro
-evalBoard(Tab,J, val).
+%para ter a avaliacao do tabuleiro apos jogada - val eh o valor atribuido a como vai ficar
+evalBoard(tab, jogador, val).
 
 %para termos todas as jogadas validas
 %depois eh so usar a random library
-findall(jog, validMove( tab, j , jog, NT, NJ ), L).
+findall(jog, validMove( tab, jogador, jogada, novoTabuleiro, novoJogador ), L).
 
-%val_jog eh o valor da jogada avaliado o tabuleiro apos a jogada
-setOf(val_jog, (validMove(tab,J,jog,NT,NJ),evalBoard(Tab,J, val) ), L ).
+%val_jog eh o valor da jogada avaliado o tabuleiro apos a jogada val_jog eh um termo composto val-jogada 
+setOf(val_jog, (validMove(tab, jpgador, jogada, novoTabuleiro, novoJogador), evalBoard(tab, jogador, val) ), L ).
+
+
+%para encontrar o caminho mais curto entre 2 nos
+%setOf(len-path, (path(start, end, path), length(path, len)), [slen-spath|_]).
