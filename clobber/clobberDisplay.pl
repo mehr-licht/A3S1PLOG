@@ -27,6 +27,12 @@ printMatrix([Head|Tail], N) :-
     write(N),
     write(' | '),
     printLine(Head),
+
+
+
+
+
+
     write('\n   |---|---|---|---|---|\n'),
     printMatrix(Tail, N1).
 

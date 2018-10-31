@@ -1,6 +1,6 @@
 % imprime menu inicial para futura escolha do modo de jogo
 mainMenu :-
-    printMainMenu, askOption, read(Input), managerInput(Input).
+    printMainMenu, askOption, read(TeclaEntrada), managerInput(TeclaEntrada).
 
 managerInput(1) :-
     startGame('P','P'), mainMenu.
@@ -18,7 +18,7 @@ managerInput(4) :-
 managerInput(0) :-
     write('\nExiting...\n\n').
 
-managerInput(_Other) :-
+managerInput(_OutroInput) :-
     write('\nERROR: On input\n\n'), askOption, read(Input), managerInput(Input).
 
 printMainMenu :-
@@ -35,3 +35,5 @@ printMainMenu :-
 
 askOption :-
     write('> Insert option ').
+
+

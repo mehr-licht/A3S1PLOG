@@ -20,3 +20,13 @@ b(N,b3).
 c(X,Y) :- a(X,N), b(N,Y).
 d(X,Y) :- a(X,N), b(Y,N).
 d(X,Y) :- a(N,X), b(N,Y).
+
+lista([a,[b],c,[d]]) = lista([_|[X|X]]).
+%-------------------------------------------------------------Append
+append([],L,L).
+append([X|L1],L2,[X|L3]):-append(L1,L2,L3).
+%-------------------------------------------------------------listas invertidas
+inverter(Lista,InvLista):-rev(Lista,[],InvLista).
+rev([H|T],S,R):-rev(T,[H|S],R).
+rev([],R,R).
+%--------------------------------------------------------------
