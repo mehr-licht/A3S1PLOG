@@ -5,29 +5,51 @@
 
 %o jogador a jogar no turno se não tiver jogadas validas, perde o jogo.
 %check game state
-condicaoFinaldeJogo(Tabuleiro, Cor_da_peca_a_avaliar):-
-        write('Entrou na condicao final de jogo').
+%condicaoFinaldeJogo(Tabuleiro, Cor_da_peca_a_avaliar):-
+ %       write('Entrou na condicao final de jogo').
 
-selecionarPeca(Tabuleiro, PecaColuna, PecaLinha):-
-        write('Coluna:\n'),
-        read(PecaColuna),
-        write('Linha:\n'),
-        read(PecaLinha).
+%validarJogada(Tabuleiro, JogadorCor, NovoTabuleiro, EsperadoNaPosicao, ColumnIndex, RowIndex):-
+%getValueFromMatrix(Tabuleiro, RowIndex, ColumnIndex, EsperadoNaPosicao).
 
-playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, Jogador1):- 
+%verifica se a movimentacao eh ortogonal e ha uma peca de cor contraria
+validarJogada(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,'preta'):-write('todo').
+
+%devolver os valores da posicao da peca, certificacao que eh valida, e preta
+ selecionarProximaPosicao(RowIndex,ColumnIndex, 'preta'):-
+        manageRow(NeWRow),
+        manageColumn(NewColumn),
+        write('1 \n'),
+        ColumnIndex is NewColumn -1,
+        RowIndex is NewRow -1.
+
+% o meu askCoordenates
+selecionarPeca(NewRow,NewColumn,RowIndex,ColumnIndex):-
+        manageRow(NewRow),
+        manageColumn(NewColumn),
+        write('2 \n'),
+        ColumnIndex is NewColumn -1,   % Em prolog nao ha indexes ???????
+        RowIndex is NewRow -1.
+       % validarJogada(Tabuleiro, JogadorCor, NovoTabuleiro, EsperadoNaPosicao, ColumnIndex, RowIndex).
+
+playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):- 
         printBoard(TabuleiroInicial), 
         write('Jogador 1  -> pecas brancas\n'), 
         write('Escolha a peca a mover:\n'),
-        selecionarPeca(Tabuleiro, PecaColuna, PecaLinha),
-        modificarTabuleiro(TabuleiroInicial, NovoTabuleiro),
+        selecionarPeca(NewRow, NewColumn,RowIndex,ColumnIndex), %numero de linha 1-6, numero de coluna 1-5, indexL 0-5 indeC 0-4
+        write('Escolha a posicao:\n'),
+        selecionarProximaPosicao(PP_RowIndex,PP_ColumnIndex, 'preta'),
+        validarJogada(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,'preta'),
+  %      modificarTabuleiro
+%       modificarTabuleiro(TabuleiroInicial, NovoTabuleiro),
         printBoard(NovoTabuleiro).
 
 
-playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, Jogador2):-
+playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         printBoard(TabuleiroInicial), 
         write('Jogador 2 -> pecas pretas\n'), 
         write('Escolha a peca a mover:\n'),
-        selecionarPeca(Tabuleiro, PecaColuna, PecaLinha),
+        % tabuleiro , novo tabuleiro, peca que vai comer, peca comida
+    %    selecionarPeca(Tabuleiro, NovoTabuleiro, black, white),
 %        modificarTabuleiro(),
         printBoard(NovoTabuleiro).
 
@@ -36,11 +58,11 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, Jogador2):-
 %dar possibilidade de jogar temos de verificar se existem jogadas validas - se nao existirem perde esse jogador 
 gameLoop(Tabuleiro, Jogador1, Jogador2):-
     %    Jogador 1 ->(Tabuleiro , 'branca' )
-    condicaoFinaldeJogo(Tabuleiro, 'branca'),
-    playJogador_1_Turno(Tabuleiro, NovoTabuleiro, Jogador1); 
+   % condicaoFinaldeJogo(Tabuleiro, white),
+    playJogador_1_Turno(Tabuleiro, NovoTabuleiro, Jogador1), 
     %    Jogador 2-> (Tabuleiro, 'preta')
-    condicaoFinaldeJogo(NovoTabuleiro, 'preta'),
-    playJogador_2_Turno(NovoTabuleiro, FinalTabuleiro, Jogador2);
+    condicaoFinaldeJogo(NovoTabuleiro, black),
+    playJogador_2_Turno(NovoTabuleiro, FinalTabuleiro, Jogador2),
     gameLoop(FinalTabuleiro, Jogador1, Jogador2).
 
 

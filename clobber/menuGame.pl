@@ -19,7 +19,7 @@ managerInput(0) :-
     write('\nExiting...\n\n').
 
 managerInput(_OutroInput) :-
-    write('\nERROR: On input\n\n'), askOption, read(Input), managerInput(Input).
+    write('\nERROR: xee On input\n\n'), askOption, read(Input), managerInput(Input).
 
 printMainMenu :-
     nl,nl,

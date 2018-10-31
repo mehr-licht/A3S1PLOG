@@ -19,7 +19,7 @@ symbol(white,S) :- char_code(S,9865).
 
 printBoard(X):- nl, initialBoard(X), write('\n   | A | B | C | D | E |\n'), write('   |---|---|---|---|---|\n'), printMatrix(X, 1).
 
-printMatrix([], 6).
+printMatrix([], 7).
 
 printMatrix([Head|Tail], N) :-   
     write(' '),   
@@ -27,12 +27,6 @@ printMatrix([Head|Tail], N) :-
     write(N),
     write(' | '),
     printLine(Head),
-
-
-
-
-
-
     write('\n   |---|---|---|---|---|\n'),
     printMatrix(Tail, N1).
 
