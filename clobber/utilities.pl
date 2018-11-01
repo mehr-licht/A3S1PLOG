@@ -43,6 +43,23 @@ getValueFromMatrix([_H|T], Row, Column, Value) :-
         Row1 is Row - 1,
         getValueFromMatrix(T, Row1, Column, Value).
 
+%----------------------------------------------------------------
+% Funcionava para valores nao repetidos
+%Quando encontra um valorASubstituir no head põe lá o Newvalue
+%Com muitos campos iguais, esta funcao para no primeiro atomo que encontra igual e nao substitui os outros
+replaceInList_v1([_H|T], ValorASubstituir, NewValue, [NewValue|T]):-   _H = ValorASubstituir.  
+% funcao de chamada recursiva para percorrer a lsita
+replaceInList_v1([H|T], ValorASubstituir, NewValue, [H|TNew]) :-
+        %Index > 0,
+        %Index1 is Index - 1,
+        replaceInList_v1(T, ValorASubstituir, NewValue, TNew).
+
+
+
+
+
+
+
 
 
 
