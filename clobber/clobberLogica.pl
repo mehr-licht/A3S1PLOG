@@ -62,7 +62,7 @@ validarJogadaP2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnInde
         !,
         write('Peca escolhida valida - linha selecionarProximaPosicao\n').
 selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer):-
-        write('Peca  INVALIDA - linha 61\n'),
+        write('Posicao INVALIDA - seleccioanrProximaPosicao\n'),
         selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer).
         
 /**
@@ -81,7 +81,7 @@ selecionarPeca(TabuleiroInicial, NewRow, NewColumn, RowIndex, ColumnIndex, Color
         !,
         write('Peca escolhida valida - selecionarPeca \n').
 selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPlayer):-
-        write('Posicao NAO valiada\n'),
+        write('Peca NAO valida\n'),
         selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPlayer).
 
         
@@ -98,7 +98,6 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         selecionarProximaPosicao(TabuleiroInicial, PP_RowIndex,PP_ColumnIndex, black),
         validarJogadaP1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, black, NovoTabuleiro),
         write('####   Valid move  ######\n').
-
 
 /**
  * @brief Jogada do P2 - pecas black
