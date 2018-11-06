@@ -17,7 +17,7 @@ symbol(white,S) :- char_code(S,9865).
 %9863
 %9865
 
-printBoard(X):- nl, initialBoard(X), write('\n   | A | B | C | D | E |\n'), write('   |---|---|---|---|---|\n'), printMatrix(X, 1).
+printBoard(X):- nl, write('\n   | A | B | C | D | E |\n'), write('   |---|---|---|---|---|\n'), printMatrix(X, 1).
 
 printMatrix([], 7).
 
