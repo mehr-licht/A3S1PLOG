@@ -3,8 +3,14 @@
 # Priority
 
 Condicao de terminacao do jogo - quando nao ha jogadas validas
+percorrer a matriz linha a linha e certificar que existe pelo menos uma jogada valida
+se xiste um sequencia de white e black ou black white _> existe jogada
+
+
 p vs bot
 bot vs bot
+
+bot - random lina e coluna dos indices ate verificacao de uma jogada valida.
 
 # Secundary
 
