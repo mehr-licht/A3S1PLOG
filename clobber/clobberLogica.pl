@@ -108,8 +108,8 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Escolha a peca a mover:\n'),
         selecionarPeca(TabuleiroInicial, NewRow, NewColumn, RowIndex, ColumnIndex, black),
         write('Escolha a posicao:\n'),
-        selecionarProximaPosicao(PP_RowIndex,PP_ColumnIndex),
-        validarJogada2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, white, NovoTabuleiro),
+        selecionarProximaPosicao(TabuleiroInicial,PP_RowIndex,PP_ColumnIndex,white),
+        validarJogadaP2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, white, NovoTabuleiro),
         write('####   Valid move  ######\n').
 
 
