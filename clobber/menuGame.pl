@@ -13,7 +13,7 @@ managerInput(3) :-
 
 % Opcao escondida para ter acesso rapido ao tabuleiro 
 managerInput(4) :-
-    write('valid option!\n\n'), printBoard(X), write('\nEntrou\n').
+    write('valid option!\n\n'), printBoard(_X), write('\nEntrou\n').
 
 managerInput(0) :-
     write('\nExiting...\n\n').

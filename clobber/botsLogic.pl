@@ -43,13 +43,13 @@ seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, New
     NewColumnIndex is ColumnIndex,
     getValueFromMatrix(TabuleiroInicial, NewLineIndex, ColumnIndex, ValueAdversario),
     ValueAdversario = ColorPlayer,
-    bot_play(TabuleiroInicial, NovoTabuleiro).
+    choose_move(TabuleiroInicial, _NovoTabuleiro).
 
 
 /**
  * @brief Generates a random play for the bot without being clever - a black piece eats a white one
 */
-bot_play(TabuleiroInicial, TabuleiroFinal):-
+choose_move(TabuleiroInicial, TabuleiroFinal):-
     selecionarPecaForBot(TabuleiroInicial, LineIndex, ColumnIndex, black),
     seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, white),
     replaceInMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, black, TabuleiroNovo),
