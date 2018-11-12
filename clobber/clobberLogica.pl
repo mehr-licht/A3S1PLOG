@@ -1,29 +1,22 @@
 /**
- * Certifica se a movimentacao eh para uma casa posicionada ao lado da peca - sentido norte, sul, este, oeste
-*/
-movimentationOnBoard(Index_1, Index_2):-
-        Index_1 - Index_2 =:= 1.
-movimentationOnBoard(Index_1, Index_2):-
-        Index_2 - Index_1 =:= 1.
-/**
 * @brief Certifica o tipo de movimentacao
 */
 checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex):-
         RowIndex - PP_RowIndex =:= 0,
         !,
-        movimentationOnBoard(ColumnIndex, PP_ColumnIndex).
+        abs(ColumnIndex - PP_ColumnIndex) =:= 1.
 checkDifferenceIndexs(RowIndex,_ColumnIndex,PP_RowIndex,_PP_ColumnIndex):-
-        movimentationOnBoard(RowIndex, PP_RowIndex).        
-
+        abs(RowIndex - PP_RowIndex) =:= 1.
+        
 /**
- * @brief Validar a jogada do P1 - pecas brancas
+ * @brief Validar  e executar a jogada do P1 - pecas brancas
  * @param RowIndex -> linha da peca selecionada que vai se movimentar 
  * @param ColumnIndex -> coluna da peca selecionada que vai se movimentar
  * @param PP_RowIndex -> Linha da P.roxima P.osicao 
  * @param PP_ColumnIndex -> Coluna da P.roxima P.osicao
  * @param 'preta' -> a nova posicao tem que conter uma peca preta   
 */
-validarJogadaP1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,black,TabuleiroFinal):-
+move_P1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,black,TabuleiroFinal):-
     getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
     ValueJogador = white,
     write('Peca escolhida valida\n'),
@@ -36,14 +29,13 @@ validarJogadaP1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnInde
 /*
 * @brief validar a jogada do P2 - pecas pretas
 */
-validarJogadaP2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, white, TabuleiroFinal):-
+move_P2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, white, TabuleiroFinal):-
     getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
     ValueJogador = black,
     write('Peca escolhida valida\n'),
     !,
     getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario),
     ValueAdversario = white,
-    checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
     write('Jogada Valida'),
     replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, black, TabuleiroNovo),
     replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
@@ -86,16 +78,15 @@ selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPla
 
 
 %##########################################################################################################################
-%##########################################################################################################################
-        
+%##########################################################################################################################        
 /**
  * @brief Jogada do P1 - pecas white
  * NOTA: numero de linha 1-6, numero de coluna 1-5, indexL 0-5 indeC 0-4 
 */
-%playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
-%        game_over(Tabuleiro, Winer),
-%        !,
-%        anounce(Result).
+playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
+        game_over(Tabuleiro, white),
+        !,
+        anounce(white).
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):- 
         write('Jogador 1  -> pecas brancas\n'), 
         write('Escolha a peca a mover:\n'),
@@ -104,19 +95,24 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         selecionarProximaPosicao(TabuleiroInicial, PP_RowIndex,PP_ColumnIndex, black),
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
-        validarJogadaP1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, black, NovoTabuleiro),
+        move_P1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, black, NovoTabuleiro),
         write('####   Valid move  ######\n').
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA'),
         playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
 
+
+
+
+
+
 /**
  * @brief Jogada do P2 - pecas black
 */
-%playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
-%        game_over(Tabuleiro, Winer),
-%        !,
-%        anounce(Result).
+playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
+        game_over(Tabuleiro, Winer, black),
+        !,
+        anounce(black).
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Jogador 2 -> pecas pretas\n'), 
         write('Escolha a peca a mover:\n'),
@@ -125,20 +121,21 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         selecionarProximaPosicao(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, white),
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
-        validarJogadaP2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, white, NovoTabuleiro),
+        move_P2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, white, NovoTabuleiro),
         write('####   Valid move  ######\n').
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA'),
         playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
 
+
 /**
  * @brief Jogada do BOT - pecas black
  * playJogador_2_Turno(+TabuleiroInicial, -NovoTabuleiro, +'C') 
 */
-%playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-            TODO
-%        game_over(Tabuleiro, Winer),
-%        !,
-%        anounce(Result).
+playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-            
+        game_over(Tabuleiro,black),
+        !,
+        anounce(black).
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-
         write('Jogador Bot -> pecas pretas\n'), 
         choose_move(TabuleiroInicial, NovoTabuleiro).
@@ -146,12 +143,17 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-
 
 
 %#######################################################################################################################
+anounce(Color):-
+        write('We are the Loosers ->'),
+        write(Color),
+        write('pieces').
 /**
  * @brief
- * game_over(+Tabuleiro, -Winer) 
+ * game_over(+Tabuleiro, -Winer) Winner == Color 
 */
 game_over(Tabuleiro, Winer):-
-        write("Game Over").
+        jogadasPossiveis(Tabuleiro,Winer,ListaDePares),
+        ListaDePares == [].
 
 /**
  * @brief Alterna a sequencia de jogadas
@@ -164,8 +166,6 @@ gameLoop(Tabuleiro, Jogador1, Jogador2):-
         printBoard(NovoTabuleiro),
         playJogador_2_Turno(NovoTabuleiro, FinalTabuleiro, Jogador2), %  Jogador 2-> (Tabuleiro, 'preta')
         gameLoop(FinalTabuleiro, Jogador1, Jogador2).
-
-
 
 /**
  * @brief Inicia o jogo

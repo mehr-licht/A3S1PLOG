@@ -7,8 +7,8 @@ jogador 1 -> brancas
 jogador 2 -> pretas
 
 3.3 valid_moves(+tabuleiro, +jogador, jogada, novoTab, novoJogador). -ListofMoves jogadas possiveis
-3.4 move(+move,+board,-Newboard) - vaidacao e execucao de uma jogada
-[IMPLEMENTADO] 3.5 game_over(+Board, -Winner) - mas nao descrito especificamente
+[IMPLEMENTADO]   3.4 move(+move,+board,-Newboard) - vaidacao e execucao de uma jogada
+[IMPLEMENTADO]   3.5 game_over(+Board, -Winner) - mas nao descrito especificamente
 3.6 value(+tab, +jogador, -val). - avaliacao do estado do jogo 
 [IMPLEMTENTAD a 2/3 falta a escolha da difficuldade] 3.7 choose_move(+Board, +level, -Move)  - nivel de dificuldade
         depois eh so usar a random library
