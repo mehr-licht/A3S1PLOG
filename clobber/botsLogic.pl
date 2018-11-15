@@ -71,21 +71,19 @@ jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
  * Devolve a lista com as jogadas possiveis
  *  VERIFICAR SE ao pe de uma preta esta uma branca 
 */
-verifacaoJogadasPossiveis(Tabuleiro,Color,[],_).
+verifacaoJogadasPossiveis(Tabuleiro,Color,[]).
 %verifacaoJogadasPossiveis(Tabuleiro,Color,_,[]).
-verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail], NovaLista1):-
+verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
     confirmacao4direccoes(TabuleiroInicial,Line,Column, white), %confirmar se existe branca nas direccoes
     !,              
-    verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail,NovaLista1).
-
-verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail], NovaLista):-
+    verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail).
+verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
   %  adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1).
     write(Line),
     nl,
     write(Column),
     nl,
-   
-    verifacaoJogadasPossiveis(Tabuleiro, Color, ListaTail, [Line-Column]).
+    verifacaoJogadasPossiveis(Tabuleiro, Color, ListaTail).
     
 /**
  * adiconarJogadaNeWLista(+Line, +Column, -NovaLista) 
