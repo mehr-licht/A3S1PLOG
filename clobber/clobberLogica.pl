@@ -132,13 +132,13 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
  * @brief Jogada do BOT - pecas black
  * playJogador_2_Turno(+TabuleiroInicial, -NovoTabuleiro, +'C') 
 */
-%playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-            
+%playJogador_2_Turno(_TabuleiroInicial, _NovoTabuleiro, 'C'):-            
 %        gameOver(Tabuleiro,black),
 %        !,
 %        anounce(black).
-playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-
+playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
         write('Jogador Bot -> pecas pretas\n'), 
-        jogarLeBot(TabuleiroInicial, TabuleiroFinal).
+        jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
 
 
 %#######################################################################################################################

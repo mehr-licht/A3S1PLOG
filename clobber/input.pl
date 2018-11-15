@@ -18,6 +18,7 @@ readColumn(Column) :-
     write(' #Coluna: '),
     read(Column).
 
+
 /*--------------------------------------------
 * Conjunto de funcoes para validar o input para as linhas
 */

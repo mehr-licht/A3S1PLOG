@@ -16,7 +16,7 @@ jogadasValidas(Tabuleiro,black,[FutureLine-FutureColumn]):-
 /**
  * Função muito futurista -escolhe a jogada futurista
 */
-seleccionarJogadaLista(Tabuleiro,Color,Lista,FuturaJogada):-
+seleccionarJogadaLista(_Tabuleiro,_Color,Lista,FuturaJogada):-
     length(Lista,Lengthlista),
     random(0,Lengthlista,FutureIndex),
     nth0(FutureIndex,Lista,FuturaJogada). %Que beleza ate vou tirar um fotografia
@@ -71,10 +71,10 @@ jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
  * Devolve a lista com as jogadas possiveis
  *  VERIFICAR SE ao pe de uma preta esta uma branca 
 */
-verifacaoJogadasPossiveis(Tabuleiro,Color,[]).
+verifacaoJogadasPossiveis(_Tabuleiro,_Color,[]).
 %verifacaoJogadasPossiveis(Tabuleiro,Color,_,[]).
 verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
-    confirmacao4direccoes(TabuleiroInicial,Line,Column, white), %confirmar se existe branca nas direccoes
+    confirmacao4direccoes(_TabuleiroInicial,Line,Column, white), %confirmar se existe branca nas direccoes
     !,              
     verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail).
 verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
@@ -102,26 +102,26 @@ pecasPretasAjogar([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]).
 %   6 pecas BRANCAS com os seus indices verifacaoJogadasPossiveis(Tabuleiro,white,[[Line-Column]|ListaTail])
 myListaTeste([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 %########################################################################################
-checkarPecaVizinhaValiada(Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
+checkarPecaVizinhaValiada(Line,Column,_Color,[NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line,
     NewColumnIndex is Column -1,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= ColorPlayer.
-checkarPecaVizinhaValiada(Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
+    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario =:= _ColorPlayer.
+checkarPecaVizinhaValiada(Line,Column,_Color,[NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line,
     NewColumnIndex is Column +1,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= ColorPlayer.
-checkarPecaVizinhaValiada(Line,Column,Color, [NewLineIndex-NewColumnIndex]):-
+    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario =:= _ColorPlayer.
+checkarPecaVizinhaValiada(Line,Column,_Color, [NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line - 1,
     NewColumnIndex is Column,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= ColorPlayer.
-checkarPecaVizinhaValiada(Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
+    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario =:= _ColorPlayer.
+checkarPecaVizinhaValiada(Line,Column,_Color,[NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line + 1,
     NewColumnIndex is Column,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= ColorPlayer.
+    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario =:= _ColorPlayer.
 
 
 
@@ -129,7 +129,7 @@ checkarPecaVizinhaValiada(Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
 
 direccaoDaJogada(Tabuleiro,[Line-Column],FuturaJogada, ListaJogadasVizinhas):-
     findall([NewLineIndex-NewColumnIndex],checkarPecaVizinhaValiada( Line, Column, Color,[NewLineIndex-NewColumnIndex]), ListaJogadasVizinhas),
-    seleccionarJogadaLista(Tabuleiro,Color,Lista,FuturaJogada).
+    seleccionarJogadaLista(Tabuleiro,Color,_Lista,FuturaJogada).
    
   %  !,
   %  confirmacaoPecaVizinha(Line,Column,Color), 
@@ -145,14 +145,14 @@ direccaoDaJogada(Tabuleiro,[Line-Column],FuturaJogada, ListaJogadasVizinhas):-
 */
 jogarLeBot(TabuleiroInicial, TabuleiroFinal):-
     jogadasValidas(TabuleiroInicial, black,[Line-Column]),
-    direccaoDaJogada(TabuleiroInicial,[Line-Column],[NewLineIndex, NewColumnIndex], ListaJogadasVizinhas),
+    direccaoDaJogada(TabuleiroInicial,[Line-Column],[NewLineIndex, NewColumnIndex], _ListaJogadasVizinhas),
     !,
     replaceInMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, black, TabuleiroNovo),
     replaceInMatrix(TabuleiroNovo, Line, Column, empty, TabuleiroFinal),
     write('Jogou de '),
-    write(LineIndex), 
+    write(_LineIndex), 
     write(' '),
-    write(ColumnIndex),
+    write(_ColumnIndex),
     write(' para '),
     write(NewLineIndex),
     write(' '),

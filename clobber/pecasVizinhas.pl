@@ -45,7 +45,7 @@ confirmacaoPecaVizinhaPretaNorte(TabuleiroInicial,Line,Column,Color):-
 /**
  * Devolve yes se houver pelo menos uma jogada
 */
-confirmacao4direccoes(TabuleiroInicial,Line,Column, Color):-
+confirmacao4direccoes(TabuleiroInicial,Line,Column, _Color):-
     (
     confirmacaoPecaVizinhaPretaEste(TabuleiroInicial,Line,Column,white);
     confirmacaoPecaVizinhaPretaOeste(TabuleiroInicial,Line,Column,white);
