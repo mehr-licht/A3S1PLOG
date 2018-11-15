@@ -8,6 +8,23 @@ initialBoard([
     [white,black,white,black,white]
 ]).
 
+testeBoard([
+        [empty,empty,empty,empty,empty],
+        [empty,black,white,black,empty],
+        [empty,white,black,empty,black],
+        [white,white,empty,black,empty],
+        [empty,white,empty,white,empty],
+        [empty,black,empty,empty,empty]
+    ]).
+
+finalBoard([
+        [empty,empty,empty,empty,empty],
+        [empty,empty,black,black,empty],
+        [empty,white,empty,empty,black],
+        [white,white,empty,black,empty],
+        [empty,white,empty,empty,empty],
+        [empty,empty,empty,empty,empty]
+    ]).
 
 symbol(empty,S) :- S ='.'.
 symbol(black,S) :- char_code(S,9863).  

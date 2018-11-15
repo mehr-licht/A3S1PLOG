@@ -83,10 +83,10 @@ selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPla
  * @brief Jogada do P1 - pecas white
  * NOTA: numero de linha 1-6, numero de coluna 1-5, indexL 0-5 indeC 0-4 
 */
-playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
-        game_over(Tabuleiro, white),
-        !,
-        anounce(white).
+%playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
+%        gameOver(Tabuleiro, white),
+%        !,
+%        anounce(white).
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):- 
         write('Jogador 1  -> pecas brancas\n'), 
         write('Escolha a peca a mover:\n'),
@@ -109,10 +109,10 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
 /**
  * @brief Jogada do P2 - pecas black
 */
-playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
-        game_over(Tabuleiro, Winer, black),
-        !,
-        anounce(black).
+%playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
+%        gameOver(Tabuleiro, Winer, black),
+%        !,
+%        anounce(black).
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Jogador 2 -> pecas pretas\n'), 
         write('Escolha a peca a mover:\n'),
@@ -132,14 +132,13 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
  * @brief Jogada do BOT - pecas black
  * playJogador_2_Turno(+TabuleiroInicial, -NovoTabuleiro, +'C') 
 */
-playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-            
-        game_over(Tabuleiro,black),
-        !,
-        anounce(black).
+%playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-            
+%        gameOver(Tabuleiro,black),
+%        !,
+%        anounce(black).
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-
         write('Jogador Bot -> pecas pretas\n'), 
-        choose_move(TabuleiroInicial, NovoTabuleiro).
-     
+        jogarLeBot(TabuleiroInicial, TabuleiroFinal).
 
 
 %#######################################################################################################################
@@ -149,9 +148,9 @@ anounce(Color):-
         write('pieces').
 /**
  * @brief
- * game_over(+Tabuleiro, -Winer) Winner == Color 
+ * gameOver(+Tabuleiro, -Winer) Winner == Color 
 */
-game_over(Tabuleiro, Winer):-
+gameOver(Tabuleiro, Winer):-
         jogadasPossiveis(Tabuleiro,Winer,ListaDePares),
         ListaDePares == [].
 
