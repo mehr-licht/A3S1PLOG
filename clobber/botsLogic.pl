@@ -2,11 +2,14 @@
 
 /**
  * Jogadas Validas -> para depois ter a boa lista e escolher um random
+ * vai receber color == black
 */
-jogadasValidas(Tabuleiro,Color,[FutureLine-FutureColumn]):-
-    jogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]),
-    verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]),
-    seleccionarJogadaLista(Tabuleiro,Color,[[Line-Column]|ListaTail],[FutureLine-FutureColumn]).    
+jogadasValidas(Tabuleiro,black,[FutureLine-FutureColumn]):- 
+    jogadasPossiveis(Tabuleiro,black,[[Line-Column]|ListaTail]), %lista das pecas pretas
+    
+    verifacaoJogadasPossiveis(Tabuleiro,black,[[Line-Column]|ListaTail]),
+    
+    seleccionarJogadaLista(Tabuleiro,black,[[Line-Column]|ListaTail],[FutureLine-FutureColumn]).    
     %percorer a lista e por cada elemento verificose ha jogada selecioanrBot,
     %seleccionarBotJogada(Tabuleiro, Line, Column, NewLineIndex, NewColumnIndex, Color)
 
@@ -53,7 +56,7 @@ selecionarPecaForBot(TabuleiroInicial, [LineIndex-ColumnIndex], ColorPlayer):-
 /** Look at this beauty! -Agora sei como Eisntein se sentia
  * 
  * jogadasPossiveis(+TabuleiroInicial,+Color,-ListaDePares)
- * Devolve todas as posicoes da peca desejada 
+ * Devolve todas as posicoes das pecas 
 */
 jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
     findall([LineIndex-ColumnIndex], selecionarPecaForBot(TabuleiroInicial,[LineIndex-ColumnIndex], Color), ListaDePares).
@@ -66,57 +69,41 @@ jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
 %################################## Verificao das pecas encontradas terem pelo menos uma jogada #<begin
 /**
  * Devolve a lista com as jogadas possiveis
- * Not sure if the backtracking will remove and maybe i dont need another list
- * needs testing
+ *  VERIFICAR SE ao pe de uma preta esta uma branca 
 */
-verifacaoJogadasPossiveis(Tabuleiro,Color,[]).
-verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
-    confirmacaoPecaVizinha(Tabuleiro,Line,Column, Color),
-    !,              %concluir amanha depois de estudar umpouco
-    verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail).
-verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
-    %delete([[Line-Column]|ListaTail],[Line-Column],[_Head|ListaTail] ),
-    %uuuaaauuu maravilhado, parece maagia
+verifacaoJogadasPossiveis(Tabuleiro,Color,[],_).
+%verifacaoJogadasPossiveis(Tabuleiro,Color,_,[]).
+verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail], NovaLista1):-
+    confirmacao4direccoes(TabuleiroInicial,Line,Column, white), %confirmar se existe branca nas direccoes
+    !,              
+    verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail,NovaLista1).
+
+verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail], NovaLista):-
+  %  adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1).
     write(Line),
     nl,
     write(Column),
     nl,
-    verifacaoJogadasPossiveis(Tabuleiro, Color, ListaTail).
-%    verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail])
-
+   
+    verifacaoJogadasPossiveis(Tabuleiro, Color, ListaTail, [Line-Column]).
+    
 /**
- * Confirma se se existem pecas vizinhas do adversario, se hover a jogada eh valida!!!!
+ * adiconarJogadaNeWLista(+Line, +Column, -NovaLista) 
 */
-confirmacaoPecaVizinha(TabuleiroInicial,Line,Column,Color):-
-    NewLineIndex is Line,
-    NewColumnIndex is Column -1,
-    NewColumnIndex >= 0,
-    !,
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario \= Color.
-confirmacaoPecaVizinha(TabuleiroInicial,Line,Column,Color):-
-    NewLineIndex is Line,
-    NewColumnIndex is Column +1,
-    NewColumnIndex < 5,
-    !,
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario \= Color.
-confirmacaoPecaVizinha(TabuleiroInicial,Line,Column,Color):-
-    NewLineIndex is Line - 1,
-    NewLineIndex >= 0,
-    !,
-    NewColumnIndex is Column,
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario \= Color.
-confirmacaoPecaVizinha(TabuleiroInicial,Line,Column,Color):-
-    NewLineIndex is Line + 1,
-    NewColumnIndex is Column,
-    NewLineIndex < 6,
-    !, 
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario \= Color.
-%########################################################################################## <end
+adiconarJogadaNeWLista(Line, Column, NovaLista,NovaLista1):-
+   NovaLista = [],
+   !,
+   append([Line-Column],[],NovaLista1).
+   
+adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1):-
+    append([Line-Column],NovaLista,NovaLista1).
 
+%#######################################################################################
+pecasPretasAjogar([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]). 
+
+%   6 pecas BRANCAS com os seus indices verifacaoJogadasPossiveis(Tabuleiro,white,[[Line-Column]|ListaTail])
+myListaTeste([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
+%########################################################################################
 checkarPecaVizinhaValiada(Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line,
     NewColumnIndex is Column -1,
@@ -159,7 +146,7 @@ direccaoDaJogada(Tabuleiro,[Line-Column],FuturaJogada, ListaJogadasVizinhas):-
  * @brief Generates a random play for the bot without being clever - a black piece eats a white one
 */
 jogarLeBot(TabuleiroInicial, TabuleiroFinal):-
-    jogadasValidas(TabuleiroInicial,Color,[Line-Column]),
+    jogadasValidas(TabuleiroInicial, black,[Line-Column]),
     direccaoDaJogada(TabuleiroInicial,[Line-Column],[NewLineIndex, NewColumnIndex], ListaJogadasVizinhas),
     !,
     replaceInMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, black, TabuleiroNovo),
