@@ -9,35 +9,35 @@ checkDifferenceIndexs(RowIndex,_ColumnIndex,PP_RowIndex,_PP_ColumnIndex):-
         abs(RowIndex - PP_RowIndex) =:= 1.
         
 /**
- * @brief Validar  e executar a jogada do P1 - pecas brancas
+ * @brief Validar  e executar a jogada das pecas brancas
+ * @param TabuleiroInicial -> board status before the move
  * @param RowIndex -> linha da peca selecionada que vai se movimentar 
  * @param ColumnIndex -> coluna da peca selecionada que vai se movimentar
  * @param PP_RowIndex -> Linha da P.roxima P.osicao 
  * @param PP_ColumnIndex -> Coluna da P.roxima P.osicao
- * @param 'preta' -> a nova posicao tem que conter uma peca preta   
+ * @param Color -> black or white : piece to move
+ * @param TabuleiroFinal -> board status after the move   
 */
-move_P1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal):-
+move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, Color):-
     getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
-    ValueJogador = white,
+    ValueJogador == Color, 
     write('Peca escolhida valida\n'),
-    !,
     getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario),
-    ValueAdversario = black,
+    ValueJogador == white , 
+    !,
+    ValueAdversario == black,
     write('Jogada Valida'),
-    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, white, TabuleiroNovo),
+    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, Color, TabuleiroNovo),
     replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
+
 /*
-* @brief validar a jogada do P2 - pecas pretas
+* @brief validar a jogada das pecas pretas
 */
-move_P2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  TabuleiroFinal):-
-    getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
-    ValueJogador = black,
-    write('Peca escolhida valida\n'),
-    !,
+move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, Color):-
     getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario),
-    ValueAdversario = white,
+    ValueAdversario == white,
     write('Jogada Valida'),
-    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, black, TabuleiroNovo),
+    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, Color, TabuleiroNovo),
     replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
 
 
@@ -52,7 +52,7 @@ move_P2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  Tabu
         getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueAdversario),
         ValueAdversario = ColorPlayer,
         !,
-        write('Peca escolhida valida \n').
+        write('Peca escolhida valida\n').
 selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer):-
         write('Posicao INVALIDA - seleccioanrProximaPosicao\n'),
         selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer).
@@ -71,7 +71,7 @@ selecionarPeca(TabuleiroInicial, NewRow, NewColumn, RowIndex, ColumnIndex, Color
         getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueAdversario),
         ValueAdversario = ColorPlayer,
         !,
-        write('Peca escolhida valida \n').
+        write('Peca escolhida valida\n').
 selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPlayer):-
         write('Peca NAO valida\n'),
         selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPlayer).
@@ -95,7 +95,7 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         selecionarProximaPosicao(TabuleiroInicial, PP_RowIndex,PP_ColumnIndex, black),
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
-        move_P1(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  NovoTabuleiro),
+        move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  NovoTabuleiro, white),
         write('####   Valid move  ######\n').
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA'),
@@ -123,7 +123,7 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         selecionarProximaPosicao(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, white),
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
-        move_P2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, NovoTabuleiro),
+        move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, NovoTabuleiro, black),
         write('####   Valid move  ######\n').
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA'),

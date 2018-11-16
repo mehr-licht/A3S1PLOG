@@ -2,8 +2,9 @@
 e se as mesmas estão dentro dos limites do tabuleiro. Caso não se satisfaca, pede novamente a informação.*/
 
 
-
-manageRow(NewRow) :- readRow(Row),   validateRow(Row, NewRow).
+manageRow(NewRow) :-
+    readRow(Row),
+    validateRow(Row, NewRow).
 
 manageColumn(NewColumn) :-
     readColumn(Column),
@@ -29,7 +30,7 @@ validateRow(5, NewRow) :-NewRow = 5.
 validateRow(6, NewRow) :-NewRow = 6.
 /*
 validateRow(_Row, NewRow) :-
-    write('Linha erra - linha 33!\n\n'),
+    write('Linha errada\n\n'),
     readRow(Input),
     validateRow(Input, NewRow).
 */
@@ -45,7 +46,7 @@ validateColumn(e, NewColumn) :-NewColumn = 5.
 
 /*
 validateColumn(_Column, NewColumn) :-
-    write('Coluna  Errada - linha 44!\n\n'),
+    write('Coluna  Errada !\n\n'),
     readColumn(Input),
     validateColumn(Input, NewColumn).
 */
