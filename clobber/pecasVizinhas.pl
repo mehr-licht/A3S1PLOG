@@ -1,54 +1,68 @@
 /**
- * Confirma se se existem pecas vizinhas do adversario, se hover a jogada eh valida!!!
+ testeBoard(X),findall([Line-Column],checkarPecaVizinhaValiada(X, 2, 2, white,[Line-Column]), ListaDePares).
+X = [
+    [empty,empty,empty,empty,empty],
+    [empty,black,white,black,empty],
+    [empty,white,black,empty,black],
+    [white,white,empty,black,empty],
+    [empty,white,empty,white,empty],
+    [empty,black,empty,empty,empty]],
+ListaDePares = [[2-1],[1-2]] ? 
+
 */
-confirmacaoPecaVizinhaPretaEste(TabuleiroInicial,Line,Column,Color):-
-    (
-        NewLineIndex is Line,
-        NewColumnIndex is Column -1,
-        NewColumnIndex >= 0 
-    ),
-    !,
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    write('entrou 1'),
-    nl,
-    ValueAdversario == Color.
 
 
-confirmacaoPecaVizinhaPretaOeste(TabuleiroInicial,Line,Column,Color):-
-    NewLineIndex is Line,
-    NewColumnIndex is Column +1,
-    NewColumnIndex < 5,
-    !,
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    write('entrou 2'),
-    ValueAdversario == Color.
-    
-confirmacaoPecaVizinhaPretaSul(TabuleiroInicial,Line,Column,Color):-
-    NewLineIndex is Line - 1,
-    NewLineIndex >= 0,
-    !,
-    NewColumnIndex is Column,
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    write('entrou 3'),
-    ValueAdversario == Color.
-   
-
-confirmacaoPecaVizinhaPretaNorte(TabuleiroInicial,Line,Column,Color):-
-    NewLineIndex is Line + 1,
-    NewColumnIndex is Column,
-    NewLineIndex < 6,
-    !, 
-    getValueFromMatrix(TabuleiroInicial, NewLineIndex, NewColumnIndex, ValueAdversario),
-    write('entrou 4'),
-    ValueAdversario == Color.
-%########################################################################################## <end
 /**
- * Devolve yes se houver pelo menos uma jogada
+ * getColorLinha(+Linha, +Line, -Color) 
 */
-confirmacao4direccoes(TabuleiroInicial,Line,Column, _Color):-
-    (
-    confirmacaoPecaVizinhaPretaEste(TabuleiroInicial,Line,Column,white);
-    confirmacaoPecaVizinhaPretaOeste(TabuleiroInicial,Line,Column,white);
-    confirmacaoPecaVizinhaPretaSul(TabuleiroInicial,Line,Column,white);
-    confirmacaoPecaVizinhaPretaNorte(TabuleiroInicial,Line,Column,white)
-    ).   
+getColorLinha(Linha, Coluna, Color):-
+    nth0(Coluna, Linha, Color).
+
+/**
+ * getColorMatrix(+TabuleiroInicial, +Line, +Coluna, -Color) 
+*/
+getColorMatrix(TabuleiroInicial, Line, Coluna, Color):-
+    nth0(Line,TabuleiroInicial,Linha),
+    getColorLinha(Linha, Coluna, Color).
+
+
+/** 
+ * @param Linha da peca a jogar
+ * @param Colunha da peca a jogar
+ * @ Color : eh o estado  que a casa seguite tem de ter, eh a cor do adversario
+ * se a peca em linha-coluna for de cor preta, entao +Color = white.
+ * checkarPecaVizinhaValiada(+TabuleiroInicial, +Line, +Column, +Color, -[Line-NewColumnIndex]) 
+*/
+checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[Line-NewColumnIndex]):-
+    NewColumnIndex is Column -1,
+    between(0,5,Line),
+    between(0,4,NewColumnIndex),
+    getColorMatrix(TabuleiroInicial, Line, NewColumnIndex, ValueAdversario),
+    ValueAdversario == Color.
+
+checkarPecaVizinhaValiada(TabuleiroInicial,Line,Column,Color,[Line-NewColumnIndex]):-
+    NewColumnIndex is Column +1,
+    between(0,5,Line),
+    between(0,4,NewColumnIndex),
+    getColorMatrix(TabuleiroInicial, Line, NewColumnIndex, ValueAdversario),
+    ValueAdversario == Color.
+
+checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color, [NewLineIndex-Column]):-
+    NewLineIndex is Line - 1,
+    between(0,5,NewLineIndex),
+    between(0,4,Column),
+    getColorMatrix(TabuleiroInicial, NewLineIndex,Column, ValueAdversario),
+    ValueAdversario == Color.
+
+checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-Column]):-
+    NewLineIndex is Line + 1,
+    between(0,5,NewLineIndex),
+    between(0,4,Column),
+    getColorMatrix(TabuleiroInicial, NewLineIndex, Column, ValueAdversario),
+    ValueAdversario == Color.
+
+/**
+ * @param CorContraria eh a cor contraria ah peca que esta na posicao [LineIndex-ColumnIndex]
+*/
+jogadasValidasPorPeca(Tabuleiro,LineIndex, ColumnIndex, CorContraria, ListaDePares):-
+    findall([Line-Column],checkarPecaVizinhaValiada(Tabuleiro, LineIndex, ColumnIndex, white,[Line-Column]), ListaDePares).
