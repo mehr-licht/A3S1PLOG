@@ -2,9 +2,8 @@
 e se as mesmas estão dentro dos limites do tabuleiro. Caso não se satisfaca, pede novamente a informação.*/
 
 
-manageRow(NewRow) :-
-    readRow(Row),
-    validateRow(Row, NewRow).
+
+manageRow(NewRow) :- readRow(Row),   validateRow(Row, NewRow).
 
 manageColumn(NewColumn) :-
     readColumn(Column),

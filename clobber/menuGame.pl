@@ -22,7 +22,7 @@ managerInput(0) :-
     write('\nExiting...\n\n').
 
 managerInput(_OutroInput) :-
-    write('\nERROR: xee On input\n\n'), askOption, read(Input), managerInput(Input).
+    write('\nERROR: Please input an integer between 0 and 4\n\n'), askOption, read(Input), managerInput(Input).
 
 printMainMenu :-
     nl,nl,

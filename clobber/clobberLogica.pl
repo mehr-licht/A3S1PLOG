@@ -52,7 +52,7 @@ move_P2(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  Tabu
         getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueAdversario),
         ValueAdversario = ColorPlayer,
         !,
-        write('Peca escolhida valida - linha selecionarProximaPosicao\n').
+        write('Peca escolhida valida \n').
 selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer):-
         write('Posicao INVALIDA - seleccioanrProximaPosicao\n'),
         selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer).
@@ -71,7 +71,7 @@ selecionarPeca(TabuleiroInicial, NewRow, NewColumn, RowIndex, ColumnIndex, Color
         getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueAdversario),
         ValueAdversario = ColorPlayer,
         !,
-        write('Peca escolhida valida - selecionarPeca \n').
+        write('Peca escolhida valida \n').
 selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPlayer):-
         write('Peca NAO valida\n'),
         selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPlayer).
