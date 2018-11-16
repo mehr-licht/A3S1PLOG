@@ -9,10 +9,13 @@ managerInput(2) :-
     startGame('P','C'), mainMenu.
 
 managerInput(3) :-
+    startGame('C','P'), mainMenu.
+
+managerInput(4) :-
     startGame('C','C'), mainMenu.
 
 % Opcao escondida para ter acesso rapido ao tabuleiro 
-managerInput(4) :-
+managerInput(5) :-
     write('valid option!\n\n'), printBoard(_X), write('\nEntrou\n').
 
 managerInput(0) :-
@@ -28,7 +31,9 @@ printMainMenu :-
     write('|                                                                       |'),nl,
     write('|                          2. Player vs Bot                             |'),nl,
     write('|                                                                       |'),nl,
-	write('|                          3. Bot vs Bot                                |'),nl,
+    write('|                          3. Bot vs Player                             |'),nl,
+    write('|                                                                       |'),nl,
+	write('|                          4. Bot vs Bot                                |'),nl,
     write('|                                                                       |'),nl,
     write('|                          0. Exit                                      |'),nl,
     write('|_______________________________________________________________________|'),nl,nl,nl.
