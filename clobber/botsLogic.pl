@@ -79,8 +79,10 @@ verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
     verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail).
 verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
   %  adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1).
+    write('fim-'),
     write(Line),
     nl,
+    write('fim2-'),
     write(Column),
     nl,
     verifacaoJogadasPossiveis(Tabuleiro, Color, ListaTail).
@@ -102,26 +104,26 @@ pecasPretasAjogar([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]).
 %   6 pecas BRANCAS com os seus indices verifacaoJogadasPossiveis(Tabuleiro,white,[[Line-Column]|ListaTail])
 myListaTeste([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 %########################################################################################
-checkarPecaVizinhaValiada(Line,Column,_Color,[NewLineIndex-NewColumnIndex]):-
+checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line,
     NewColumnIndex is Column -1,
-    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= _ColorPlayer.
-checkarPecaVizinhaValiada(Line,Column,_Color,[NewLineIndex-NewColumnIndex]):-
+    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario == Color.
+checkarPecaVizinhaValiada(TabuleiroInicial,Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line,
     NewColumnIndex is Column +1,
-    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= _ColorPlayer.
-checkarPecaVizinhaValiada(Line,Column,_Color, [NewLineIndex-NewColumnIndex]):-
+    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario == Color.
+checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color, [NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line - 1,
     NewColumnIndex is Column,
-    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= _ColorPlayer.
-checkarPecaVizinhaValiada(Line,Column,_Color,[NewLineIndex-NewColumnIndex]):-
+    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario == Color.
+checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
     NewLineIndex is Line + 1,
     NewColumnIndex is Column,
-    getValueFromMatrix(_TabuleiroInicial, _LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario =:= _ColorPlayer.
+    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
+    ValueAdversario == Color.
 
 
 
