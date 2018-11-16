@@ -63,7 +63,8 @@ jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
 
 
 %####################################################################### <end find all base
-
+before(A,B,L):-
+    append(_,[A|])
 
 
 %################################## Verificao das pecas encontradas terem pelo menos uma jogada #<begin
@@ -74,9 +75,12 @@ jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
 verifacaoJogadasPossiveis(_Tabuleiro,_Color,[]).
 %verifacaoJogadasPossiveis(Tabuleiro,Color,_,[]).
 verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
-    confirmacao4direccoes(_TabuleiroInicial,Line,Column, white), %confirmar se existe branca nas direccoes
+    jogadasValidasPorPeca(Tabuleiro,Line, Column, CorContraria, ListaDePares),
+    length(ListaDePares, ListaLength),
+    ListaLength \= [],
     !,              
     verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail).
+
 verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
   %  adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1).
     write('fim-'),
@@ -104,26 +108,6 @@ pecasPretasAjogar([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]).
 %   6 pecas BRANCAS com os seus indices verifacaoJogadasPossiveis(Tabuleiro,white,[[Line-Column]|ListaTail])
 myListaTeste([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 %########################################################################################
-checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
-    NewLineIndex is Line,
-    NewColumnIndex is Column -1,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario == Color.
-checkarPecaVizinhaValiada(TabuleiroInicial,Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
-    NewLineIndex is Line,
-    NewColumnIndex is Column +1,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario == Color.
-checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color, [NewLineIndex-NewColumnIndex]):-
-    NewLineIndex is Line - 1,
-    NewColumnIndex is Column,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario == Color.
-checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-NewColumnIndex]):-
-    NewLineIndex is Line + 1,
-    NewColumnIndex is Column,
-    getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
-    ValueAdversario == Color.
 
 
 

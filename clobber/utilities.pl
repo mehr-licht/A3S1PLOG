@@ -1,3 +1,36 @@
+/**- Formato Idade Mehdia
+*caso base
+*/
+getValueFromListV2([H|_T], 0, Value) :-
+        Value = H.
+%funcao recursiva para obter o valor na lista
+getValueFromListV2([_H|T], Index, Value) :-
+        Index >= 0,
+        Index1 is Index - 1,
+        getValueFromList(T, Index1, Value).
+
+getValueFromMatrixV2([H|_T], 0, Column, Value) :-
+        getValueFromList(H, Column, Value).
+%Percorre cada linha - funcao recursiva que em cada lista chama o getValueFromLis
+getValueFromMatrixV2([_H|T], Row, Column, Value) :-
+        Row >= 0,
+        Row1 is Row - 1,
+        getValueFromMatrixV2(T, Row1, Column, Value).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**---------------------------------------------------------------
 * funcoes de complemento - Antes da descoberta de uma coisa chamafa library(lists)
 * caso base o Value vai se juntar ah nova lista
