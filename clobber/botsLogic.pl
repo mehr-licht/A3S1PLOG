@@ -51,7 +51,7 @@ selecionarPecaForBot(TabuleiroInicial, [LineIndex-ColumnIndex], ColorPlayer):-
 */
 
 %verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail],[]).
-verificacao(_,_,_, _,[]).
+%verificacao(_,_,_, _,[]).
 verificacao(_,_,[], _,_).
 verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail], ListaFinal,ListaFinalissima):-
     jogadasValidasPorPeca(Tabuleiro,Line, Column, white, ListaDePares),
@@ -60,7 +60,7 @@ verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail], ListaFinal,ListaFinalissi
     cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista, ListaFinalissima),    
   %  write('ListaPares:---1'), write(ListaDePares),nl,
   %  write('Lista de pecas --- 2'),write([[Line-Column]|ListaTail]),nl,
-  %  write('ListaFinal:---1'), write(ListaFinal),nl,
+  write('ListaFinal:---1'), write(ListaFinalissima),nl,
   %  write(LengthLista),
     %ListaDePares = NewLista,
   %  LengthLista =:= 0,
@@ -71,10 +71,14 @@ verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail], ListaFinal,ListaFinalissi
   %  verificacao(Tabuleiro, Color, ListaTail, ListaFinal).
 
 cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista,ListaFinalissima):-
+    write('---aqui-1--'), write(LengthLista),
     LengthLista < 1,
     !,
     write([Line-Column]),nl,
-    delete(ListaFinal, [Line-Column], ListaFinalissima).
+    delete(ListaFinal, [Line-Column], ListaFinalissima),
+    write(ListaFinalissima),    
+    length(ListaFinalissima,LengthListaAA), nl,
+    write('---aqui--2-'), write(LengthListaAA).
 cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista,ListaFinalissima):-true.
 
 

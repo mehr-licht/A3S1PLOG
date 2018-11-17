@@ -175,18 +175,49 @@ playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
         jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
 
 
-%#######################################################################################################################
-anounce(Color):-
-        write('We are the Loosers ->'),
-        write(Color),
-        write('pieces').
+%##################################################### »»» Anuncio de FINAL DE JOGO >> BEGIN
+anunciamento(Color):-
+        nl,nl, write(Color),
+        write(' pieces LOOSE THE GAME'),nl,
+        abort.
+%##################################################### »»» Anuncio de FINAL DE JOGO »» END
+%#########################################################################  GAME OVER SECTION  >>> BEGIN
 /**
  * @brief
- * gameOver(+Tabuleiro, -Winer) Winner == Color 
+ * gameOver(+Tabuleiro, -Looser) Looser == Color 
 */
-gameOver(Tabuleiro, Winer):-
-        jogadasPossiveis(Tabuleiro,Winer,ListaDePares),
-        ListaDePares == [].
+gameOver(Tabuleiro, Looser):-
+        Looser == black,
+        !,
+        CorContraria = white,
+        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
+        loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
+ %       nl,
+  %      write('total de Jogadas'), write(Total), nl.
+ %       write('ListadePares'), write(ListaDePares),nl,
+%write('ListaFinal : '), write(ListaFinal), nl.
+    %    ListaDePares == [].
+        Total == 0,
+        !,
+        anunciamento(Looser).
+
+gameOver(Tabuleiro, Looser):-
+        CorContraria = black,
+        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
+        loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
+ %       nl,
+ %       write('white total de Jogadas'), write(Total), nl.
+        Total == 0,
+        !,
+        anunciamento(Looser).
+
+loop(_,_,[],0).
+loop(Tabuleiro, CorContraria, [[Line-Column]|Tail], Total):-
+        jogadasValidasPorPeca(Tabuleiro, Line, Column, CorContraria, ListaDePares),
+        length(ListaDePares, Tamanho),
+        loop(Tabuleiro, CorContraria, Tail, AuxTotal),
+        Total is (AuxTotal + Tamanho).
+%#########################################################################  GAME OVER SECTION  >>> END
 
 /**
  * @brief Alterna a sequencia de jogadas
@@ -197,7 +228,9 @@ gameLoop(Tabuleiro, Jogador1, Jogador2):-
         printBoard(Tabuleiro),                                            
         playJogador_1_Turno(Tabuleiro, NovoTabuleiro, Jogador1), %    Jogador 1 ->(Tabuleiro , 'branca' ) 
         printBoard(NovoTabuleiro),
+        gameOver(NovoTabuleiro, white),
         playJogador_2_Turno(NovoTabuleiro, FinalTabuleiro, Jogador2), %  Jogador 2-> (Tabuleiro, 'preta')
+        gameOver(FinalTabuleiro, black),
         gameLoop(FinalTabuleiro, Jogador1, Jogador2).
 
 /**

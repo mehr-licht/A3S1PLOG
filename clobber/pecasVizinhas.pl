@@ -83,5 +83,5 @@ checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-Colu
  * @param CorContraria eh a cor contraria ah peca que esta na posicao [LineIndex-ColumnIndex]
  *  @param -ListaDePares: lista com jogadas validas para a peca que esta na celula, no formato par linha-coluna
 */
-jogadasValidasPorPeca(Tabuleiro,LineIndex, ColumnIndex, _CorContraria, ListaDePares):-
-    findall([Line-Column],checkarPecaVizinhaValiada(Tabuleiro, LineIndex, ColumnIndex, white,[Line-Column]), ListaDePares).
+jogadasValidasPorPeca(Tabuleiro,LineIndex, ColumnIndex, CorContraria, ListaDePares):-
+    findall([Line-Column],checkarPecaVizinhaValiada(Tabuleiro, LineIndex, ColumnIndex, CorContraria,[Line-Column]), ListaDePares).
