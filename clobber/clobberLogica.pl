@@ -178,6 +178,11 @@ playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
 
 
 %##################################################### »»» Anuncio de FINAL DE JOGO >> BEGIN
+/**
+ * anunciamento(+Color)
+ * @brief Anuncia que quem ia jogar perdeu o jogo
+ * @param +Color: cor das pecas que perdem o jogo
+ */
 anunciamento(Color):-
         nl,nl, write(Color),
         write(' pieces LOOSE THE GAME'),nl,
@@ -186,8 +191,8 @@ anunciamento(Color):-
 %#########################################################################  GAME OVER SECTION  >>> BEGIN
 /**
  * @brief condicao de terminacao do jogo. se lista de jogadas possiveis de todas as pecas de uma cor for vazia esse player ja nao joga e perdeu o jogo
- * gameOver(+Tabuleiro, -Winer) 
- * @param -Winner: Color do jogador vencedor
+ * gameOver(+Tabuleiro, -Looser) 
+ * @param -Looser: Color do jogador que perde
  * @param Tabuleiro: tabuleiro actual
 */
 gameOver(Tabuleiro, Looser):-
@@ -202,7 +207,7 @@ gameOver(Tabuleiro, Looser):-
 %write('ListaFinal : '), write(ListaFinal), nl.
     %    ListaDePares == [].
         Total == 0,
-        !,
+        !,      
         anunciamento(Looser).
 
 gameOver(Tabuleiro, Looser):-
@@ -214,7 +219,14 @@ gameOver(Tabuleiro, Looser):-
         Total == 0,
         !,
         anunciamento(Looser).
-
+/**
+ * loop(+Tabuleiro, +CorContraria, +Lista, -Total).
+ * @brief descobre o numero total de jogadas validas do adversario
+ * @param +Tabuleiro: tabuleiro actual
+ * @param +CorContraria: cor do adversario
+ * @param +Lista: celulas onde tem pecas
+ * @param -Total: total de jogadas validas do adversario
+ */
 loop(_,_,[],0).
 loop(Tabuleiro, CorContraria, [[Line-Column]|Tail], Total):-
         jogadasValidasPorPeca(Tabuleiro, Line, Column, CorContraria, ListaDePares),

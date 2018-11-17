@@ -79,8 +79,7 @@ checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-Colu
  *  @param +Tabuleiro: tabuleiro actual
  *  @param +LineIndex: indice da linha da celula da peca
  *  @param +ColumnIndex:  indice da coluna da celula da peca
- * @param CorContraria eh a cor contraria ah peca que esta na posicao [LineIndex-ColumnIndex]
- * @param CorContraria eh a cor contraria ah peca que esta na posicao [LineIndex-ColumnIndex]
+ * @param +CorContraria eh a cor contraria ah peca que esta na posicao [LineIndex-ColumnIndex]
  *  @param -ListaDePares: lista com jogadas validas para a peca que esta na celula, no formato par linha-coluna
 */
 jogadasValidasPorPeca(Tabuleiro,LineIndex, ColumnIndex, CorContraria, ListaDePares):-
