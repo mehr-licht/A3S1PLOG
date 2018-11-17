@@ -1,7 +1,16 @@
-% imprime menu inicial para futura escolha do modo de jogo
+
+/**
+ * @brief imprime menu inicial para futura escolha do modo de jogo
+ * 
+ */
 mainMenu :-
     printMainMenu, askOption, read(TeclaEntrada), managerInput(TeclaEntrada).
 
+/**
+ * managerInput(+opcao)
+ * @brief lanca o modo de jogo escolhido
+ * @param +opcao inteiros de 0 a 5 que correspondem à escolha do modo de jogo (player, bot, etc)
+ */
 managerInput(1) :-
     startGame('P','P'), mainMenu.
 
@@ -24,6 +33,11 @@ managerInput(0) :-
 managerInput(_OutroInput) :-
     write('\nERROR: Please input an integer between 0 and 4\n\n'), askOption, read(Input), managerInput(Input).
 
+
+/**
+ * @brief imprime o menu principal com as opcoes que podem ser escolhidas
+ * 
+ */
 printMainMenu :-
     nl,nl,
     write(' _______________________________________________________________________ '),nl,
@@ -38,6 +52,11 @@ printMainMenu :-
     write('|                          0. Exit                                      |'),nl,
     write('|_______________________________________________________________________|'),nl,nl,nl.
 
+
+/**
+ * @brief pede a opcao do jogo que se pretende
+ *-
+ */
 askOption :-
     write('> Insert option ').
 

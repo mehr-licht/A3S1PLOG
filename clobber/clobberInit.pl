@@ -10,7 +10,9 @@
 :- use_module(library(system)).
 :- use_module(library(lists)).
 
-
+/**
+ * @brief lanca o jogo
+ */
 play :-
       mainMenu.
 
