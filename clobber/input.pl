@@ -15,8 +15,9 @@ manageRow(NewRow) :-
  * @param -NewColumn indice da coluna pretendida
  */
 manageColumn(NewColumn) :-
-    readColumn(Column),
+    readColumn(Column), 
     validateColumn(Column, NewColumn).
+
 /**
  * readRow(-Row)
  * @brief pergunta linha e devolve a linha introduzida
