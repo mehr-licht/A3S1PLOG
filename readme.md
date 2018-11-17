@@ -1,5 +1,17 @@
 # **PLOG**
 
+
+
+
+# **TODO**
+documentar\
+botsLogic.pl\
+pecasVizinhas.pl\
+utilities.pl
+
+
+
+
 ### Notes
 
 #Agrupamento de funcoes

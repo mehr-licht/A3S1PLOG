@@ -45,15 +45,17 @@ symbol(black,S) :- char_code(S,9863).
 symbol(white,S) :- char_code(S,9865). 
 
 /**
+ * printBoard(+X)
  * @brief impressao do 'cabecalho' (indices das colunas) do tabuleiro
- * @param X: tabuleiro a ser imprimido 
+ * @param +X: tabuleiro a ser imprimido 
  */
 printBoard(X):- nl, write('\n   | A | B | C | D | E |\n'), write('   |---|---|---|---|---|\n'), printMatrix(X, 1).
 
 /**
+ * printMatrix(Tabuleiro, N) 
  * @brief Percorrer e imprimir a matrix (caso base e passo recursivo)
  * @param N: indice da linha, a mostrar no inicio de cada uma
- * @param tabuleiro como [Head|Tail]
+ * @param +Tabuleiro: tabuleiro
 */
 printMatrix([], 7).
 printMatrix([Head|Tail], N) :-   

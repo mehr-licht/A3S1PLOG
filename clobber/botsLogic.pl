@@ -3,6 +3,10 @@
 
 /**
  * Função muito futurista -escolhe a jogada futurista
+ * seleccionarJogadaLista(_Tabuleiro,_Color,+Lista,-FuturaJogada)
+ * @brief recebendo lista de jogadas possiveis, escolhe uma ao acaso
+ * @param +Lista: lista de jogadas possiveis
+ * @param -FuturaJogada: a jogada a ser feita
 */
 seleccionarJogadaLista(_Tabuleiro,_Color,Lista,FuturaJogada):-
     length(Lista,Lengthlista),
@@ -15,6 +19,11 @@ seleccionarJogadaLista(_Tabuleiro,_Color,Lista,FuturaJogada):-
 %###############################################################################   base do findall Eureka!
 /**
  * Devolve Index da linha onde esta a peca com a magia negra do backtracking
+* getValueFromListRenew(+Lista, +Index, -Value)
+* @brief percorre lista(linha) e devolve valor em determinado indice(celula)
+* @param +Lista linha da matriz(tabuleiro)
+* @param +Index indice na linha(celula)
+* @param -Value qual a peca que esta na celula pesquisada
 */
 getValueFromListRenew([H|T], Index, Value) :-
     nth0(Index,[H|T],Value).
@@ -22,6 +31,13 @@ getValueFromListRenew([H|T], Index, Value) :-
 * Uma matrix eh uma lista de listas -> wooahh Sherlock
 * Percorre uma linha em primeiro lugar, e depois com o getValueFrom List retorna o Valor
 * Caso base quando estamos na ultima linha
+*
+ * getValueFromMatrixRenew(+Lista, +Row, +Column, -Value)
+* @brief percorre matriz(tabuleiro) e devolve valor em determinada celula, chamando getValueFromListV2 depois de ter chegado a coluna em causa
+* @param +Lista matriz(tabuleiro)
+* @param +Row indice da linha
+* @param +Column indice da coluna
+* @param -Value qual a peca que esta na celula pesquisada
 */
 getValueFromMatrixRenew([H|_T], 0, Column, Value) :-
     getValueFromListRenew(H, Column, Value).
@@ -34,8 +50,11 @@ getValueFromMatrixRenew([_H|T], Row1, Column, Value) :-
     Row1 is Row +1.
 
 /**
- * Verifica se a peca escolhida eh preta
- * selecionarPecaForBot(TabuleiroInicial, [LineIndex-ColumnIndex], ColorPlayer)
+ * selecionarPecaForBot(+TabuleiroInicial, -LinhaEColuna, +ColorPlayer)
+ * @ brief Verifica se a peca escolhida eh da cor passada
+ * @param +TabuleiroInicial: tabuleiro actual
+ * @param +LinhaEColuna: celula como par
+ * @param +ColorPlayer: cor a verificar
 */
 selecionarPecaForBot(TabuleiroInicial, [LineIndex-ColumnIndex], ColorPlayer):-
     getValueFromMatrixRenew(TabuleiroInicial, LineIndex, ColumnIndex, ValueAdversario),
@@ -43,11 +62,14 @@ selecionarPecaForBot(TabuleiroInicial, [LineIndex-ColumnIndex], ColorPlayer):-
 
 
 /**
- * 
- * @param [[Line-Column]|ListaTail] - lista das pecas no tabuleiro
- * @param [H|T] - lista das pecas jogaveis
- * @param 
- * verifacao(+Tabuleiro,+Color,+[[Line-Column]|ListaTail], -[H|T])  
+ * verificacao(+Tabuleiro,+Color,-Lista, -ListaFinal,-ListaFinalissima)
+ * @brief devolve lista das pecas com jogadas possiveis
+ * @param +Tabuleiro: tabuleiro actual
+ * @param +Color: cor da peca
+ * @param -Lista: lista das pecas no tabuleiro
+ * @param -ListaFinal: lista das pecas jogaveis
+ * @param -ListaFinalissima: 
+ *
 */
 
 %verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail],[]).
@@ -69,7 +91,16 @@ verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail], ListaFinal,ListaFinalissi
     verificacao(Tabuleiro,Color,ListaTail,ListaFinal, ListaFinalissima).
 %verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail],ListaFinal):-  
   %  verificacao(Tabuleiro, Color, ListaTail, ListaFinal).
-
+/**
+ * cleanList(+Tabuleiro,+Color,+Lista,+ListaFinal,+LengthLista,-ListaFinalissima)
+ * @brief Retira da lista todas as peças sem jogadas possiveis
+ * @param +Tabuleiro: tabuleiro actual
+ * @param +Color: cor da peca
+ * @param +Lista: lista de jogadas validas por peca
+ * @param +ListaFinal: lista das pecas existentes
+ * @param +LengthLista: tamanho da lista de jogadas validas por peca
+ * @param -ListaFinalissima: lista das pecas sem jogadas possiveis
+ */
 cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista,ListaFinalissima):-
     LengthLista < 1,
     !,
@@ -82,11 +113,21 @@ cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista,ListaFinalissima)
 
 /** 
  * jogadasPossiveis(+TabuleiroInicial,+Color,-ListaDePares)
- * Devolve todas as posicoes das pecas 
+ * @brief Devolve todas as posicoes das pecas de Color actualmente existentes no tabuleiro
+ * @param TabuleiroInicial: tabuleiro actual
+ * @param Color: cor da peca
+ * @param ListaDePares: posicoes de todas as pecas de Color actualmente no tabuleiro
 */
 jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
     findall([LineIndex-ColumnIndex], selecionarPecaForBot(TabuleiroInicial,[LineIndex-ColumnIndex], Color), ListaDePares).
 
+/** 
+ * jogadasPossiveisValidas(+Tabuleiro,+Color,-NewList)
+ * @brief Devolve lista com todas as pecas de Color com jogadas possiveis actualmente existentes no tabuleiro
+ * @param +Tabuleiro: tabuleiro actual
+ * @param +Color: cor da peca
+ * @param -NewList: posicoes de todas as pecas de Color com jogadas possiveis actualmente no tabuleiro
+*/
 jogadasPossiveisValidas(Tabuleiro,Color, NewList):-
     jogadasPossiveis(Tabuleiro,Color,[[L-C]|T]),
     [[L-C]|T] == [[]|[]],
@@ -94,9 +135,12 @@ jogadasPossiveisValidas(Tabuleiro,Color, NewList):-
     verificacao(Tabuleiro, Color, [[L-C]|T], NewList).
     
 
-/**
- * Jogadas Validas -> para depois ter a boa lista e escolher um random
- * vai receber color == black
+/** 
+ * jogadasValidas(+Tabuleiro,+Color,-NewList)
+ * @brief Devolve lista com todas as jogadas possiveis validas para as pecas de color actualmente existentes no tabuleiro
+ * @param +Tabuleiro: tabuleiro actual
+ * @param +Color: cor da peca
+ * @param -NewList:  lista com todas as jogadas possiveis validas para as pecas de color actualmente existentes no tabuleiro
 */
 jogadasValidas(Tabuleiro,black,[FutureLine-FutureColumn]):- 
     jogadasPossiveis(Tabuleiro,black,[[Line-Column]|ListaTail]), %lista das pecas pretas
@@ -136,8 +180,14 @@ myListaTeste([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 
 
 
-
-
+/**
+ * direccaoDaJogada(+Tabuleiro,+LinhaEColuna,-FuturaJogada, -ListaJogadasVizinhas)
+ * @brief escolha a jogada seguinte do bot
+ * @param +Tabuleiro: tabuleiro actual
+ * @param +LinhaEColuna: celula vizinha
+ * @param -FuturaJogada: jogada escolhida
+ * @param -ListaJogadasVizinhas: jogadas possiveis na celula vizinha
+ */
 direccaoDaJogada(Tabuleiro,[Line-Column],FuturaJogada, ListaJogadasVizinhas):-
     findall([NewLineIndex-NewColumnIndex],checkarPecaVizinhaValiada( Line, Column, Color,[NewLineIndex-NewColumnIndex]), ListaJogadasVizinhas),
     seleccionarJogadaLista(Tabuleiro,Color,_Lista,FuturaJogada).
@@ -152,7 +202,10 @@ direccaoDaJogada(Tabuleiro,[Line-Column],FuturaJogada, ListaJogadasVizinhas):-
 
 
 /**
+ * jogarLeBot(+TabuleiroInicial, -TabuleiroFinal)
  * @brief Generates a random play for the bot without being clever - a black piece eats a white one
+ * @param +TabuleiroInicial: tabuleiro actual
+ * @param -TabuleiroFinal: tabuleiro futuro
 */
 jogarLeBot(TabuleiroInicial, TabuleiroFinal):-
     jogadasValidas(TabuleiroInicial, black,[Line-Column]),
@@ -198,8 +251,15 @@ jogarLeBot(TabuleiroInicial, TabuleiroFinal):-
 %####################################################################################################3
 
 /**
-* Selecciona o Sul, Norte, Oeste, Este,  sequencialmente consoante as jogadas falharem
-* seleccionarBotJogada(+TabuleiroInicial, +LineIndex, +ColumnIndex, -NewLineIndex, -NewColumnIndex, ColorPlayer )
+* 
+* seleccionarBotJogada(+TabuleiroInicial, +LineIndex, +ColumnIndex, -NewLineIndex, -NewColumnIndex, +ColorPlayer )
+* @ Selecciona o Sul, Norte, Oeste, Este,  sequencialmente consoante as jogadas falharem
+* @param +TabuleiroInicial: tabuleiro actual
+* @param +LineIndex: indice da linha actual da celula
+* @param +ColumnIndex: indice da coluna actual da celula
+* @param -NewLineIndex: indice da nova linha da celula
+* @param -NewColumnIndex: indice da nova coluna da celula
+* @param +ColorPlayer: para verificar que a celula escolhido tem adversario
 */
 %sul
 seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ):-

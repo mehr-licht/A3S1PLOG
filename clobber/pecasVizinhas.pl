@@ -36,14 +36,14 @@ getColorMatrix(TabuleiroInicial, Line, Coluna, Color):-
 
 
 /** 
- * checkarPecaVizinhaValiada(+TabuleiroInicial, +Line, +Column, -Color, -ListaDePares)
+ * checkarPecaVizinhaValiada(+TabuleiroInicial, +Line, +Column, -Color, -LinhaEColuna)
  * @brief verifica para quais das 4 direccoes possiveis dos moves existe uma jogada valida e devolve lista com as possiveis
  * @param +TabuleiroInicial: tabuleiro actual
  * @param +Line da peca a jogar
  * @param +Column da peca a jogar
  * @param -Color : eh o estado  que a casa seguite tem de ter, eh a cor do adversario
  * se a peca em linha-coluna for de cor preta, entao +Color = white.
- * @param -ListaDePares lista de pares Linha-Coluna correspondendo a celula para onde se move, ja com verifficacao
+ * @param -LinhaEColuna lista de pares Linha-Coluna correspondendo a celula para onde se move, ja com verifficacao
 */
 checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[Line-NewColumnIndex]):-
     NewColumnIndex is Column -1,

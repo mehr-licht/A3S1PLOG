@@ -108,10 +108,11 @@ selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPla
 %        !,
 %        anounce(white).
 /**
+ * playJogador_1_Turno(+TabuleiroInicial, -NovoTabuleiro, +TypeOfPlayer)
  * @brief turno do jogador 1 (brancas), pergunta qual a peca e para onde a mover, verificando validades
  * @param +TabuleiroInicial: tabuleiro actual
  * @param -NovoTabuleiroInicial: tabuleiro actualizado apos a jogada
- * @param +type of player (P=person; C=bot)
+ * @param +TypeOfPlayer (P=person; C=bot)
  */
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):- 
         write('Jogador 1  -> pecas brancas\n'), 
@@ -142,10 +143,11 @@ playJogador_1_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
 %        !,
 %        anounce(black).
 /**
+ * playJogador_2_Turno(+TabuleiroInicial, -NovoTabuleiro, +TypeOfPlayer)
  * @brief turno do jogador 2 (pretas), pergunta qual a peca e para onde a mover, verificando validades
  * @param +TabuleiroInicial: tabuleiro actual
  * @param -NovoTabuleiroInicial: tabuleiro actualizado apos a jogada
- * @param +type of player (P=person; C=bot)
+ * @param +TypeOfPlayer (P=person; C=bot)
  */
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Jogador 2 -> pecas pretas\n'), 
@@ -181,8 +183,10 @@ anounce(Color):-
         write(Color),
         write('pieces').
 /**
- * @brief
- * gameOver(+Tabuleiro, -Winer) Winner == Color 
+ * @brief condicao de terminacao do jogo. se lista de jogadas possiveis de todas as pecas de uma cor for vazia esse player ja nao joga e perdeu o jogo
+ * gameOver(+Tabuleiro, -Winer) 
+ * @param -Winner: Color do jogador vencedor
+ * @param Tabuleiro: tabuleiro actual
 */
 gameOver(Tabuleiro, Winer):-
         jogadasPossiveis(Tabuleiro,Winer,ListaDePares),
@@ -191,6 +195,9 @@ gameOver(Tabuleiro, Winer):-
 /**
  * @brief Alterna a sequencia de jogadas
  * gameLoop(+Tabuleiro, +Jogador1, +Jogador2) 
+ * @param +Tabuleiro: tabuleiro actual
+ * @param +Jogador1: brancas
+ * @param +Jogador2: pretas
  * Chamada recursiva no fim
 */
 gameLoop(Tabuleiro, Jogador1, Jogador2):-                                        
@@ -203,6 +210,8 @@ gameLoop(Tabuleiro, Jogador1, Jogador2):-
 /**
  * @brief Inicia o jogo
  * @ startGame(+Jogador1,+Jogador2) 
+ * @param +Jogador1: brancas
+ * @param +Jogador2: pretas
 */
 startGame(Jogador1,Jogador2):- initialBoard(TabuleiroInicial), 
                                 gameLoop(TabuleiroInicial, Jogador1, Jogador2).
