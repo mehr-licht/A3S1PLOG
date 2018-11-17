@@ -54,7 +54,6 @@ getValueFromMatrixV2([_H|T], Row, Column, Value) :-
 * @param +Value: valor da celula
 * @param -New tabuleiro futuro
 */
-*/
 replaceInList([_H|T], 0, Value, [Value|T]).
 % funcao de chamada recursiva para percorrer a lsita
 replaceInList([H|T], Index, Value, [H|TNew]) :-
