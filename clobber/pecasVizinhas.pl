@@ -8,9 +8,7 @@ X = [
     [empty,white,empty,white,empty],
     [empty,black,empty,empty,empty]],
 ListaDePares = [[2-1],[1-2]] ? 
-
 */
-
 
 /**
  * getColorLinha(+Linha, +Coluna, -Color) 

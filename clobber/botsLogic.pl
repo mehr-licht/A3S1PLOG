@@ -1,17 +1,5 @@
 
 
-/**
- * Jogadas Validas -> para depois ter a boa lista e escolher um random
- * vai receber color == black
-*/
-jogadasValidas(Tabuleiro,black,[FutureLine-FutureColumn]):- 
-    jogadasPossiveis(Tabuleiro,black,[[Line-Column]|ListaTail]), %lista das pecas pretas
-    
-    verifacaoJogadasPossiveis(Tabuleiro,black,[[Line-Column]|ListaTail]),
-    
-    seleccionarJogadaLista(Tabuleiro,black,[[Line-Column]|ListaTail],[FutureLine-FutureColumn]).    
-    %percorer a lista e por cada elemento verificose ha jogada selecioanrBot,
-    %seleccionarBotJogada(Tabuleiro, Line, Column, NewLineIndex, NewColumnIndex, Color)
 
 /**
  * Função muito futurista -escolhe a jogada futurista
@@ -53,53 +41,91 @@ selecionarPecaForBot(TabuleiroInicial, [LineIndex-ColumnIndex], ColorPlayer):-
     getValueFromMatrixRenew(TabuleiroInicial, LineIndex, ColumnIndex, ValueAdversario),
     ValueAdversario = ColorPlayer.
 
-/** Look at this beauty! -Agora sei como Eisntein se sentia
+
+/**
  * 
+ * @param [[Line-Column]|ListaTail] - lista das pecas no tabuleiro
+ * @param [H|T] - lista das pecas jogaveis
+ * @param 
+ * verifacao(+Tabuleiro,+Color,+[[Line-Column]|ListaTail], -[H|T])  
+*/
+
+%verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail],[]).
+verificacao(_,_,_, _,[]).
+verificacao(_,_,[], _,_).
+verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail], ListaFinal,ListaFinalissima):-
+    jogadasValidasPorPeca(Tabuleiro,Line, Column, white, ListaDePares),
+    nl, 
+    length(ListaDePares,LengthLista), %nao existem jogadas para esta peca -> logo posso eliminah-la
+    cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista, ListaFinalissima),    
+  %  write('ListaPares:---1'), write(ListaDePares),nl,
+  %  write('Lista de pecas --- 2'),write([[Line-Column]|ListaTail]),nl,
+  %  write('ListaFinal:---1'), write(ListaFinal),nl,
+  %  write(LengthLista),
+    %ListaDePares = NewLista,
+  %  LengthLista =:= 0,
+   % !,              
+   % delete(ListaFinal, [Line-Column], ListaFinalissima),
+    verificacao(Tabuleiro,Color,ListaTail,ListaFinal, ListaFinalissima).
+%verificacao(Tabuleiro,Color,[[Line-Column]|ListaTail],ListaFinal):-  
+  %  verificacao(Tabuleiro, Color, ListaTail, ListaFinal).
+
+cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista,ListaFinalissima):-
+    LengthLista < 1,
+    !,
+    write([Line-Column]),nl,
+    delete(ListaFinal, [Line-Column], ListaFinalissima).
+cleanList(Tabuleiro,Color,[Line-Column],ListaFinal,LengthLista,ListaFinalissima):-true.
+
+
+
+
+/** 
  * jogadasPossiveis(+TabuleiroInicial,+Color,-ListaDePares)
  * Devolve todas as posicoes das pecas 
 */
 jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
     findall([LineIndex-ColumnIndex], selecionarPecaForBot(TabuleiroInicial,[LineIndex-ColumnIndex], Color), ListaDePares).
 
+jogadasPossiveisValidas(Tabuleiro,Color, NewList):-
+    jogadasPossiveis(Tabuleiro,Color,[[L-C]|T]),
+    [[L-C]|T] == [[]|[]],
+    !,
+    verificacao(Tabuleiro, Color, [[L-C]|T], NewList).
+    
+
+/**
+ * Jogadas Validas -> para depois ter a boa lista e escolher um random
+ * vai receber color == black
+*/
+jogadasValidas(Tabuleiro,black,[FutureLine-FutureColumn]):- 
+    jogadasPossiveis(Tabuleiro,black,[[Line-Column]|ListaTail]), %lista das pecas pretas
+    ListaFinal = [[Line-Column]|ListaTail],
+    verificacao(Tabuleiro,black,[[Line-Column]|ListaTail],ListaFinal,ListaFinalissima),
+    write('ListaFinal'),
+    write(ListaFinal),nl,
+    write('ListaFinalissima'),
+    write(ListaFinalissima).
+
+    %seleccionarJogadaLista(Tabuleiro,black,[[Line-Column]|ListaTail],[FutureLine-FutureColumn]).    
+    %percorer a lista e por cada elemento verificose ha jogada selecioanrBot,
+    %seleccionarBotJogada(Tabuleiro, Line, Column, NewLineIndex, NewColumnIndex, Color)
+
+
 
 %####################################################################### <end find all base
-
-
-
 %################################## Verificao das pecas encontradas terem pelo menos uma jogada #<begin
-/**
- * Devolve a lista com as jogadas possiveis
- *  VERIFICAR SE ao pe de uma preta esta uma branca 
-*/
-verifacaoJogadasPossiveis(_Tabuleiro,_Color,[]).
-%verifacaoJogadasPossiveis(Tabuleiro,Color,_,[]).
-verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
-    jogadasValidasPorPeca(Tabuleiro,Line, Column, _CorContraria, ListaDePares),
-    length(ListaDePares, ListaLength),
-    ListaLength \= [],
-    !,              
-    verifacaoJogadasPossiveis(Tabuleiro,Color,ListaTail).
-
-verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
-  %  adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1).
-    write('fim-'),
-    write(Line),
-    nl,
-    write('fim2-'),
-    write(Column),
-    nl,
-    verifacaoJogadasPossiveis(Tabuleiro, Color, ListaTail).
     
 /**
  * adiconarJogadaNeWLista(+Line, +Column, -NovaLista) 
 */
-adiconarJogadaNeWLista(Line, Column, NovaLista,NovaLista1):-
-   NovaLista = [],
-   !,
-   append([Line-Column],[],NovaLista1).
-   
-adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1):-
-    append([Line-Column],NovaLista,NovaLista1).
+%adiconarJogadaNeWLista(Line, Column, NovaLista,NovaLista1):-
+%   NovaLista = [],
+%   !,
+%   append([Line-Column],[],NovaLista1).
+%   
+%adiconarJogadaNeWLista(Line, Column, NovaLista, NovaLista1):-
+%    append([Line-Column],NovaLista,NovaLista1).
 
 %#######################################################################################
 pecasPretasAjogar([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]). 
