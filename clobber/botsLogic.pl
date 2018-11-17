@@ -63,8 +63,7 @@ jogadasPossiveis(TabuleiroInicial,Color,ListaDePares):-
 
 
 %####################################################################### <end find all base
-before(A,B,L):-
-    append(_,[A|])
+
 
 
 %################################## Verificao das pecas encontradas terem pelo menos uma jogada #<begin
@@ -75,7 +74,7 @@ before(A,B,L):-
 verifacaoJogadasPossiveis(_Tabuleiro,_Color,[]).
 %verifacaoJogadasPossiveis(Tabuleiro,Color,_,[]).
 verifacaoJogadasPossiveis(Tabuleiro,Color,[[Line-Column]|ListaTail]):-
-    jogadasValidasPorPeca(Tabuleiro,Line, Column, CorContraria, ListaDePares),
+    jogadasValidasPorPeca(Tabuleiro,Line, Column, _CorContraria, ListaDePares),
     length(ListaDePares, ListaLength),
     ListaLength \= [],
     !,              
