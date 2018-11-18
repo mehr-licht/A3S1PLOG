@@ -199,7 +199,7 @@ gameOver(Tabuleiro, Looser):-
         Looser == black,
         !,
         CorContraria = white,
-        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro),
+        posicoesPecasNoTabuleiro(Tabuleiro, Looser,ListaDePecasNoTabuleiro),
         loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
  %       nl,
   %      write('total de Jogadas'), write(Total), nl.
@@ -212,7 +212,7 @@ gameOver(Tabuleiro, Looser):-
 
 gameOver(Tabuleiro, Looser):-
         CorContraria = black,
-        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
+        posicoesPecasNoTabuleiro(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
         loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
  %       nl,
  %       write('white total de Jogadas'), write(Total), nl.
