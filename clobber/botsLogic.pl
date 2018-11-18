@@ -9,21 +9,24 @@
 */
 getValueFromListRenew([H|T], Index, Value) :-
     nth0(Index,[H|T],Value).
-/**----------------------------------------------------------------
-* Uma matrix eh uma lista de listas -> wooahh Sherlock
+/**---------------------------- CASO BASE -------
 * Percorre uma linha em primeiro lugar, e depois com o getValueFrom List retorna o Valor
-* Caso base quando estamos na ultima linha
-*
- * getValueFromMatrixRenew(+Lista, +Row, +Column, -Value)
+*  getValueFromMatrixRenew([H|_T], 0, Column, Value) 
+*/
+getValueFromMatrixRenew([H|_T], 0, Column, Value) :-
+    getValueFromListRenew(H, Column, Value).
+
+/* getValueFromMatrixRenew(+Lista, +Row, +Column, -Value)
 * @brief percorre matriz(tabuleiro) e devolve valor em determinada celula, chamando getValueFromListV2 depois de ter chegado a coluna em causa
 * @param +Lista matriz(tabuleiro)
 * @param +Row indice da linha
 * @param +Column indice da coluna
 * @param -Value qual a peca que esta na celula pesquisada
 */
-getValueFromMatrixRenew([H|_T], 0, Column, Value) :-
-    getValueFromListRenew(H, Column, Value).
-    Row1 is Row +1.
+getValueFromMatrixRenew([_H|T], Row1, Column, Value) :-
+    getValueFromMatrixRenew(T, Row, Column, Value),
+    Row1 is Row + 1.
+
 
 /**
  * selecionarPecaForBot(+TabuleiroInicial, -LinhaEColuna, +ColorPlayer)
