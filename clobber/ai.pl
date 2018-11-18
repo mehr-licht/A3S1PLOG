@@ -22,11 +22,12 @@ escolhaElementosComMaisJogadas([[_-_]-_|Tail], NewList, MiddleIndex ):-
 
 
 /**
- * jogarLeBot(+TabuleiroInicial, -TabuleiroFinal)
- * @brief Generates a  play for the bot. Maximo de jogadas possiveis para cada peca
- * 
+ * choose_move(+TabuleiroInicial, -TabuleiroFinal, +Color,Nivel)
+* 1) Da NOVALISTA ordenar a lista por [_-_]-Indexes maiores » vai ser o nosso Value
+* 2) Por cada uma das posicoes possiveis ir buscar o length de jogadas possivies nessa peca » somar ao Value
+* o bot vai seguir o caminho da arvore que tem mais jogadas possiveis, mas vai deteriorar as pecas isoladas 
 */
-jogarBotMaximus(Tabuleiro, TabuleiroFinal):-
+choose_move(Tabuleiro, TabuleiroFinal,Color, 1):-
     posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
     escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
     write('Lista para Limpar: '), write(ListaParaLimpar), nl,
