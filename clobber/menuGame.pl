@@ -21,17 +21,17 @@ managerInput(1) :-
     startGame('P','P'), mainMenu.
 
 managerInput(2) :-
-    botMenu(Nivel,0),
-    startGame('P',Nivel), mainMenu.%A se random e I se clever
+   % botMenu(Nivel,0),
+    startGame('P','C'), mainMenu.%A se random e I se clever
 
 managerInput(3) :-
-    botMenu(Nivel,0),
-    startGame(Nivel,'P'), mainMenu.%A se random e I se clever
+  %  botMenu(Nivel,0),
+    startGame('P','I'), mainMenu.%A se random e I se clever
 
 managerInput(4) :-
-    botMenu(Nivel1,1),
-    botMenu(Nivel2,2),
-    startGame(Nivel1,Nivel2), mainMenu.%A se random e I se clever
+  %  botMenu(Nivel1,1),
+ %   botMenu(Nivel2,2),
+    startGame('C','I'), mainMenu.%A se random e I se clever
 
 % Opcao escondida para ter acesso rapido ao tabuleiro 
 managerInput(5) :-
@@ -53,11 +53,11 @@ printMainMenu :-
     write(' _______________________________________________________________________ '),nl,
     write('|                          1. Player vs Player                          |'),nl,
     write('|                                                                       |'),nl,
-    write('|                          2. Player vs Bot                             |'),nl,
+    write('|                          2. Player vs Bot Random                      |'),nl,
     write('|                                                                       |'),nl,
-    write('|                          3. Bot vs Player                             |'),nl,
+    write('|                          3. Player vs Bot Int                         |'),nl,
     write('|                                                                       |'),nl,
-	write('|                          4. Bot vs Bot                                |'),nl,
+	write('|                          4. Bot Random vs Bot Int                     |'),nl,
     write('|                                                                       |'),nl,
     write('|                          0. Exit                                      |'),nl,
     write('|_______________________________________________________________________|'),nl,nl,nl.

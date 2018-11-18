@@ -39,9 +39,9 @@ move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, Tabuleir
 * @brief (vide anterior) validar a jogada das pecas pretas
 */
 move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, black):-
-        getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
-        ValueJogador == black, 
-        write('Peca escolhida valida\n'),
+    getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
+    ValueJogador == black, 
+    write('Peca escolhida valida\n'),
     getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario),
     ValueAdversario == white,
     write('Jogada Valida'),
@@ -125,16 +125,14 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         !,
         move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  NovoTabuleiro, white),
         write('####   Valid move  ######\n'),
-        gameOver(NovoTabuleiro, black),
-        write('02').
+        gameOver(NovoTabuleiro, black).
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca white'),
         playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
 
-playJogador_1_Turno(TabuleiroInicial, _NovoTabuleiro, Nivel):-
+playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-
         write('Jogador Bot -> pecas brancas\n'), 
-        choose_move(TabuleiroInicial, _TabuleiroFinal, Nivel).
-        %jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
+        jogarLeBot(TabuleiroInicial, NovoTabuleiro).
 
 
 
@@ -167,20 +165,21 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca black'),
         playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
+%bot random
+playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):- 
+        jogarLeBot(TabuleiroInicial, NovoTabuleiro).
+%bot intel
+playJogador_2_Turno(_TabuleiroInicial,_NovoTabuleiro, 'I'):- 
+        write('Nothing done yet').
 
-
-/**
- * @brief Jogada do BOT - pecas black
- * playJogador_2_Turno(+TabuleiroInicial, -NovoTabuleiro, +'C') 
-*/
 %playJogador_2_Turno(_TabuleiroInicial, _NovoTabuleiro, 'C'):-            
 %        gameOver(Tabuleiro,black),
 %        !,
 %        anounce(black).
-playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, Nivel):-
-        write('Jogador Bot -> pecas pretas\n'), 
-        choose_move(TabuleiroInicial, _TabuleiroFinal, Nivel).
-        %jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
+%playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, Nivel):-
+%        write('Jogador Bot -> pecas pretas\n'), 
+%        choose_move(TabuleiroInicial, _TabuleiroFinal, Nivel).
+%        %jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
        
 
 

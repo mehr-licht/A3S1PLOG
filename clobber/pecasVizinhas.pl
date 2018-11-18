@@ -1,3 +1,82 @@
+
+
+value(+Board, +Player, -Value)
+
+/**
+ * jogarLeBot(+TabuleiroInicial, -TabuleiroFinal)
+ * @brief Generates a  play for the bot. Maximo de jogadas possiveis para cada peca
+ * 
+*/
+jogarBotMaximus(Tabuleiro, TabuleiroFinal):-
+    posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
+    escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
+    write('Lista para Limpar: '), write(ListaParaLimpar), nl,
+    cleanLista(ListaParaLimpar, NovaLista), %Novalista formato [[1-1]-2,[1-3]-1,[2-2]-2,[3-3]-1,[5-1]-1]
+    %escolha da peca a mover
+    write('Lista ja limpa: '), write(NovaLista), nl,   
+    
+    
+    length(NovaLista, SizeNovaLista),
+    random(0,SizeNovaLista,IndexFuture),
+    write('Index escolhido: '), write(IndexFuture), nl,
+    nth0(IndexFuture, NovaLista, [LineFuture-ColumnFuture]-_),
+    %fim da escolha da peca a mover
+    jogadasNaPosicaoPossiveis(Tabuleiro, LineFuture, ColumnFuture, white, ListaJogadasVizinhas ),
+    %escolha da direccao
+    length(ListaJogadasVizinhas, SizeNew),    
+    random(0,SizeNew,Index2),
+    write('ListaJogadasVizinhas: '), write(ListaJogadasVizinhas), nl,
+    write('index da jogada a fazer: '),write(Index2), nl,
+    nth0(Index2, ListaJogadasVizinhas, [LineNova-ColumnNova]),    
+  %  fim da escolha de direccao
+    replaceInMatrix(Tabuleiro, LineNova, ColumnNova, black, TabuleiroNovo),
+    replaceInMatrix(TabuleiroNovo, LineFuture, ColumnFuture, empty, TabuleiroFinal),
+    write('Jogou de '),
+    write(LineFuture), 
+    write(' '),
+    write(ColumnFuture),
+    write(' para '),
+    write(LineNova),
+    write(' '),
+    write(ColumnNova),
+    write(' E acabou a jogada bot'). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  testeBoard(X),findall([Line-Column],checkarPecaVizinhaValiada(X, 2, 2, white,[Line-Column]), ListaDePares).
 X = [
