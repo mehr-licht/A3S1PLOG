@@ -123,7 +123,9 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
         move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  NovoTabuleiro, white),
-        write('####   Valid move  ######\n').
+        write('####   Valid move  ######\n'),
+        gameOver(NovoTabuleiro, black),
+        write('02').
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca white'),
         playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
@@ -159,6 +161,7 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         !,
         move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, NovoTabuleiro, black),
         write('####   Valid move  ######\n').
+
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca black'),
         playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
@@ -172,9 +175,9 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
 %        gameOver(Tabuleiro,black),
 %        !,
 %        anounce(black).
-playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
+playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-
         write('Jogador Bot -> pecas pretas\n'), 
-        jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
+        jogarLeBot(TabuleiroInicial, NovoTabuleiro).
 
 
 %##################################################### »»» Anuncio de FINAL DE JOGO >> BEGIN
@@ -195,9 +198,9 @@ anunciamento(Color):-
  * @param -Looser: Color do jogador que perde
  * @param Tabuleiro: tabuleiro actual
 */
+
 gameOver(Tabuleiro, Looser):-
         Looser == black,
-        !,
         CorContraria = white,
         posicoesPecasNoTabuleiro(Tabuleiro, Looser,ListaDePecasNoTabuleiro),
         loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
@@ -206,19 +209,21 @@ gameOver(Tabuleiro, Looser):-
  %       write('ListadePares'), write(ListaDePares),nl,
 %write('ListaFinal : '), write(ListaFinal), nl.
     %    ListaDePares == [].
-        Total == 0,
+        Total =:= 0,
         !,      
         anunciamento(Looser).
 
 gameOver(Tabuleiro, Looser):-
+        Looser == white,
         CorContraria = black,
         posicoesPecasNoTabuleiro(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
         loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
  %       nl,
  %       write('white total de Jogadas'), write(Total), nl.
-        Total == 0,
+        Total =:= 0,
         !,
         anunciamento(Looser).
+gameOver( _, _).
 /**
  * loop(+Tabuleiro, +CorContraria, +Lista, -Total).
  * @brief descobre o numero total de jogadas validas 
