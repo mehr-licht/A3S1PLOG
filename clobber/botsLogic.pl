@@ -55,12 +55,12 @@ posicoesPecasNoTabuleiro(TabuleiroInicial,Color,ListaDePares):-
 
 /** 
  * jogadasNaPosicaoPossiveis(+Tabuleiro,+LineIndex,+ColumnIndex,+ColorPlayer,-ListasJogadas)
- * @brief Devolve lista com todas as jogadas possiveis validas para as pecas de color actualmente existentes no tabuleiro
+ * @brief Devolve lista com todas as jogadas possiveis validas para a peca na celula dada por linha e coluna
  * @param +Tabuleiro: tabuleiro actual
  * @param +LineIndex: indice da linha
  * @param +ColumnIndex: indice da coluna
  * @param +ColorPlayer: cor da peca
- * @param -ListasJogadas:  lista com todas as jogadas possiveis validas para as pecas de color actualmente existentes no tabuleiro) 
+ * @param -ListasJogadas:  lista com todas as jogadas possiveis validas para a peca na celula dada por linha e coluna
 */
 jogadasNaPosicaoPossiveis(TabuleiroInicial, LineIndex, ColumnIndex, ColorPlayer, ListasJogadas ):-
     findall([NewLineIndex-NewColumnIndex], seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ), ListasJogadas).
