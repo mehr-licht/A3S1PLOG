@@ -138,7 +138,7 @@ jogarLeBot(Tabuleiro, TabuleiroFinal):-
     write(NewColumnIndex),
     write(' E acabou a jogada bot'). 
 jogarLeBot(TabuleiroInicial, TabuleiroFinal):-
-    choose_move(TabuleiroInicial, TabuleiroFinal).
+    jogarLeBot(TabuleiroInicial, TabuleiroFinal).
 
 
 
