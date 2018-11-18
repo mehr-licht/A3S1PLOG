@@ -123,7 +123,9 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
         move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  NovoTabuleiro, white),
-         write('####   Valid move  ######\n').
+        write('####   Valid move  ######\n'),
+        gameOver(NovoTabuleiro, black),
+        write('02').
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca white'),
         playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
@@ -160,6 +162,7 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         !,
         move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, NovoTabuleiro, black),
         write('####   Valid move  ######\n').
+
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca black'),
         playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
