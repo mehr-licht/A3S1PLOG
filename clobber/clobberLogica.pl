@@ -124,26 +124,18 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
         move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  NovoTabuleiro, white),
-        write('####   Valid move  ######\n'),
-        gameOver(NovoTabuleiro, black).
+        write('####   Valid move  ######\n').
+       % gameOver(NovoTabuleiro, black).
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca white'),
         playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
 
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):-
         write('Jogador Bot -> pecas brancas\n'), 
-        jogarLeBot(TabuleiroInicial, NovoTabuleiro).
+        choose_move(TabuleiroInicial, NovoTabuleiro,white, _Nivel).
 
 
 
-
-/**
- * @brief Jogada do P2 - pecas black
-*/
-%playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
-%        gameOver(Tabuleiro, Winer, black),
-%        !,
-%        anounce(black).
 /**
  * playJogador_2_Turno(+TabuleiroInicial, -NovoTabuleiro, +TypeOfPlayer)
  * @brief turno do jogador 2 (pretas), pergunta qual a peca e para onde a mover, verificando validades
@@ -167,21 +159,10 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
 %bot random
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'C'):- 
-        jogarLeBot(TabuleiroInicial, NovoTabuleiro).
+       choose_move(TabuleiroInicial, NovoTabuleiro,black, _Nivel).
 %bot intel
 playJogador_2_Turno(_TabuleiroInicial,_NovoTabuleiro, 'I'):- 
         write('Nothing done yet').
-
-%playJogador_2_Turno(_TabuleiroInicial, _NovoTabuleiro, 'C'):-            
-%        gameOver(Tabuleiro,black),
-%        !,
-%        anounce(black).
-%playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, Nivel):-
-%        write('Jogador Bot -> pecas pretas\n'), 
-%        choose_move(TabuleiroInicial, _TabuleiroFinal, Nivel).
-%        %jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
-       
-
 
 %##################################################### »»» Anuncio de FINAL DE JOGO >> BEGIN
 /**
@@ -237,7 +218,7 @@ gameOver( _, _).
  */
 loop(_,_,[],0).
 loop(Tabuleiro, CorContraria, [[Line-Column]|Tail], Total):-
-        jogadasNaPosicaoPossiveis(Tabuleiro, Line, Column, CorContraria, ListaDePares ),
+        valid_moves(Tabuleiro, Line, Column, CorContraria, ListaDePares ),
         length(ListaDePares, Tamanho),
         loop(Tabuleiro, CorContraria, Tail, AuxTotal),
         Total is (AuxTotal + Tamanho).

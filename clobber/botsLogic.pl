@@ -54,7 +54,7 @@ posicoesPecasNoTabuleiro(TabuleiroInicial,Color,ListaDePares):-
     findall([LineIndex-ColumnIndex], selecionarPecaForBot(TabuleiroInicial,[LineIndex-ColumnIndex], Color), ListaDePares).
 
 /** 
- * jogadasNaPosicaoPossiveis(+Tabuleiro,+LineIndex,+ColumnIndex,+ColorPlayer,-ListasJogadas)
+ * valid_moves(+Tabuleiro,+LineIndex,+ColumnIndex,+ColorPlayer,-ListasJogadas)
  * @brief Devolve lista com todas as jogadas possiveis validas para a peca na celula dada por linha e coluna
  * @param +Tabuleiro: tabuleiro actual
  * @param +LineIndex: indice da linha
@@ -62,8 +62,8 @@ posicoesPecasNoTabuleiro(TabuleiroInicial,Color,ListaDePares):-
  * @param +ColorPlayer: cor da peca
  * @param -ListasJogadas:  lista com todas as jogadas possiveis validas para a peca na celula dada por linha e coluna
 */
-jogadasNaPosicaoPossiveis(TabuleiroInicial, LineIndex, ColumnIndex, ColorPlayer, ListasJogadas ):-
-    findall([NewLineIndex-NewColumnIndex], seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ), ListasJogadas).
+valid_moves(TabuleiroInicial, LineIndex, ColumnIndex, ColorContraria, ListasJogadas ):-
+    findall([NewLineIndex-NewColumnIndex], seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorContraria ), ListasJogadas).
 
 /***
  * Selecciona uma peca das pecas do tabuleiro
@@ -72,7 +72,7 @@ jogadasNaPosicaoPossiveis(TabuleiroInicial, LineIndex, ColumnIndex, ColorPlayer,
 escolha(_,[],[]).
 escolha(Tabuleiro,[[Line-Column]|T], [[Line-Column]-SizeLista|ListaFinal]):-
     escolha(Tabuleiro,T,ListaFinal),
-    jogadasNaPosicaoPossiveis(Tabuleiro, Line, Column, white, ListasJogadas),
+    valid_moves(Tabuleiro, Line, Column, white, ListasJogadas),
     length(ListasJogadas, SizeLista).
 
 %NovaLista formato [[1-1]-2,[1-3]-1,[2-2]-2,[3-3]-1,[5-1]-1]
@@ -89,28 +89,15 @@ cleanLista([[Line-Column]-SizeLista|ListaFinal], NovaLista):-
 posicaoPecasPretas([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]). 
 posicaoPecasBrancas([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 
-/**
- * choose_move(+Tabuleiro, -TabuleiroFinal, +Nivel)
- * @brief Escolhe o movimento do Bot consoante o nivel escolhido
- * @param +Tabuleiro: tabuleiro actual
- * @param -TabuleiroFinal: tabuleiro futuro
- * @param +Nivel: nivel escolhido para o Bot  (A=Aleatorio; I=Inteligente)
- */
-choose_move(Tabuleiro, TabuleiroFinal, Nivel):-
-    Nivel=='A',!,%aleatorio
-    jogarLeBot(Tabuleiro, TabuleiroFinal).
-
-choose_move(Tabuleiro, TabuleiroFinal, _Nivel):-
-    jogarLeBot(Tabuleiro, TabuleiroFinal). %MUDAR PARA FUNCAO INTELIGENTE
-
 
 /**
- * jogarLeBot(+TabuleiroInicial, -TabuleiroFinal)
+ * choose_move(+TabuleiroInicial, -TabuleiroFinal, +Color, +Nivel)
  * @brief Generates a random play for the bot without being clever - a black piece eats a white one
  * @param +TabuleiroInicial: tabuleiro actual
  * @param -TabuleiroFinal: tabuleiro futuro
 */
-jogarLeBot(Tabuleiro, TabuleiroFinal):-
+%( (ColorPlayer == black, ColorContraria = white); ColorPlayer == white, ColorContraria = black) )
+choose_move(Tabuleiro, TabuleiroFinal,_Color, _Nivel):-
     posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
     escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
     write('Lista para Limpar: '), write(ListaParaLimpar), nl,
@@ -122,7 +109,7 @@ jogarLeBot(Tabuleiro, TabuleiroFinal):-
     write('Index escolhido: '), write(IndexFuture), nl,
     nth0(IndexFuture, NovaLista, [LineFuture-ColumnFuture]-_),
     %fim da escolha da peca a mover
-    jogadasNaPosicaoPossiveis(Tabuleiro, LineFuture, ColumnFuture, white, ListaJogadasVizinhas ),
+    valid_moves(Tabuleiro, LineFuture, ColumnFuture, white, ListaJogadasVizinhas ),
     %escolha da direccao
     length(ListaJogadasVizinhas, SizeNew),    
     random(0,SizeNew,Index2),

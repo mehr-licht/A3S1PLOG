@@ -1,6 +1,25 @@
 
 
-value(+Board, +Player, -Value)
+myTeste([ [1-2]-1,[2-2]-3,[3-2]-2,[2-1]-4, [4-2]-2 ]).
+
+%value(Tabuleiro, +Player, -Value)
+
+%escolhaElementosComMaisJogadas(Tabuleiro,NovaLista):-
+escolhaElementosComMaisJogadas([],[],0).
+
+escolhaElementosComMaisJogadas([[Line-Column]-Index|Tail], NewList, NewIndex ):-
+    escolhaElementosComMaisJogadas(Tail,ListaDeElementosMax,MiddleIndex),
+    compare(<, MiddleIndex, Index),
+    !,
+    write(Index), nl,
+    append([[Line-Column]-Index], ListaDeElementosMax,NewList),
+    NewIndex is Index.
+escolhaElementosComMaisJogadas([[_-_]-_|Tail], NewList, MiddleIndex ):-
+    escolhaElementosComMaisJogadas(Tail, NewList, MiddleIndex).
+
+
+
+
 
 /**
  * jogarLeBot(+TabuleiroInicial, -TabuleiroFinal)
@@ -13,13 +32,9 @@ jogarBotMaximus(Tabuleiro, TabuleiroFinal):-
     write('Lista para Limpar: '), write(ListaParaLimpar), nl,
     cleanLista(ListaParaLimpar, NovaLista), %Novalista formato [[1-1]-2,[1-3]-1,[2-2]-2,[3-3]-1,[5-1]-1]
     %escolha da peca a mover
-    write('Lista ja limpa: '), write(NovaLista), nl,   
+    write('Lista ja limpa: '), write( NovaLista), nl,   
+    escolhaElementosComMaisJogadas(NovaLista,_ListaIndexesMax,0),
     
-    
-    length(NovaLista, SizeNovaLista),
-    random(0,SizeNovaLista,IndexFuture),
-    write('Index escolhido: '), write(IndexFuture), nl,
-    nth0(IndexFuture, NovaLista, [LineFuture-ColumnFuture]-_),
     %fim da escolha da peca a mover
     jogadasNaPosicaoPossiveis(Tabuleiro, LineFuture, ColumnFuture, white, ListaJogadasVizinhas ),
     %escolha da direccao
