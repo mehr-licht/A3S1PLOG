@@ -127,7 +127,6 @@ jogarLeBot(Tabuleiro, TabuleiroFinal):-
    direccaoDaJogada(Tabuleiro,[Line-Column],white, _ListaJogadasVizinhas),
 %    escolha(ListaJogadasVizinhas,NewLineIndex,NewColumnIndex),
     replaceInMatrix(_TabuleiroInicial, NewLineIndex, NewColumnIndex, black, TabuleiroNovo),
-
     replaceInMatrix(TabuleiroNovo, Line, Column, empty, TabuleiroFinal),
     write('Jogou de '),
     write(Line), 
