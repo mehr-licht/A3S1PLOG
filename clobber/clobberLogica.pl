@@ -199,7 +199,7 @@ gameOver(Tabuleiro, Looser):-
         Looser == black,
         !,
         CorContraria = white,
-        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
+        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro),
         loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
  %       nl,
   %      write('total de Jogadas'), write(Total), nl.
@@ -221,11 +221,11 @@ gameOver(Tabuleiro, Looser):-
         anunciamento(Looser).
 /**
  * loop(+Tabuleiro, +CorContraria, +Lista, -Total).
- * @brief descobre o numero total de jogadas validas do adversario
+ * @brief descobre o numero total de jogadas validas 
  * @param +Tabuleiro: tabuleiro actual
  * @param +CorContraria: cor do adversario
  * @param +Lista: celulas onde tem pecas
- * @param -Total: total de jogadas validas do adversario
+ * @param -Total: total de jogadas validas 
  */
 loop(_,_,[],0).
 loop(Tabuleiro, CorContraria, [[Line-Column]|Tail], Total):-
@@ -243,13 +243,13 @@ loop(Tabuleiro, CorContraria, [[Line-Column]|Tail], Total):-
  * @param +Jogador2: pretas
  * Chamada recursiva no fim
 */
-gameLoop(Tabuleiro, Jogador1, Jogador2):-                                        
-        printBoard(Tabuleiro),                                            
+gameLoop(Tabuleiro, Jogador1, Jogador2):- 
+        printBoard(Tabuleiro),
         playJogador_1_Turno(Tabuleiro, NovoTabuleiro, Jogador1), %    Jogador 1 ->(Tabuleiro , 'branca' ) 
+        gameOver(NovoTabuleiro, black),
         printBoard(NovoTabuleiro),
-        gameOver(NovoTabuleiro, white),
         playJogador_2_Turno(NovoTabuleiro, FinalTabuleiro, Jogador2), %  Jogador 2-> (Tabuleiro, 'preta')
-        gameOver(FinalTabuleiro, black),
+        gameOver(FinalTabuleiro, white), 
         gameLoop(FinalTabuleiro, Jogador1, Jogador2).
 
 /**
