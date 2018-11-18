@@ -1,10 +1,16 @@
 
 /**
  * @brief imprime menu inicial para futura escolha do modo de jogo
- * 
  */
 mainMenu :-
     printMainMenu, askOption, read(TeclaEntrada), managerInput(TeclaEntrada).
+
+/**
+ * @brief imprime menu de opcoes de nivel do Bot
+ * @param -Nivel: Nivel escolhido para o Bot
+ * @param +Qual: Bot para o qual se escolheu este nivel
+ */
+botMenu(Nivel,Qual) :-printBotMenu(Qual), askOption, read(Nivel).
 
 /**
  * managerInput(+opcao)
@@ -15,13 +21,17 @@ managerInput(1) :-
     startGame('P','P'), mainMenu.
 
 managerInput(2) :-
-    startGame('P','C'), mainMenu.
+    botMenu(Nivel,0),
+    startGame('P',Nivel), mainMenu.%A se random e I se clever
 
 managerInput(3) :-
-    startGame('C','P'), mainMenu.
+    botMenu(Nivel,0),
+    startGame(Nivel,'P'), mainMenu.%A se random e I se clever
 
 managerInput(4) :-
-    startGame('C','C'), mainMenu.
+    botMenu(Nivel1,1),
+    botMenu(Nivel2,2),
+    startGame(Nivel1,Nivel2), mainMenu.%A se random e I se clever
 
 % Opcao escondida para ter acesso rapido ao tabuleiro 
 managerInput(5) :-
@@ -52,7 +62,34 @@ printMainMenu :-
     write('|                          0. Exit                                      |'),nl,
     write('|_______________________________________________________________________|'),nl,nl,nl.
 
+/**
+ * @brief imprime menu de opcoes de nivel do Bot
+ * 
+ */
+printBotMenu(Qual) :-
+    Qual == 0,!,
+    nl,nl,
+    write(' _______________________________________________________________________ '),nl,
+    write('|                                                                       |'),nl,
+    write('|                        Qual o nivel do Bot?                           |'),nl,
+    write('|                                                                       |'),nl,
+    write('|                          A. Aleatorio                                 |'),nl,
+    write('|                                                                       |'),nl,
+    write('|                          I. Inteligente                               |'),nl,
+    write('|                                                                       |'),nl,
+    write('|_______________________________________________________________________|'),nl,nl,nl.
 
+printBotMenu(Qual) :-
+    nl,nl,
+    write(' _______________________________________________________________________ '),nl,
+    write('|                                                                       |'),nl,
+    write('|                        Qual o nivel do Bot '),write(Qual),write('?                          |'),nl,
+    write('|                                                                       |'),nl,
+    write('|                          A. Aleatorio                                 |'),nl,
+    write('|                                                                       |'),nl,
+    write('|                          I. Inteligente                               |'),nl,
+    write('|                                                                       |'),nl,
+    write('|_______________________________________________________________________|'),nl,nl,nl.
 /**
  * @brief pede a opcao do jogo que se pretende
  *-

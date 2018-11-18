@@ -99,6 +99,21 @@ posicaoPecasPretas([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]).
 posicaoPecasBrancas([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 
 /**
+ * choose_move(+Tabuleiro, -TabuleiroFinal, +Nivel)
+ * @brief Escolhe o movimento do Bot consoante o nivel escolhido
+ * @param +Tabuleiro: tabuleiro actual
+ * @param -TabuleiroFinal: tabuleiro futuro
+ * @param +Nivel: nivel escolhido para o Bot  (A=Aleatorio; I=Inteligente)
+ */
+choose_move(Tabuleiro, TabuleiroFinal, Nivel):-
+    Nivel=='A',!,%aleatorio
+    jogarLeBot(Tabuleiro, TabuleiroFinal).
+
+choose_move(Tabuleiro, TabuleiroFinal, _Nivel):-
+    jogarLeBot(Tabuleiro, TabuleiroFinal). %MUDAR PARA FUNCAO INTELIGENTE
+
+
+/**
  * jogarLeBot(+TabuleiroInicial, -TabuleiroFinal)
  * @brief Generates a random play for the bot without being clever - a black piece eats a white one
  * @param +TabuleiroInicial: tabuleiro actual
@@ -106,12 +121,13 @@ posicaoPecasBrancas([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 */
 jogarLeBot(Tabuleiro, TabuleiroFinal):-
     posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
-    escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
+        escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
     cleanLista(ListaParaLimpar, _NovaLista), %Novalista formato [[1-1]-2,[1-3]-1,[2-2]-2,[3-3]-1,[5-1]-1]
    % <-- vouaqui->
-    direccaoDaJogada(Tabuleiro,[Line-Column],white, _ListaJogadasVizinhas),
+   direccaoDaJogada(Tabuleiro,[Line-Column],white, _ListaJogadasVizinhas),
 %    escolha(ListaJogadasVizinhas,NewLineIndex,NewColumnIndex),
     replaceInMatrix(_TabuleiroInicial, NewLineIndex, NewColumnIndex, black, TabuleiroNovo),
+
     replaceInMatrix(TabuleiroNovo, Line, Column, empty, TabuleiroFinal),
     write('Jogou de '),
     write(Line), 

@@ -47,28 +47,28 @@ getColorMatrix(TabuleiroInicial, Line, Coluna, Color):-
 */
 checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[Line-NewColumnIndex]):-
     NewColumnIndex is Column -1,
-    between(0,5,Line),
+       between(0,5,Line),
     between(0,4,NewColumnIndex),
     getColorMatrix(TabuleiroInicial, Line, NewColumnIndex, ValueAdversario),
     ValueAdversario == Color.
 
 checkarPecaVizinhaValiada(TabuleiroInicial,Line,Column,Color,[Line-NewColumnIndex]):-
-    NewColumnIndex is Column +1,
-    between(0,5,Line),
+       NewColumnIndex is Column +1,
+       between(0,5,Line),
     between(0,4,NewColumnIndex),
     getColorMatrix(TabuleiroInicial, Line, NewColumnIndex, ValueAdversario),
     ValueAdversario == Color.
 
 checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color, [NewLineIndex-Column]):-
-    NewLineIndex is Line - 1,
-    between(0,5,NewLineIndex),
+        NewLineIndex is Line - 1,
+      between(0,5,NewLineIndex),
     between(0,4,Column),
     getColorMatrix(TabuleiroInicial, NewLineIndex,Column, ValueAdversario),
     ValueAdversario == Color.
 
 checkarPecaVizinhaValiada(TabuleiroInicial, Line,Column,Color,[NewLineIndex-Column]):-
     NewLineIndex is Line + 1,
-    between(0,5,NewLineIndex),
+        between(0,5,NewLineIndex),
     between(0,4,Column),
     getColorMatrix(TabuleiroInicial, NewLineIndex, Column, ValueAdversario),
     ValueAdversario == Color.

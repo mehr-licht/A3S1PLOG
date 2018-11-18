@@ -43,9 +43,9 @@ move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, Tabuleir
 move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, Color):-
     getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario),
     ValueAdversario == white,
-    write('Jogada Valida'),
-    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, Color, TabuleiroNovo),
-    replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
+        write('Jogada Valida'),
+        replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, Color, TabuleiroNovo),
+        replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
 
 
 /**
@@ -65,7 +65,7 @@ move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, Tabuleir
         getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueAdversario),
         ValueAdversario = ColorPlayer,
         !,
-        write('Peca escolhida valida\n').
+             write('Posicao escolhida valida\n').
 selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer):-
         write('Posicao INVALIDA - seleccionar Proxima Posicao em que esteja uma peca '),write(ColorPlayer),nl, 
         selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer).
@@ -112,7 +112,7 @@ selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPla
  * @brief turno do jogador 1 (brancas), pergunta qual a peca e para onde a mover, verificando validades
  * @param +TabuleiroInicial: tabuleiro actual
  * @param -NovoTabuleiroInicial: tabuleiro actualizado apos a jogada
- * @param +TypeOfPlayer (P=person; C=bot)
+ * @param +TypeOfPlayer (P=person; A=Bot Aleatorio; I=Bot Inteligente)  
  */
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):- 
         write('Jogador 1  -> pecas brancas\n'), 
@@ -123,14 +123,15 @@ playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex),
         !,
         move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex,  NovoTabuleiro, white),
-        write('####   Valid move  ######\n').
+         write('####   Valid move  ######\n').
 playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Posicao NAO VALIDA - tem de escolher uma peca white'),
         playJogador_1_Turno(TabuleiroInicial, NovoTabuleiro, 'P').
 
-playJogador_1_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
+playJogador_1_Turno(TabuleiroInicial, _NovoTabuleiro, Nivel):-
         write('Jogador Bot -> pecas brancas\n'), 
-        jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
+        choose_move(TabuleiroInicial, _TabuleiroFinal, Nivel).
+        %jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
 
 
 
@@ -147,7 +148,7 @@ playJogador_1_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
  * @brief turno do jogador 2 (pretas), pergunta qual a peca e para onde a mover, verificando validades
  * @param +TabuleiroInicial: tabuleiro actual
  * @param -NovoTabuleiroInicial: tabuleiro actualizado apos a jogada
- * @param +TypeOfPlayer (P=person; C=bot)
+ * @param +TypeOfPlayer (P=person; A=Bot Aleatorio; I=Bot Inteligente)
  */
 playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
         write('Jogador 2 -> pecas pretas\n'), 
@@ -172,9 +173,11 @@ playJogador_2_Turno(TabuleiroInicial, NovoTabuleiro, 'P'):-
 %        gameOver(Tabuleiro,black),
 %        !,
 %        anounce(black).
-playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, 'C'):-
+playJogador_2_Turno(TabuleiroInicial, _NovoTabuleiro, Nivel):-
         write('Jogador Bot -> pecas pretas\n'), 
-        jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
+        choose_move(TabuleiroInicial, _TabuleiroFinal, Nivel).
+        %jogarLeBot(TabuleiroInicial, _TabuleiroFinal).
+       
 
 
 %##################################################### »»» Anuncio de FINAL DE JOGO >> BEGIN
@@ -195,30 +198,32 @@ anunciamento(Color):-
  * @param -Looser: Color do jogador que perde
  * @param Tabuleiro: tabuleiro actual
 */
+
 gameOver(Tabuleiro, Looser):-
         Looser == black,
-        !,
         CorContraria = white,
-        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro),
+        posicoesPecasNoTabuleiro(Tabuleiro, Looser,ListaDePecasNoTabuleiro),
         loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
  %       nl,
   %      write('total de Jogadas'), write(Total), nl.
  %       write('ListadePares'), write(ListaDePares),nl,
 %write('ListaFinal : '), write(ListaFinal), nl.
     %    ListaDePares == [].
-        Total == 0,
+        Total =:= 0,
         !,      
         anunciamento(Looser).
 
 gameOver(Tabuleiro, Looser):-
+        Looser == white,
         CorContraria = black,
-        jogadasPossiveis(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
+        posicoesPecasNoTabuleiro(Tabuleiro, Looser,ListaDePecasNoTabuleiro), 
         loop(Tabuleiro, CorContraria, ListaDePecasNoTabuleiro, Total),
  %       nl,
  %       write('white total de Jogadas'), write(Total), nl.
-        Total == 0,
+        Total =:= 0,
         !,
         anunciamento(Looser).
+gameOver( _, _).
 /**
  * loop(+Tabuleiro, +CorContraria, +Lista, -Total).
  * @brief descobre o numero total de jogadas validas 
@@ -245,12 +250,12 @@ loop(Tabuleiro, CorContraria, [[Line-Column]|Tail], Total):-
 */
 gameLoop(Tabuleiro, Jogador1, Jogador2):- 
         printBoard(Tabuleiro),
-        playJogador_1_Turno(Tabuleiro, NovoTabuleiro, Jogador1), %    Jogador 1 ->(Tabuleiro , 'branca' ) 
-        gameOver(NovoTabuleiro, black),
-        printBoard(NovoTabuleiro),
-        playJogador_2_Turno(NovoTabuleiro, FinalTabuleiro, Jogador2), %  Jogador 2-> (Tabuleiro, 'preta')
-        gameOver(FinalTabuleiro, white), 
-        gameLoop(FinalTabuleiro, Jogador1, Jogador2).
+                playJogador_1_Turno(Tabuleiro, NovoTabuleiro, Jogador1), %    Jogador 1 ->(Tabuleiro , 'branca' ) 
+                gameOver(NovoTabuleiro, black),
+                printBoard(NovoTabuleiro),
+                playJogador_2_Turno(NovoTabuleiro, FinalTabuleiro, Jogador2), %  Jogador 2-> (Tabuleiro, 'preta')
+                gameOver(FinalTabuleiro, white), 
+                gameLoop(FinalTabuleiro, Jogador1, Jogador2).
 
 /**
  * @brief Inicia o jogo
