@@ -25,27 +25,28 @@ checkDifferenceIndexs(RowIndex,_ColumnIndex,PP_RowIndex,_PP_ColumnIndex):-
  * @param +Color -> black or white : which piece to move
  * @param -TabuleiroFinal -> board status after the move   
 */
-move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, Color):-
+move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, white):-
     getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
-    ValueJogador == Color, 
+    ValueJogador == white, 
     write('Peca escolhida valida\n'),
-    getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario),
-    ValueJogador == white , 
-    !,
+    getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario), 
     ValueAdversario == black,
     write('Jogada Valida'),
-    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, Color, TabuleiroNovo),
+    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, white, TabuleiroNovo),
     replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
 
 /*
 * @brief (vide anterior) validar a jogada das pecas pretas
 */
-move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, Color):-
+move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, TabuleiroFinal, black):-
+        getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueJogador),
+        ValueJogador == black, 
+        write('Peca escolhida valida\n'),
     getValueFromMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, ValueAdversario),
     ValueAdversario == white,
-        write('Jogada Valida'),
-        replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, Color, TabuleiroNovo),
-        replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
+    write('Jogada Valida'),
+    replaceInMatrix(TabuleiroInicial, PP_RowIndex, PP_ColumnIndex, black, TabuleiroNovo),
+    replaceInMatrix(TabuleiroNovo, RowIndex, ColumnIndex, empty, TabuleiroFinal).
 
 
 /**
@@ -237,7 +238,7 @@ gameOver( _, _).
  */
 loop(_,_,[],0).
 loop(Tabuleiro, CorContraria, [[Line-Column]|Tail], Total):-
-        jogadasValidasPorPeca(Tabuleiro, Line, Column, CorContraria, ListaDePares),
+        jogadasNaPosicaoPossiveis(Tabuleiro, Line, Column, CorContraria, ListaDePares ),
         length(ListaDePares, Tamanho),
         loop(Tabuleiro, CorContraria, Tail, AuxTotal),
         Total is (AuxTotal + Tamanho).

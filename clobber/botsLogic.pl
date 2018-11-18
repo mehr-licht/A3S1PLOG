@@ -79,21 +79,12 @@ escolha(Tabuleiro,[[Line-Column]|T], [[Line-Column]-SizeLista|ListaFinal]):-
 /**
  * cleanLista(+ListaIndexes,+ListaDePares, -NovaLista) 
 */
+
 cleanLista([[Line-Column]-SizeLista|ListaFinal], NovaLista):-
-    delete([[Line-Column]-SizeLista|ListaFinal],[_-_]-0, NovaLista).
-
-
-/**
- * direccaoDaJogada(+Tabuleiro,+LinhaEColuna,-Color, -ListaJogadasVizinhas)
- * @brief escolha a jogada seguinte do bot
- * @param +Tabuleiro: tabuleiro actual
- * @param +LinhaEColuna: celula vizinha
- * @param -Color: cor da peca na celula vizinha
- * @param -ListaJogadasVizinhas: jogadas possiveis na celula vizinha
-* Devolve todas as solucoes possiveis para aqueler valor
-*/
-direccaoDaJogada(Tabuleiro,[Line-Column],Color, ListaJogadasVizinhas):-
-    findall([NewLineIndex-NewColumnIndex],checkarPecaVizinhaValiada( Tabuleiro, Line, Column, Color,[NewLineIndex-NewColumnIndex]), ListaJogadasVizinhas).
+    repeat,
+    delete([[Line-Column]-SizeLista|ListaFinal],[_-_]-0, NovaLista),
+    \+( member([[_-_]-0], NovaLista) ).
+    
 
 posicaoPecasPretas([[1-1],[1-3],[2-2],[2-4],[3-3],[5-1]]). 
 posicaoPecasBrancas([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
@@ -121,34 +112,35 @@ choose_move(Tabuleiro, TabuleiroFinal, _Nivel):-
 */
 jogarLeBot(Tabuleiro, TabuleiroFinal):-
     posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
-        escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
-    cleanLista(ListaParaLimpar, _NovaLista), %Novalista formato [[1-1]-2,[1-3]-1,[2-2]-2,[3-3]-1,[5-1]-1]
-   % <-- vouaqui->
-   direccaoDaJogada(Tabuleiro,[Line-Column],white, _ListaJogadasVizinhas),
-%    escolha(ListaJogadasVizinhas,NewLineIndex,NewColumnIndex),
-    replaceInMatrix(_TabuleiroInicial, NewLineIndex, NewColumnIndex, black, TabuleiroNovo),
-    replaceInMatrix(TabuleiroNovo, Line, Column, empty, TabuleiroFinal),
+    escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
+    write('Lista para Limpar: '), write(ListaParaLimpar), nl,
+    cleanLista(ListaParaLimpar, NovaLista), %Novalista formato [[1-1]-2,[1-3]-1,[2-2]-2,[3-3]-1,[5-1]-1]
+    %escolha da peca a mover
+    write('Lista ja limpa: '), write(NovaLista), nl,   
+    length(NovaLista, SizeNovaLista),
+    random(0,SizeNovaLista,IndexFuture),
+    write('Index escolhido: '), write(IndexFuture), nl,
+    nth0(IndexFuture, NovaLista, [LineFuture-ColumnFuture]-_),
+    %fim da escolha da peca a mover
+    jogadasNaPosicaoPossiveis(Tabuleiro, LineFuture, ColumnFuture, white, ListaJogadasVizinhas ),
+    %escolha da direccao
+    length(ListaJogadasVizinhas, SizeNew),    
+    random(0,SizeNew,Index2),
+    write('ListaJogadasVizinhas: '), write(ListaJogadasVizinhas), nl,
+    write('index da jogada a fazer: '),write(Index2), nl,
+    nth0(Index2, ListaJogadasVizinhas, [LineNova-ColumnNova]),    
+  %  fim da escolha de direccao
+    replaceInMatrix(Tabuleiro, LineNova, ColumnNova, black, TabuleiroNovo),
+    replaceInMatrix(TabuleiroNovo, LineFuture, ColumnFuture, empty, TabuleiroFinal),
     write('Jogou de '),
-    write(Line), 
+    write(LineFuture), 
     write(' '),
-    write(Column),
+    write(ColumnFuture),
     write(' para '),
-    write(NewLineIndex),
+    write(LineNova),
     write(' '),
-    write(NewColumnIndex),
+    write(ColumnNova),
     write(' E acabou a jogada bot'). 
-jogarLeBot(TabuleiroInicial, TabuleiroFinal):-
-    jogarLeBot(TabuleiroInicial, TabuleiroFinal).
-
-
-
-
-
-
-
-
-
-
 
 
 /**
@@ -166,24 +158,32 @@ jogarLeBot(TabuleiroInicial, TabuleiroFinal):-
 seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ):-
     NewLineIndex is LineIndex,
     NewColumnIndex is ColumnIndex -1,
+    NewColumnIndex >= 0,
+    NewColumnIndex =< 4,
     getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
     ValueAdversario == ColorPlayer.
 %norte
 seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ):-
     NewLineIndex is LineIndex,
     NewColumnIndex is ColumnIndex +1,
+    NewColumnIndex >= 0,
+    NewColumnIndex =< 4,
     getValueFromMatrix(TabuleiroInicial, LineIndex, NewColumnIndex, ValueAdversario),
     ValueAdversario == ColorPlayer.
 %oeste
 seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ):-
     NewLineIndex is LineIndex-1,
     NewColumnIndex is ColumnIndex,
+    NewLineIndex >= 0,
+    NewLineIndex =< 5,
     getValueFromMatrix(TabuleiroInicial, NewLineIndex, ColumnIndex, ValueAdversario),
     ValueAdversario == ColorPlayer.
 %este
 seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ):-
     NewLineIndex is LineIndex+1,
     NewColumnIndex is ColumnIndex,
+    NewLineIndex >= 0,
+    NewLineIndex =< 5,
     getValueFromMatrix(TabuleiroInicial, NewLineIndex, ColumnIndex, ValueAdversario),
     ValueAdversario == ColorPlayer.
 
