@@ -46,21 +46,18 @@ selecionarPecaForBot(TabuleiroInicial, [LineIndex-ColumnIndex], ColorPlayer):-
  * @param TabuleiroInicial: tabuleiro actual
  * @param Color: cor da peca
  * @param ListaDePares: posicoes de todas as pecas de Color actualmente no tabuleiro
- * Devolve todas as posicoes das pecas no tabuleiro
 */
 posicoesPecasNoTabuleiro(TabuleiroInicial,Color,ListaDePares):-
     findall([LineIndex-ColumnIndex], selecionarPecaForBot(TabuleiroInicial,[LineIndex-ColumnIndex], Color), ListaDePares).
 
 /** 
- * jogadasNaPosicaoPossiveis(+Tabuleiro,+LineIndex,+ColumnIndex,+Color,-NewList)
+ * jogadasNaPosicaoPossiveis(+Tabuleiro,+LineIndex,+ColumnIndex,+ColorPlayer,-ListasJogadas)
  * @brief Devolve lista com todas as jogadas possiveis validas para as pecas de color actualmente existentes no tabuleiro
  * @param +Tabuleiro: tabuleiro actual
  * @param +LineIndex: indice da linha
  * @param +ColumnIndex: indice da coluna
- * @param +Color: cor da peca
- * @param -NewList:  lista com todas as jogadas possiveis validas para as pecas de color actualmente existentes no tabuleiro
- * Devolve as jogadas na PosicaoPossiveis
- * jogadasNaPosicaoPossiveis(+TabuleiroInicial, +LineIndex, +ColumnIndex, +ColorPlayer, -ListasJogadas ) 
+ * @param +ColorPlayer: cor da peca
+ * @param -ListasJogadas:  lista com todas as jogadas possiveis validas para as pecas de color actualmente existentes no tabuleiro) 
 */
 jogadasNaPosicaoPossiveis(TabuleiroInicial, LineIndex, ColumnIndex, ColorPlayer, ListasJogadas ):-
     findall([NewLineIndex-NewColumnIndex], seleccionarBotJogada(TabuleiroInicial, LineIndex, ColumnIndex, NewLineIndex, NewColumnIndex, ColorPlayer ), ListasJogadas).
