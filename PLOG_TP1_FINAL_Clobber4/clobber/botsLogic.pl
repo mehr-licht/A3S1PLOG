@@ -99,7 +99,7 @@ posicaoPecasBrancas([[1-2],[2-1],[3-0],[3-1],[4-1],[4-3]]).
 
 % ( (ColorPlayer == black, ColorContraria = white); ColorPlayer == white, ColorContraria = black) )
                                                 %Nivel » 0
-choose_move(Tabuleiro, TabuleiroFinal,_Color, _Nivel):-
+choose_move(Tabuleiro, TabuleiroFinal, Color, Nivel):-
     posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
     escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
     write('Lista para Limpar: '), write(ListaParaLimpar), nl,
