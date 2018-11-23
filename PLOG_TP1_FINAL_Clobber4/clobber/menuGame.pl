@@ -1,18 +1,18 @@
 
 
-printTutorialMainMenu:-
+printTutorialMainMenu:- 
     printFirstMainMenu,
     askOption, 
     repeat,
-    (
     read(TeclaEntrada),
-     (
+    (
       ( TeclaEntrada == 0, write('OPCAO VALIDA') )
         ;
         (TeclaEntrada \= 0, write('Opcao Invalida. escreva ?- 0.')
       )      
-    ),
-    managerInputTutorial(TeclaEntrada).
+     ),      
+    managerInputTutorial(TeclaEntrada)
+    .
 
 
 %managerInputTutorial(_OutroInput):-
@@ -52,9 +52,6 @@ managerInput(3) :-
 %managerInput(4) :-
 %    startGame('C','I'), mainMenu.%A se random e I se clever
 
-% Opcao escondida para ter acesso rapido ao tabuleiro 
-managerInput(5) :-
-    write('valid option!\n\n'), printBoard(_X), write('\nEntrou\n').
 
 managerInput(0) :-
     write('\nExiting...\n\n').
@@ -82,9 +79,10 @@ printFirstMainMenu:-
 
 /**
  * @brief imprime o menu principal com as opcoes que podem ser escolhidas
- * 
+ *
+ */ 
  printMainMenu :-
- */
+
     nl,nl,
     write(' __________________________________________________________________________ '),nl,
     write('|                          1. Player. vs. Player.                          |'),nl,

@@ -8,12 +8,15 @@
 * @param +PP_ColumnIndex: proxima coluna
 */
 checkDifferenceIndexs(RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex):-
-        RowIndex - PP_RowIndex =:= 0,
-        !,
-        abs(ColumnIndex - PP_ColumnIndex) =:= 1.
-checkDifferenceIndexs(RowIndex,_ColumnIndex,PP_RowIndex,_PP_ColumnIndex):-
-        abs(RowIndex - PP_RowIndex) =:= 1.
-        
+        (
+        ( RowIndex - PP_RowIndex ) =:= 0,       
+        abs(ColumnIndex - PP_ColumnIndex) =:= 1 
+        )
+        ;
+        ( (ColumnIndex - PP_ColumnIndex) =:= 0, 
+         abs(RowIndex - PP_RowIndex) =:= 1
+        ).
+
 /**
  * move(+TabuleiroInicial, +RowIndex, +ColumnIndex, +PP_RowIndex, +PP_ColumnIndex, -TabuleiroFinal, +Color)
  * @brief Validar  e executar a jogada das pecas brancas
@@ -64,9 +67,9 @@ move(TabuleiroInicial, RowIndex,ColumnIndex,PP_RowIndex,PP_ColumnIndex, Tabuleir
         ColumnIndex is NewColumn -1,
         RowIndex is NewRow -1,
         getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueAdversario),
-        ValueAdversario = ColorPlayer,
+        ValueAdversario == ColorPlayer,
         !,
-             write('Posicao escolhida valida\n').
+        write('Posicao escolhida valida\n').
 selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer):-
         write('Posicao INVALIDA - seleccionar Proxima Posicao em que esteja uma peca '),write(ColorPlayer),nl, 
         selecionarProximaPosicao(TabuleiroInicial, RowIndex, ColumnIndex, ColorPlayer).
@@ -90,7 +93,7 @@ selecionarPeca(TabuleiroInicial, NewRow, NewColumn, RowIndex, ColumnIndex, Color
         ColumnIndex is NewColumn -1,
         RowIndex is NewRow -1,
         getValueFromMatrix(TabuleiroInicial, RowIndex, ColumnIndex, ValueAdversario),
-        ValueAdversario = ColorPlayer,
+        ValueAdversario == ColorPlayer,
         !,
         write('Peca escolhida valida\n').
 selecionarPeca(TabuleiroInicial, NewRow,NewColumn,RowIndex,ColumnIndex, ColorPlayer):-

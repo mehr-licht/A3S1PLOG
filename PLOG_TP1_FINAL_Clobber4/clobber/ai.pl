@@ -27,7 +27,7 @@ escolhaElementosComMaisJogadas([[_-_]-_|Tail], NewList, MiddleIndex ):-
 * 2) Por cada uma das posicoes possiveis ir buscar o length de jogadas possivies nessa peca » somar ao Value
 * o bot vai seguir o caminho da arvore que tem mais jogadas possiveis, mas vai deteriorar as pecas isoladas 
 */
-choose_move(Tabuleiro, TabuleiroFinal, Color , 1):-
+choose_move(Tabuleiro, TabuleiroFinal, _Color , 1):-
     posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
     escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
     write('Lista para Limpar: '), write(ListaParaLimpar), nl,
@@ -62,6 +62,47 @@ choose_move(Tabuleiro, TabuleiroFinal, Color , 1):-
 
 
 
+/**
+ * choose_move(+TabuleiroInicial, -TabuleiroFinal, +Color, +Nivel)
+ * @brief Generates a random play for the bot without being clever - a black piece eats a white one
+ * @param +TabuleiroInicial: tabuleiro actual
+ * @param -TabuleiroFinal: tabuleiro futuro
+*/
+
+% ( (ColorPlayer == black, ColorContraria = white); ColorPlayer == white, ColorContraria = black) )
+                                                %Nivel » 0
+choose_move(Tabuleiro, TabuleiroFinal, _Color, Nivel):-
+    Nivel \= 1,
+    posicoesPecasNoTabuleiro(Tabuleiro,black,ListaDePares),
+    escolha(Tabuleiro, ListaDePares,ListaParaLimpar),
+    write('Lista para Limpar: '), write(ListaParaLimpar), nl,
+    cleanLista(ListaParaLimpar, NovaLista), %Novalista formato [[1-1]-2,[1-3]-1,[2-2]-2,[3-3]-1,[5-1]-1]
+    %escolha da peca a mover
+    write('Lista ja limpa: '), write(NovaLista), nl,   
+    length(NovaLista, SizeNovaLista),
+    random(0,SizeNovaLista,IndexFuture),
+    write('Index escolhido: '), write(IndexFuture), nl,
+    nth0(IndexFuture, NovaLista, [LineFuture-ColumnFuture]-_),
+    %fim da escolha da peca a mover
+    valid_moves(Tabuleiro, LineFuture, ColumnFuture, white, ListaJogadasVizinhas ),
+    %escolha da direccao
+    length(ListaJogadasVizinhas, SizeNew),    
+    random(0,SizeNew,Index2),
+    write('ListaJogadasVizinhas: '), write(ListaJogadasVizinhas), nl,
+    write('index da jogada a fazer: '),write(Index2), nl,
+    nth0(Index2, ListaJogadasVizinhas, [LineNova-ColumnNova]),    
+  %  fim da escolha de direccao
+    replaceInMatrix(Tabuleiro, LineNova, ColumnNova, black, TabuleiroNovo),
+    replaceInMatrix(TabuleiroNovo, LineFuture, ColumnFuture, empty, TabuleiroFinal),
+    write('Jogou de '),
+    write(LineFuture), 
+    write(' '),
+    write(ColumnFuture),
+    write(' para '),
+    write(LineNova),
+    write(' '),
+    write(ColumnNova),
+    write(' E acabou a jogada bot'). 
 
 
 
