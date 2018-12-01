@@ -4,7 +4,7 @@
 :- consult('utilities.pl').
 :- consult('input.pl').
 :- consult('botsLogic.pl').
-:- consult('pecasVizinhas.pl').
+:- consult('ai.pl').
 :- use_module(library(between)).
 :- use_module(library(random)).
 :- use_module(library(system)).
