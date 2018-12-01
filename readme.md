@@ -4,15 +4,17 @@
 
 
 # **TODO**
-documentar\
-botsLogic.pl\
-pecasVizinhas.pl\
-utilities.pl
+
+Todo print the first variable Boards 
 
 
-
+Fuction to build variable tables added
+Update thre report
 
 ### Notes
+
+CLOBBER with several errors and bugs LOLOLOL
+ 
 
 #Agrupamento de funcoes
 
