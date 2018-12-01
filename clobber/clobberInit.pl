@@ -14,5 +14,5 @@
  * @brief lanca o jogo
  */
 play :-
-      mainMenu.
+      printTutorialMainMenu.
 

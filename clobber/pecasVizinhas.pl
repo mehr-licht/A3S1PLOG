@@ -1,6 +1,6 @@
 
 
-value(+Board, +Player, -Value)
+%value(+Board, +Player, -Value)
 
 /**
  * jogarLeBot(+TabuleiroInicial, -TabuleiroFinal)

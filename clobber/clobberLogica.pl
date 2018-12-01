@@ -203,6 +203,7 @@ anunciamento(Color):-
 */
 
 gameOver(Tabuleiro, Looser):-
+        printBoard(),
         Looser == black,
         CorContraria = white,
         posicoesPecasNoTabuleiro(Tabuleiro, Looser,ListaDePecasNoTabuleiro),
