@@ -65,7 +65,11 @@ puzzle1(Vars):-
 %DANGER
     
 
-
-
+sol(A,B,C):-
+    domain([A,B,C],1,1000),
+    A*B*C #= A+B+C,
+    % C#>=B, B#>=A,
+    %Eliminar simetrias
+    labeling([],[A,B,C]).
     
     
