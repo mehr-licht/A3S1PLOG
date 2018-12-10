@@ -1,15 +1,12 @@
 
 makingOfBoard(SizeInput):-
-    makeBoard(SizeInput, Tabuleiro, NewSize),
-    printMatrix(Tabuleiro, NewSize),
-    write('Well Done').
+    makeBoard(SizeInput, Tabuleiro, NewSize), %NewSize is SizeInput + 2
+    adjustBoard(Tabuleiro, NewTabuleiro,NewSize),
+  %  printMatrix(NewTabuleiro, NewSize), -> print an empty N-size matrix filled with zeros
+    fillSides(NewTabuleiro, NewSize, FinalTabuleiro),
+    solvingMiddle(FinalTabuleiro,NewSize).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Print Tabuleiro
-/**
- * @brief predicado de preenchimento da casa vazia
- * @param S: simbolo a ser imprimido
- */
-symbol(empty,S) :- S =' . '.
 
 /**
  * printMatrix(Tabuleiro, N) 
@@ -22,8 +19,7 @@ printMatrix([Head|Tail], N) :-
     write('  '),   
     N1 is N - 1,
     write(' | '),
-    printLine(Head),
-    write('\n   |---|---|---|---|\n'),
+    printLine(Head),nl,
     printMatrix(Tail, N1).
 
 /**
@@ -37,13 +33,24 @@ printLine([Head|Tail]) :-
     printLine(Tail).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Build Tabuleiro
+/**
+ * @brief predicado de preenchimento da casa vazia nos 4 cantos
+ * @param adjustBoard(+Tabuleiro,-NovoTabuleiro,+SizeInput)
+ */
+adjustBoard(Tabuleiro,NovoTabuleiro,SizeInput):-
+    NewSizeInput is SizeInput - 1,
+    replaceInMatrix(Tabuleiro, 0, 0, '.', TabuleiroUm),
+    replaceInMatrix(TabuleiroUm, NewSizeInput, NewSizeInput, '.', TabuleiroDois),
+    replaceInMatrix(TabuleiroDois, 0, NewSizeInput, '.', TabuleiroTres),
+    replaceInMatrix(TabuleiroTres, NewSizeInput, 0, '.', NovoTabuleiro).
+    
 
 /**
  * makeBoard(+SizeInput, -Tabuleiro, -NewSize)
  * param SizeInput -> Numero de linhas e de colunas 
  * construi ja as listas para as solucoes nas celulas limite
 */
-makeBoard(SizeInput, Tabuleiro,NewSize):-
+makeBoard(SizeInput, Tabuleiro, NewSize):-
     NewSize is SizeInput + 2,
     buildLists(0, NewSize, List), %se for 2X2 constroi uma lista de 4 valores [] em qe S1 A1 A2 S2
     buildMatrix(List, NewSize, Tabuleiro).
