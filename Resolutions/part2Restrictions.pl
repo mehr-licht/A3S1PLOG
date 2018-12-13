@@ -12,16 +12,21 @@ soma([A1,A2,A3,A4,A5,A6,A7,A8,A8]):-
     labeling([],[A1,A2,A3,A4,A5,A6,A7,A8,A8]).
 
 soma1:-
-    Vars = [A1,A2,A3,A4,A5,A6,A7,A8,A9],
+    Vars = [A1,A2,A3,
+            A4,A5,A6,
+            A7,A8,A9],
     domain(Vars,1,9),
     all_distinct(Vars),
+    %horizontais
     A1+A2+A3 #= S,
     A4+A5+A6 #= S,
     A7+A8+A9 #= S,
+    %verticias
     A1+A4+A7 #= S,
     A2+A5+A8 #= S,
-    A1+A5+A9 #= S,
     A3+A6+A9 #= S,
+    %diagonais
+    A1+A5+A9 #= S,
     A7+A5+A3 #= S,
     labeling([],Vars),
     write(Vars).

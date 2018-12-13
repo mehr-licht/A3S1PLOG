@@ -42,19 +42,11 @@ getValueFromList([_H|T], Index, Value) :-
 
 %########################################################################## SETS
 /**
- * 
+ * Devolve uma coluna da matrix
+ * getColumnFromMatrix -> only for Search and Find use 
 */
-%setColumnAux([_|_],1, [H|_], H):-!.
-%setColumnAux([_|T],Index, [_|TList],X):-
-%    Index1 is Index-1,
-%    setColumnAux(T,Index1, TList, X).
-
-%setColumnMatrix([],1,_,[]).
-%setColumnMatrix([H|T], Index,Lista, [R|X]):-
-%    NewIndex is Index-1,
-%    setColumnAux(H, Index,Lista, R), 
-%    setColumnMatrix(T,NewIndex,Lista,X).
-
+% FOR GET COLUMNS USE PREDICATE TRANSPOSE ->transpose(+Tabuleiro, -TabTransposto) with predicate getLineFromMatrix
+    
 /**
  * Sunstitui uma linha inteira da matrix
 */

@@ -10,12 +10,7 @@ fillSides(Tabuleiro, NewSize, FinalTabuleiro):-
     fillLeft(InterTab1,NewSize,InterTab2),
     fillRight(InterTab2,NewSize,InterTab3),        
     adjustBoard(InterTab3, FinalTabuleiro,NewSize).
-      %  fillTop
-      %  fillLeft
-      %  fillRight
-      %  fillButtom
-
-%fillColumnLeft(Tabuleiro, NewSize, ColumnNumber, NewTabuleiro):-
+    
 
 /**
  * Se o o tabuleiro for 4x4, o random nos sides vai escolher entre 0 e 3 pois o centro vai ser 3x3
@@ -55,5 +50,5 @@ randomLists(Range, RangeRandom, NewLista):-
     C1 is Range-1,    
     random(0, RangeRandom, U),
     NewLista = [U|T],    
-    geraL(C1, RangeRandom, T).   
+    randomLists(C1, RangeRandom, T).   
 
