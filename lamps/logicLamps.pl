@@ -1,9 +1,24 @@
 /**
  * 
+ * 
 */
 solvingMiddle(FinalTabuleiro,NewSize):-
     printMatrix(FinalTabuleiro,NewSize),      
     write('wellDone').
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Calculo da distancia da iluminacao entre a Lampada e Casa iluminada
@@ -37,9 +52,23 @@ calculoDistancia(LinhaY, ColunaY, LinhaX, ColunaX, Final):-
     Final is 0.
 
 
-substituirValues(Lista):-
-    length(Lista, Range),
-    maplist(=(random(0,Range)), Lista).   
+/**
+ * Eliminar elementos ParIndexes que tem como RANGE zero
+ * @param [H|T] ListaRange da funcao casasIluminadas sob a forma (linha-coluna)-range
+ * @param [Lista|New] Devolve uma lista de listas em que cada elemento corresponde a uma celula central
+ * conteudo as lampadas que a iluminam e o range.
+*/
+cleaningAuxZeroRange([],[]).
+cleaningAuxZeroRange([ParIndexes-Range|T],[ParIndexes-Range|Lista]):-
+    Range =\= 0,
+    !,
+    cleaningAuxZeroRange(T,Lista).
+cleaningAuxZeroRange([_-_|T],Lista):-cleaningAuxZeroRange(T,Lista).
+
+cleaningZeroRange([],[]).
+cleaningZeroRange([H|T],[Lista|New]):-
+        cleaningAuxZeroRange(H,Lista),
+        cleaningZeroRange(T,New).
 
 /** Funcao de auxilio a casasIluminadas
  * @param (Lin-Col)-Vl Celula central do tabuleiro (Indice_LINHA-Indice_COLUNA)-ValorInicial
@@ -59,16 +88,14 @@ addRange((Lin-Col)-Vl, [(Lin2-Col2)| T ],[ ((Lin2-Col2)- Range) | NewLista]):-
  * e o elemento eh uma lista com a lampada e a respectiva distancia entre essa celula para todas as lampadas
  *
  * listaIluminadas(+TabuleiroCentral, +Lampadas, -ListaRange -> Listas de Listas Ordenacao atraves do tab  (L-C)-Range 
+ * Uso consola lampadasIndexes(4, Lista1),tabuleiroTeste(4,Lista2),casasIluminadas(Lista2,Lista1, NewLista) nht1 (1,NewLista,Elem)
+ * Ha medida que aumentamos a dimensao
 */
 casasIluminadas([],_,[]).
 casasIluminadas([H|T], ListLamp, [ListaInfluencias|NewLista]):-
             addRange(H, ListLamp, ListaInfluencias),
             casasIluminadas(T, ListLamp,NewLista ).                
 
-% List of given numbers already on the board (Linha,Coluna, Number)
-tabuleiroCentral([(1-1)-1,(1-2)-1,(2-1)-3,(2-2)-2]).
-% Linha Col N1    N2    E1    E2    S1   S2     W1    W2
-lampadas([(0-1),(0-2),(1-3),(2-3),(3-2),(3-1),(2-0),(1-0)   ]).
 
 %myCelula((Linha-Coluna)-ValorCelula).
 %tabuleiro 4x4
@@ -78,33 +105,13 @@ lampadas([(0-1),(0-2),(1-3),(2-3),(3-2),(3-1),(2-0),(1-0)   ]).
 %myCelula(X-Y).     X = 4-4, Y = 6 ?
 % celulasSol [  [0-1,N1],[0-2,N2],[1-3,E3],[2-3,E4],[3-2,S5],[3-1,S6],[2-0,S7],[1-0,S8] ]
 %vars([N1,N2,E3,E4,S5,S6,W7,W8]).
+%testUnitarioV8(Vars):-
+%    VarsNumber is 4 * 2,
+%    Distancia is 4,
+%    length(Vars,8),
+%    Tab = [1,1,2,3],
 
-/**
- * As an example of a constraint that uses reification,
- * consider exactly(X,L,N) which is true if X occurs exactly N times in the list L.
-*/
-exactly(_, [], 0).
-exactly(X, [Y|L], N) :-
-    X #=< Y #<=> B,
-    N #= M+B,
-    exactly(X, L, M).
-
-
-
-testUnitarioV2(Vars):-
-    Vars = [N1,E1,S1,W1],
-    ValorCelula #= 2,
-    Distancia #= 1,                 
-    domain(Vars,0,2),
-    (Distancia #>= N1) #<=> B, %V = [0,0,0,1] ? ;
-    (Distancia #>= E1) #<=> B, %V = [0,0,1,0] ? ;
-    (Distancia #>= S1) #<=> B, %V = [0,1,0,0] ? ;
-    (Distancia #>= W1) #<=> B, %V = [1,0,0,0] ? ;
-    ValorCelula #= (N1 + E1 +S1 + W1),
-    labeling([],Vars).
-
-
-/**
+/** RESOLUCAO CONFIRMADA
  * Conclusoes deste teste unitario: variavel igual vai influenciar o resultado de todas as equivalencia. 
  * Este mesmo resultado eh influenciado consoante se usa < ou >
  * Note-se que se B na equivalencia so resulta se X1 #=<Distancia
@@ -123,7 +130,7 @@ testUnitario(Vars):-
     labeling([],Vars).
 
 /**
- * RESOLUCAO CONVFIRMADA
+ * RESOLUCAO CONFIRMADA
 */
 testUnitarioV8(Vars):-
     Vars = [N1,N2,E1,E2,S1,S2,W1,W2],
@@ -172,27 +179,4 @@ calc4(W2,E2,W1,N1,S1,S2,Dist1,Distancia,ValorCelula4):-
     (Dist1 #=< W1) #<=> B5,
     (Dist1 #=< W2) #<=> B6,
     ValorCelula4 #= B1 + B2 + B3 + B4 + B5 + B6.
-                    
-
-%tabuleiroCentral(X),vars(Y),posicaoSolucoes(Z),testUni(X, Y,Z)
-testUni(Tabuleiro, Vars, PosicaoSoluc):-
-    domain(Vars,0,2),
-    listaCasasIluminadas(Tabuleiro,PosicaoSoluc),
-    labeling([],Vars).
-
-%quad([_,_,_,_],0).
-%quad([A,B,C,D | T],Count):-
-%    (A#=2#/\B#=3#/\C#=3#/\D#=4)#<=>Bin,
-%    quad([A,B,C,D | T],C2),Count #=C2+Bin. 
-
-%countNew(Val,List,Count,C):-
-%    countAUX(Val, List,Count,0).
-
-%countAUX(_,[],C,C).
-%countAUX(Val,[H|T],Count,Temp):-
-%    Val #=#<=> B_,
-%    Temp2 #= Temp +B,
-%    countAUX(Val,T,Count,Temp2).
-    
-    
     
