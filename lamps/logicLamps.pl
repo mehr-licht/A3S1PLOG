@@ -85,7 +85,7 @@ lampadas([(0-1),(0-2),(1-3),(2-3),(3-2),(3-1),(2-0),(1-0)   ]).
 */
 exactly(_, [], 0).
 exactly(X, [Y|L], N) :-
-    X #= Y #<=> B,
+    X #=< Y #<=> B,
     N #= M+B,
     exactly(X, L, M).
 
@@ -104,17 +104,21 @@ testUnitarioV2(Vars):-
     labeling([],Vars).
 
 
-
+/**
+ * Conclusoes deste teste unitario: variavel igual vai influenciar o resultado de todas as equivalencia. 
+ * Este mesmo resultado eh influenciado consoante se usa < ou >
+ * Note-se que se B na equivalencia so resulta se X1 #=<Distancia
+ * Se nas equivalencias tiver BX entao so resulta se X1 #>=Distancia
+*/
 testUnitario(Vars):-
     Vars = [N1,E1,S1,W1],
- %   Tabuleiro = [1-1],
-    ValorCelula #= 2,
+    ValorCelula #= 2, %mudanca desta variavel provoca alteracoes em Vars correctas
     Distancia #= 1,                 
     domain(Vars,0,1),
-    (Distancia #>= N1) #<=> B, %V = [0,0,0,1] ? ;
-    (Distancia #>= E1) #<=> B, %V = [0,0,1,0] ? ;
-    (Distancia #>= S1) #<=> B, %V = [0,1,0,0] ? ;
-    (Distancia #>= W1) #<=> B, %V = [1,0,0,0] ? ;
+    (N1 #>= Distancia) #<=> B1, %V = [0,0,0,1] ? ;
+    (E1 #>= Distancia) #<=> B2, %V = [0,0,1,0] ? ;
+    (S1 #>= Distancia) #<=> B3, %V = [0,1,0,0] ? ;
+    (W1 #>= Distancia) #<=> B4, %V = [1,0,0,0] ? ;
     ValorCelula #= (N1 + E1 +S1 + W1),
     labeling([],Vars).
 
@@ -123,63 +127,63 @@ testUnitarioV8(Vars):-
  %   Tabuleiro = [1-1],
     ValorCelula1 #= 1,
     ValorCelula2 #= 1,
- %   ValorCelula3 #= 2,
- %   ValorCelula4 #= 3,
+    ValorCelula3 #= 2,
+    ValorCelula4 #= 3,
     Distancia #= 2,                 
     Dist1 #= 1,
     domain(Vars,0,2),
     
-    ValorCelula1 #= (N1 + N2 + E1 + S2 + W1 + W2),
-    ValorCelula2 #= (N1 + N2 + E1 + E2 + S1 + W2),
-   % ValorCelula3 #= (E1 + E2 + S1 + S2 + N2 + W1),
-   % ValorCelula4 #= (N1 + E2 + S1 + S2 + W1 + W2),
-    (Dist1 #>= N1) #<=> B,
-    (Dist1 #>= N2) #<=> B,
-    (Distancia #>= E1) #<=> B,
-    (Distancia #>= E2) #<=> B,
-    (Distancia #>= S1) #<=> B,
-    (Distancia #>= S2) #<=> B,
-    (Dist1 #>= W1) #<=> B,
-    (Dist1 #>= W2) #<=> B,
+ %   ValorCelula1 #= (N1 + N2 + E1 + S2 + W1 + W2),
+ %   ValorCelula2 #= (N1 + N2 + E1 + E2 + S1 + W2),
+ %   ValorCelula3 #= (E1 + E2 + S1 + S2 + N2 + W1),
+ %   ValorCelula4 #= (N1 + E2 + S1 + S2 + W1 + W2),
+ %   (Dist1 #>= N1) #<=> B,
+ %   (Dist1 #>= N2) #<=> B,
+ %   (Distancia #>= E1) #<=> B,
+ %   (Distancia #>= E2) #<=> B,
+ %   (Distancia #>= S1) #<=> B,
+ %   (Distancia #>= S2) #<=> B,
+ %   (Dist1 #>= W1) #<=> B,
+ %   (Dist1 #>= W2) #<=> B,
 
-   % calc1(N1,N2,E1,S2,W1,W2,Dist1,Distancia),
-   % calc2(N1,N2,E1,E2,S1,W2,Dist1,Distancia),
-   % calc3(E1,E2,W1,N2,S1,S2,Dist1,Distancia),
-   % calc4(W2,E2,W1,N1,S1,S2,Dist1,Distancia),
+    calc1(N1,N2,E1,S2,W1,W2, Dist1, Distancia, ValorCelula1),
+    calc2(N1,N2,E1,E2,S1,W2, Dist1, Distancia, ValorCelula2),
+    calc3(E1,E2,W1,N2,S1,S2, Dist1, Distancia, ValorCelula3),
+    calc4(W2,E2,W1,N1,S1,S2, Dist1, Distancia, ValorCelula4),
     labeling([],Vars).
 
-calc1(N1,N2,E1,S2,W1,W2,Dist1,Distancia):-
-    (Dist1 #>= N1) #<=> B1,
-    (Dist1 #>= N2) #<=> B2,
-    (Distancia #>= E1) #<=> B3,
-    (Distancia #>= S2) #<=> B4,
-    (Dist1 #>= W1) #<=> B5,
-    (Dist1 #>= W2) #<=> B6.
-  %  ValorCelula1 #= (N1 +N2 + E1 + S2 + W1+W2).
-calc2(N1,N2,E1,E2,S1,W2,Dist1,Distancia):-
-    (Dist1 #>= N1) #<=> B1,
-    (Dist1 #>= N2) #<=> B2,
-    (Dist1 #>= E1) #<=> B3,
-    (Dist1 #>= E2) #<=> B4,
-    (Distancia #>= S1) #<=> B5,
-    (Distancia #>= W2) #<=> B6.
- %   ValorCelula2 #= (N1 +N2 + E1 + E2 + S1 + W2).
-calc3(E1,E2,W1,N2,S1,S2,Dist1,Distancia):-
-    (Dist1 #>= E1) #<=> B1,
-    (Dist1 #>= E2) #<=> B2,
-    (Distancia #>= W1) #<=> B3,
-    (Distancia #>= N2) #<=> B4,
-    (Dist1 #>= S1) #<=> B5,
-    (Dist1 #>= S2) #<=> B6.
-  %  ValorCelula3 #= (E1 + E2 + S1 + S2 + N2 + W1).
-calc4(W2,E2,W1,N1,S1,S2,Dist1,Distancia):-    
-    (Dist1 #>= S1) #<=> B1,
-    (Dist1 #>= S2) #<=> B2,
-    (Distancia #>= N1) #<=> B3,
-    (Distancia #>= E2) #<=> B4,
-    (Dist1 #>= W1) #<=> B5,
-    (Dist1 #>= W2) #<=> B6.
-  %  ValorCelula4 #= (N1 + E2 +S1 +S2 + W1 + W2).
+calc1(N1,N2,E1,S2,W1,W2,Dist1,Distancia, ValorCelula1):-
+    (Dist1 #=< N1) #<=> B1,
+    (Dist1 #=< N2) #<=> B2,
+    (Distancia #=< E1) #<=> B3,
+    (Distancia #=< S2) #<=> B4,
+    (Dist1 #=< W1) #<=> B5,
+    (Dist1 #=< W2) #<=> B6,
+    ValorCelula1 #= (N1 +N2 + E1 + S2 + W1+W2).
+calc2(N1,N2,E1,E2,S1,W2,Dist1,Distancia,ValorCelula2):-
+    (Dist1 #=< N1) #<=> B1,
+    (Dist1 #=< N2) #<=> B2,
+    (Dist1 #=< E1) #<=> B3,
+    (Dist1 #=< E2) #<=> B4,
+    (Distancia #=< S1) #<=> B5,
+    (Distancia #=< W2) #<=> B6,
+    ValorCelula2 #= (N1 +N2 + E1 + E2 + S1 + W2).
+calc3(E1,E2,W1,N2,S1,S2,Dist1,Distancia,ValorCelula3):-
+    (Dist1 #=< E1) #<=> B1,
+    (Dist1 #=< E2) #<=> B2,
+    (Distancia #=< W1) #<=> B3,
+    (Distancia #=< N2) #<=> B4,
+    (Dist1 #=< S1) #<=> B5,
+    (Dist1 #=< S2) #<=> B6,
+    ValorCelula3 #= (E1 + E2 + S1 + S2 + N2 + W1).
+calc4(W2,E2,W1,N1,S1,S2,Dist1,Distancia,ValorCelula4):-    
+    (Dist1 #=< S1) #<=> B1,
+    (Dist1 #=< S2) #<=> B2,
+    (Distancia #=< N1) #<=> B3,
+    (Distancia #=< E2) #<=> B4,
+    (Dist1 #=< W1) #<=> B5,
+    (Dist1 #=< W2) #<=> B6,
+    ValorCelula4 #= (N1 + E2 +S1 +S2 + W1 + W2).
                     
 
 %tabuleiroCentral(X),vars(Y),posicaoSolucoes(Z),testUni(X, Y,Z)
