@@ -1,10 +1,33 @@
+/**
+ * @param SizeInput Corresponde ao tamanho do tabuleiro central, sem as solucoes 
+*/
 
 makingOfBoard(SizeInput):-
     makeBoard(SizeInput, Tabuleiro, NewSize), %NewSize is SizeInput + 2
     adjustBoard(Tabuleiro, NewTabuleiro,NewSize),
   %  printMatrix(NewTabuleiro, NewSize), -> print an empty N-size matrix filled with zeros
-    fillSides(NewTabuleiro, NewSize, FinalTabuleiro),
-    solvingMiddle(FinalTabuleiro,NewSize).
+    fillSides(NewTabuleiro, NewSize, FinalTabuleiro, SolutionsLista),
+    cleanSolutionsLista(SolutionsLista, NewSolutionsLista), % Size [4x4]
+  %  write(NewSolutionsLista), ->CONFIRMADO LISTA SOLUCOES LIMPAS
+    nl,
+    solvingMiddle(FinalTabuleiro,NewSize,NewSolutionsLista).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  SolutionsLista
+
+cleanAUXFirst([_|T], NewLista):-
+    NewLista = T.
+cleanAUXLast([_], []).
+cleanAUXLast([X|Xs], [X|Last]) :- 
+    cleanAUXLast(Xs, Last).
+cleaning(H, CleanedLista):-
+    cleanAUXFirst(H, NewLista),
+    cleanAUXLast(NewLista, CleanedLista).
+    
+cleanSolutionsLista([],[]).
+cleanSolutionsLista([H|T], [CleanedLista | NewSolutionsLista]):-
+    cleaning(H, CleanedLista),
+    cleanSolutionsLista(T, NewSolutionsLista).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Print Tabuleiro
 
@@ -49,6 +72,7 @@ adjustBoard(Tabuleiro,NovoTabuleiro,SizeInput):-
  * makeBoard(+SizeInput, -Tabuleiro, -NewSize)
  * param SizeInput -> Numero de linhas e de colunas 
  * construi ja as listas para as solucoes nas celulas limite
+ * makeBoard(+SizeInput,-Tabuleiro, -NewSize)
 */
 makeBoard(SizeInput, Tabuleiro, NewSize):-
     NewSize is SizeInput + 2,

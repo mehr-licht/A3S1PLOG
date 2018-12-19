@@ -1,4 +1,71 @@
 
+tabuleiroTeste([
+    (1-1)-4,(1-2)-6,(1-3)-6,(1-4)-5,
+    (2-1)-5,(2-2)-2,(2-3)-6,(2-4)-4,
+    (3-1)-4,(3-2)-6,(3-3)-6,(3-4)-6,
+    (4-1)-4,(4-2)-6,(4-3)-6,(4-4)-4]).
+
+
+% List of given numbers already on the board (Linha,Coluna, Number)
+tabuleiroCentralIndexes(2,Lista):-
+    Lista = [(1-1),(1-2),(2-1),(2-2)].
+tabuleiroCentralIndexes(3,Lista):-
+    Lista = [(1-1),(1-2),(1-3),(2-1),(2-2),(2,3),(3-1),(3-2),(3-3)].
+tabuleiroCentralIndexes(4,Lista):-
+    Lista = [(1-1),(1-2),(1-3),(1-4),(2-1),(2-2),(2-3),(2-4),(3-1),(3-2),(3-3),(3-4),(4-1),(4-2),(4-3),(4-4)].
+tabuleiroCentralIndexes(5,Lista):-
+    Lista = [(1-1),(1-2),(1-3),(1-4),(1-5),
+             (2-1),(2-2),(2-3),(2-4),(2-5),
+             (3-1),(3-2),(3-3),(3-4),(3-5),
+             (4-1),(4-2),(4-3),(4-4),(4-5),
+             (5-1),(5-2),(5-3),(5-4),(5-5)].
+tabuleiroCentralIndexes(6,Lista):-
+    Lista = [(1-1),(1-2),(1-3),(1-4),(1-5),
+             (2-1),(2-2),(2-3),(2-4),(2-5),
+             (3-1),(3-2),(3-3),(3-4),(3-5),
+             (4-1),(4-2),(4-3),(4-4),(4-5),
+             (5-1),(5-2),(5-3),(5-4),(5-5)].
+tabuleiroCentralIndexes(7,Lista):-
+    Lista = [(1-1),(1-2),(1-3),(2-1),(2-2),(2,3),(3-1),(3-2),(3-3)].
+tabuleiroCentralIndexes(8,Lista):-
+    Lista = [(1-1),(1-2),(1-3),(2-1),(2-2),(2,3),(3-1),(3-2),(3-3)].
+tabuleiroCentralIndexes(9,Lista):-
+    Lista = [(1-1),(1-2),(1-3),(2-1),(2-2),(2,3),(3-1),(3-2),(3-3)].
+% Linha Col N1    N2    E1    E2    S1   S2     W1    W2
+% Define o modo de como vao aparecer as solucoes
+lampadasIndexes(2, Lista):-
+    Lista = [(0-1),(0-2),
+             (1-3),(2-3),
+             (3-2),(3-1),
+             (2-0),(1-0)].
+
+lampadasIndexes(3, Lista):-
+    Lista = [(0-1),(0-2),(0-3),
+             (1-4),(2-4),(3-4), %coluna 3+1
+             (4-3),(4-2),(4-1), %linha size+1
+             (3-0),(2-0),(1-0)].
+
+lampadasIndexes(4, Lista):-
+    Lista = [(0-1),(0-2),(0-3),(0-4),
+             (1-5),(2-5),(3-5),(4-5),
+             (5-4),(5-3),(5-2),(5-1),
+             (4-0),(3-0),(2-0),(1-0)].
+            
+
+/**
+ * As an example of a constraint that uses reification,
+ * consider exactly(X,L,N) which is true if X occurs exactly N times in the list L.
+
+exactly(_, [], 0).
+exactly(X, [Y|L], N) :-
+    X #=< Y #<=> B,
+    N #= M+B,
+    exactly(X, L, M).
+
+substituirValues(Lista):-
+    length(Lista, Range),
+    maplist(=(random(0,Range)), Lista).   
+*/
 %########################################################################## GETS
 /**
  * Devolve uma lista
