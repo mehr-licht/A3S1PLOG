@@ -1,0 +1,29 @@
+tendo tamanho n (nxn) da parte de dentro do tabuleiro,
+para cada row de lampadas fazer
+
+length (North,Tamanho)
+length (South,Tamanho)
+etc
+
+depois pode-se aceder a essa lista nos dois sentidos
+(set e get):
+element(OrdemNaLista,North,ValorDaLampada)
+element(OrdemNaLista,South,ValorDaLampada)
+etc
+
+
+o contador é usar o que o prof usou na ultima aula.
+ele ia fazer duma maneira mas acabou por pôr no quadro como o Rui fez (iterativo):
+
+count(Val,List,Count:- c(Val,List,Count, 0).
+c(_,[],C,C).
+c(Val,[H|T],Count,Temp):-
+	Val #= H #<=> B,
+	Temp2 #= Temp + B,
+	c(Val,T,Count,Temp2).
+
+(em vez de teres n Bs, vais percorrendo a lista, generalizando)
+
+
+
+

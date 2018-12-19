@@ -76,7 +76,7 @@ adjustBoard(Tabuleiro,NovoTabuleiro,SizeInput):-
 */
 makeBoard(SizeInput, Tabuleiro, NewSize):-
     NewSize is SizeInput + 2,
-    buildLists(0, NewSize, List), %se for 2X2 constroi uma lista de 4 valores [] em qe S1 A1 A2 S2
+    buildLists(2, NewSize, List), %se for 2X2 constroi uma lista de 4 valores [] em qe S1 A1 A2 S2
     buildMatrix(List, NewSize, Tabuleiro).
 
 /**
