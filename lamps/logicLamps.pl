@@ -119,12 +119,14 @@ testUnitario(Vars):-
     (E1 #>= Distancia) #<=> B2, %V = [0,0,1,0] ? ;
     (S1 #>= Distancia) #<=> B3, %V = [0,1,0,0] ? ;
     (W1 #>= Distancia) #<=> B4, %V = [1,0,0,0] ? ;
-    ValorCelula #= (N1 + E1 +S1 + W1),
+    ValorCelula #= (B1 + B2 + B3 + B4),
     labeling([],Vars).
 
+/**
+ * RESOLUCAO CONVFIRMADA
+*/
 testUnitarioV8(Vars):-
     Vars = [N1,N2,E1,E2,S1,S2,W1,W2],
- %   Tabuleiro = [1-1],
     ValorCelula1 #= 1,
     ValorCelula2 #= 1,
     ValorCelula3 #= 2,
@@ -132,20 +134,6 @@ testUnitarioV8(Vars):-
     Distancia #= 2,                 
     Dist1 #= 1,
     domain(Vars,0,2),
-    
- %   ValorCelula1 #= (N1 + N2 + E1 + S2 + W1 + W2),
- %   ValorCelula2 #= (N1 + N2 + E1 + E2 + S1 + W2),
- %   ValorCelula3 #= (E1 + E2 + S1 + S2 + N2 + W1),
- %   ValorCelula4 #= (N1 + E2 + S1 + S2 + W1 + W2),
- %   (Dist1 #>= N1) #<=> B,
- %   (Dist1 #>= N2) #<=> B,
- %   (Distancia #>= E1) #<=> B,
- %   (Distancia #>= E2) #<=> B,
- %   (Distancia #>= S1) #<=> B,
- %   (Distancia #>= S2) #<=> B,
- %   (Dist1 #>= W1) #<=> B,
- %   (Dist1 #>= W2) #<=> B,
-
     calc1(N1,N2,E1,S2,W1,W2, Dist1, Distancia, ValorCelula1),
     calc2(N1,N2,E1,E2,S1,W2, Dist1, Distancia, ValorCelula2),
     calc3(E1,E2,W1,N2,S1,S2, Dist1, Distancia, ValorCelula3),
@@ -159,7 +147,7 @@ calc1(N1,N2,E1,S2,W1,W2,Dist1,Distancia, ValorCelula1):-
     (Distancia #=< S2) #<=> B4,
     (Dist1 #=< W1) #<=> B5,
     (Dist1 #=< W2) #<=> B6,
-    ValorCelula1 #= (N1 +N2 + E1 + S2 + W1+W2).
+    ValorCelula1 #= B1 + B2 + B3 + B4 + B5 + B6.
 calc2(N1,N2,E1,E2,S1,W2,Dist1,Distancia,ValorCelula2):-
     (Dist1 #=< N1) #<=> B1,
     (Dist1 #=< N2) #<=> B2,
@@ -167,7 +155,7 @@ calc2(N1,N2,E1,E2,S1,W2,Dist1,Distancia,ValorCelula2):-
     (Dist1 #=< E2) #<=> B4,
     (Distancia #=< S1) #<=> B5,
     (Distancia #=< W2) #<=> B6,
-    ValorCelula2 #= (N1 +N2 + E1 + E2 + S1 + W2).
+    ValorCelula2 #= B1 + B2 + B3 + B4 + B5 + B6.
 calc3(E1,E2,W1,N2,S1,S2,Dist1,Distancia,ValorCelula3):-
     (Dist1 #=< E1) #<=> B1,
     (Dist1 #=< E2) #<=> B2,
@@ -175,7 +163,7 @@ calc3(E1,E2,W1,N2,S1,S2,Dist1,Distancia,ValorCelula3):-
     (Distancia #=< N2) #<=> B4,
     (Dist1 #=< S1) #<=> B5,
     (Dist1 #=< S2) #<=> B6,
-    ValorCelula3 #= (E1 + E2 + S1 + S2 + N2 + W1).
+    ValorCelula3 #= B1 + B2 + B3 + B4 + B5 + B6.
 calc4(W2,E2,W1,N1,S1,S2,Dist1,Distancia,ValorCelula4):-    
     (Dist1 #=< S1) #<=> B1,
     (Dist1 #=< S2) #<=> B2,
@@ -183,7 +171,7 @@ calc4(W2,E2,W1,N1,S1,S2,Dist1,Distancia,ValorCelula4):-
     (Distancia #=< E2) #<=> B4,
     (Dist1 #=< W1) #<=> B5,
     (Dist1 #=< W2) #<=> B6,
-    ValorCelula4 #= (N1 + E2 +S1 +S2 + W1 + W2).
+    ValorCelula4 #= B1 + B2 + B3 + B4 + B5 + B6.
                     
 
 %tabuleiroCentral(X),vars(Y),posicaoSolucoes(Z),testUni(X, Y,Z)
