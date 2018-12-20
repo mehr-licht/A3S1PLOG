@@ -2,6 +2,7 @@
 :- consult('menuTutorial.pl').
 :- consult('printBoards.pl').
 :- consult('logicLamps.pl').
+:- consult('lamps4x4.pl').
 :- consult('utilities.pl').
 :- consult('fillSides.pl').
 /**
