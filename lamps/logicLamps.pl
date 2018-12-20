@@ -20,12 +20,6 @@ solvingMiddle:-
 %    labeling([],Vars).
 
 
-
-
-
-
-
-
 /**
  * Calculo da distancia da iluminacao entre a Lampada e Casa iluminada
  * @param LinhaY, +ColunaY Celula da casa iluminada
@@ -141,33 +135,52 @@ solvingMiddleV9:-
     tabuleiroCentralIndexes(Size,TabuleiroCentralIndexesWithValues),
     lampadasIndexes(Size, LampadasIndexes),
     casasIluminadas(TabuleiroCentralIndexesWithValues, LampadasIndexes, MatrixRangeWithZeros),
-    cleaningZeroRange(MatrixRangeWithZeros,MatrixRange),        
+    %cleaningZeroRange(MatrixRangeWithZeros,MatrixRange),        
     %inserir aqui testeUnitarioV9
-   % testUnitarioV9(Size,TabuleiroCentralIndexesWithValues,MatrixRange),    
-    nth1(4,MatrixRange,Elem),
-    write(Elem).
+   testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros),    
+   % nth1(2,MatrixRangeWithZeros,Elem),
+    write(Vars).
 
-testUnitarioV9(2,TabuleiroCentralIndexesWithValues,MatrixRange):-
-    VarsSize is Size*4,
+testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros):-
+    VarsSize #= Size*4,
     length(Vars,VarsSize),
     domain(Vars,0,Size),
 %    Vars [Lista de variaveis 8], MatrixRange([ [] [] [] [] ])
-    iluminati(Vars, MatrixRange,TabuleiroCentralIndexesWithValues),
+    iluminati(Vars, MatrixRangeWithZeros,TabuleiroCentralIndexesWithValues),
     labeling([],Vars).
 
+%teste iluminatiAux
+testVar([N1,N2,E1,E2,S1,S2,W1,W2]).
+testeDist([0-1-1, 0-2-1, 1-3-2, 2-3-0, 3-2-0, 3-1-2, 2-0-1, 1-0-1]).
+testeValor((1-1)-1).
 
-iluminatiAux(C,[],C).
-iluminatiAux(Somatorio,[(Linha-Coluna)-Distancia|T],Temp):-
-    Somatorio #>= Distancia #<=> B,
+iluminatiAux( [], [], Temp,Temp).
+iluminatiAux( [Var|Tvars], [(_-_)-Distancia|T], Temp,Total):-
+    (Var #>= Distancia #/\ Distancia #> 0)  #<=> B,
     Temp2 #= Temp + B,
-    iluminatiAux(Somatorio,[(Linha-Coluna)-Distancia|T], Temp2).
+    iluminatiAux(Tvars,T, Temp2,Total).
+/**
+ * @param Var -lista com as oito variaveis
+ * @param Lista com lampadas e range [ ... , [0-1-1,0-2-1,1-3-2,2-3-0,3-2-0,3-1-2,2-0-1,1-0-1]
+*/
+iluminatiGlobal(_,[],_).
+iluminatiGlobal(Var, [ LampadasRange|T ] , (_-_)-ValorCelula):-
+    iluminatiAux(Var,LampadasRange,0,Total),
+    ValorCelula #= Total,
+    iluminatiGlobal(Var, T, (_-_)-ValorCelula).
+
+/**
+ * @param Vars Lista de variaveis - 8 elem caso base
+ * @param  LampadaRange|Z - Lista com as lampadas que influenciam a celula 8 elem caso base
+ * Iterar sobre duas listas do mesmo tamanho: matrixRange e IndexValues
+ */
+iluminati(_,[],[]).
+iluminati(Vars, [LampadaRange|Z],[H|T]):-
+    iluminatiGlobal(Vars, LampadaRange, H), %Obtenho o valor da célula central
+     %(Linha-Coluna)-Distante
+     iluminati(Vars,Z,T).
 
 
-iluminatiGlobal(Var, Hpar, [(_-_)-ValorCelula|T]):-
-    iluminatiAux(Somatorio,Hpar,0),
-    ValorCelula #= Somatorio,
-    Var is Somatorio.
-    
 
 %count(Val,List,Count:- c(Val,List,Count, 0).
 
@@ -176,14 +189,6 @@ iluminatiGlobal(Var, Hpar, [(_-_)-ValorCelula|T]):-
 %	Val #= H #<=> B,
 %	Temp2 #= Temp + B,
 %	c(Val,T,Count,Temp2).
-
-
-iluminati([],[]).
-iluminati([Var|Tvars], [Hpar|Tdist],TabuleiroCentralIndexesWithValues):-
-    iluminatiGlobal(Var, Hpar, TabuleiroCentralIndexesWithValues), %Por cada elemento Variavel vou 
-     %(Linha-Coluna)-Distante
-    ilumiante(Tvars,Tdist,T).
-
 
 %##########################################################################################################
 /**
