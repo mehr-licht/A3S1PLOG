@@ -64,12 +64,12 @@ calc7_16(N1,N3,E2,E4,S2,W3, Dist2, Dist3, ValorCelula7):-
 calc8_16(N2,N4,E1,E2,E3,S1,S4,W3,Dist1,Dist2,Dist3,Dist4,ValorCelula8):-
     (Dist2 #=< N2) #<=> B1,
     (Dist2 #=< N4) #<=> B2,
-    (Dist4 #=< E1) #<=> B3,
-    (Dist3 #=< E2) #<=> B4,
-    (Dist3 #=< E3) #<=> B5,
-    (Dist1 #=< S1) #<=> B6,
-    (Dist1 #=< S4) #<=> B7,
-    (Dist1 #=< W3) #<=> B8,
+    (Dist1 #=< E1) #<=> B3,
+    (Dist1 #=< E2) #<=> B4,
+    (Dist1 #=< E3) #<=> B5,
+    (Dist3 #=< S1) #<=> B6,
+    (Dist3 #=< S4) #<=> B7,
+    (Dist4 #=< W3) #<=> B8,
     ValorCelula8 #= B1 + B2 + B3 + B4 + B5 + B6 + B7 + B8.
 calc9_16(N1,N4,E3,S2,S4,W1,W2,W3,Dist1,Dist2,Dist3,Dist4,ValorCelula9):-
     (Dist3 #=< N1) #<=> B1,
