@@ -115,7 +115,7 @@ calc13_16(N1,E4,S3,S4,W1,W2, Dist1, Dist4, ValorCelula13):-
     (Dist1 #=< W1) #<=> B5,
     (Dist1 #=< W2) #<=> B6,
     ValorCelula13 #= B1 + B2 + B3 + B4 + B5 + B6.
-calc14_16(N2,E1,E4,S2,S3,S4,W1,W2,Dist1,Dist2,Dist3,Dist4,ValorCelula14):-
+calc14_16(N2,E1,E4,S2,S3,S4,W1,W3,Dist1,Dist2,Dist3,Dist4,ValorCelula14):-
     (Dist4 #=< N2) #<=> B1,
     (Dist3 #=< E1) #<=> B2,
     (Dist3 #=< E4) #<=> B3,
@@ -123,7 +123,7 @@ calc14_16(N2,E1,E4,S2,S3,S4,W1,W2,Dist1,Dist2,Dist3,Dist4,ValorCelula14):-
     (Dist1 #=< S3) #<=> B5,
     (Dist1 #=< S4) #<=> B6,
     (Dist2 #=< W1) #<=> B7,
-    (Dist2 #=< W2) #<=> B8,
+    (Dist2 #=< W3) #<=> B8,
     ValorCelula14 #= B1 + B2 + B3 + B4 + B5 + B6 + B7 + B8.
 calc15_16(N3,E2,E4,S1,S2,S3,W1,W4,Dist1,Dist2,Dist3,Dist4,ValorCelula15):-
     (Dist4 #=< N3) #<=> B1,
@@ -192,4 +192,5 @@ calc14_16(N2,E1,E4,S2,S3,S4,W1,W3, Dist1, Dist2, Dist3,Dist4, ValorCelula14),
 calc15_16(N3,E2,E4,S1,S2,S3,W1,W4, Dist1, Dist2, Dist3,Dist4, ValorCelula15),
 calc16_16(N4,E3,E4,S1,S2,W1, Dist1, Dist4, ValorCelula16),
 
-    labeling([],Vars).
+    labeling([],Vars),
+    printLine(Vars).
