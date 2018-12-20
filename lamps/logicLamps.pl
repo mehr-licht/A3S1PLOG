@@ -1,17 +1,23 @@
 /**
- * 
- * 
+ * FALTA A LIGACAO COM O RESTO DO PROBLEMA
+ * RECEBER AS LISTAS CRIADAS ALEATORIAMENTE
+ * CALCULAR O CENTRO
+ * PASSAR O CENTRO PARA a mesma forma do tabuleiroTeste
 */
-solvingMiddle(FinalTabuleiro,NewSize):-
-    printMatrix(FinalTabuleiro,NewSize),      
-    write('wellDone').
+solvingMiddle:-
+    %printMatrix(FinalTabuleiro,NewSize),
+    tabuleiroTeste(TabuleiroCentralIndexes),      
+    lampadasIndexes(4, LampadasIndexes),
+    casasIluminadas(TabuleiroCentralIndexes, LampadasIndexes, MatrixRangeWithZeros),
+    cleaningZeroRange(MatrixRangeWithZeros,MatrixRange),        
+    nth1(16,MatrixRange,Elem),
+    write(Elem).
 
-
-
-
-
-
-
+%teste2010(Size,TabuleiroCentralIndexes,MatrixRange,LampadasIndexes):-
+%    VarsSize is Size*4,
+%    length(Vars,VarsSize),
+%    domain(Vars,0,Size),
+%    labeling([],Vars).
 
 
 
@@ -50,7 +56,6 @@ calculoDistancia(LinhaY, ColunaY, LinhaX, ColunaX, Final):-
     Dist2 is abs(ColunaY - ColunaX),
     Dist1  \== Dist2,
     Final is 0.
-
 
 /**
  * Eliminar elementos ParIndexes que tem como RANGE zero
@@ -128,18 +133,70 @@ testUnitario(Vars):-
     (W1 #>= Distancia) #<=> B4, %V = [1,0,0,0] ? ;
     ValorCelula #= (B1 + B2 + B3 + B4),
     labeling([],Vars).
+%%#########################################################################################################
+%tabuleiroCentralIndexes(2,Tci),testUnitarioV9(2,Tci,
+solvingMiddleV9:-
+    %printMatrix(FinalTabuleiro,NewSize),
+    Size is 2,
+    tabuleiroCentralIndexes(Size,TabuleiroCentralIndexesWithValues),
+    lampadasIndexes(Size, LampadasIndexes),
+    casasIluminadas(TabuleiroCentralIndexesWithValues, LampadasIndexes, MatrixRangeWithZeros),
+    cleaningZeroRange(MatrixRangeWithZeros,MatrixRange),        
+    %inserir aqui testeUnitarioV9
+   % testUnitarioV9(Size,TabuleiroCentralIndexesWithValues,MatrixRange),    
+    nth1(4,MatrixRange,Elem),
+    write(Elem).
 
+testUnitarioV9(2,TabuleiroCentralIndexesWithValues,MatrixRange):-
+    VarsSize is Size*4,
+    length(Vars,VarsSize),
+    domain(Vars,0,Size),
+%    Vars [Lista de variaveis 8], MatrixRange([ [] [] [] [] ])
+    iluminati(Vars, MatrixRange,TabuleiroCentralIndexesWithValues),
+    labeling([],Vars).
+
+
+iluminatiAux(C,[],C).
+iluminatiAux(Somatorio,[(Linha-Coluna)-Distancia|T],Temp):-
+    Somatorio #>= Distancia #<=> B,
+    Temp2 #= Temp + B,
+    iluminatiAux(Somatorio,[(Linha-Coluna)-Distancia|T], Temp2).
+
+
+iluminatiGlobal(Var, Hpar, [(_-_)-ValorCelula|T]):-
+    iluminatiAux(Somatorio,Hpar,0),
+    ValorCelula #= Somatorio,
+    Var is Somatorio.
+    
+
+%count(Val,List,Count:- c(Val,List,Count, 0).
+
+%c(_,[],C,C).
+%c(Val,[H|T],Count,Temp):-
+%	Val #= H #<=> B,
+%	Temp2 #= Temp + B,
+%	c(Val,T,Count,Temp2).
+
+
+iluminati([],[]).
+iluminati([Var|Tvars], [Hpar|Tdist],TabuleiroCentralIndexesWithValues):-
+    iluminatiGlobal(Var, Hpar, TabuleiroCentralIndexesWithValues), %Por cada elemento Variavel vou 
+     %(Linha-Coluna)-Distante
+    ilumiante(Tvars,Tdist,T).
+
+
+%##########################################################################################################
 /**
  * RESOLUCAO CONFIRMADA
 */
 testUnitarioV8(Vars):-
-    Vars = [N1,N2,E1,E2,S1,S2,W1,W2],
-    ValorCelula1 #= 1,
-    ValorCelula2 #= 1,
-    ValorCelula3 #= 2,
-    ValorCelula4 #= 3,
-    Distancia #= 2,                 
-    Dist1 #= 1,
+    Vars = [N1,N2,E1,E2,S1,S2,W1,W2], %
+    ValorCelula1 #= 1,               %
+    ValorCelula2 #= 1,  %
+    ValorCelula3 #= 2, %
+    ValorCelula4 #= 3, %
+    Distancia #= 2,     %            
+    Dist1 #= 1,    %
     domain(Vars,0,2),
     calc1(N1,N2,E1,S2,W1,W2, Dist1, Distancia, ValorCelula1),
     calc2(N1,N2,E1,E2,S1,W2, Dist1, Distancia, ValorCelula2),

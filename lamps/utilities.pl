@@ -8,7 +8,7 @@ tabuleiroTeste([
 
 % List of given numbers already on the board (Linha,Coluna, Number)
 tabuleiroCentralIndexes(2,Lista):-
-    Lista = [(1-1),(1-2),(2-1),(2-2)].
+    Lista = [(1-1)-1,(1-2)-1,(2-1)-2,(2-2)-3].
 tabuleiroCentralIndexes(3,Lista):-
     Lista = [(1-1),(1-2),(1-3),(2-1),(2-2),(2,3),(3-1),(3-2),(3-3)].
 tabuleiroCentralIndexes(4,Lista):-
