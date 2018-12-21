@@ -202,10 +202,10 @@ iluminati(Vars, [LampadaRange|Z],[H|T]):-
 */
 testUnitarioV8(Vars):-
     Vars = [N1,N2,E1,E2,S1,S2,W1,W2], %
-    ValorCelula1 #= 1,               %
-    ValorCelula2 #= 1,  %
-    ValorCelula3 #= 2, %
-    ValorCelula4 #= 3, %
+    ValorCelula1 #= 6,               %
+    ValorCelula2 #= 6,  %
+    ValorCelula3 #= 5, %
+    ValorCelula4 #= 6, %
     Distancia #= 2,     %            
     Dist1 #= 1,    %
     domain(Vars,0,2),
