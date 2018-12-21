@@ -197,8 +197,3 @@ calc16_16(N4,E3,E4,S1,S2,W1, Dist1, Dist4, ValorCelula16),
     printLine(Vars),nl.
 
 
-:- statistics(runtime, [T0|_]),
-testUnitarioV16(_),
-        statistics(runtime, [T1|_]),
-        T is T1 - T0,
-        format('4x4 took ~16d sec.~n', [T]).

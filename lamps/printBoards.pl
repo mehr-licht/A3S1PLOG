@@ -7,10 +7,23 @@ makingOfBoard(SizeInput):-
     adjustBoard(Tabuleiro, NewTabuleiro,NewSize),
   %  printMatrix(NewTabuleiro, NewSize), -> print an empty N-size matrix filled with zeros
     fillSides(NewTabuleiro, NewSize, FinalTabuleiro, SolutionsLista),
-    cleanSolutionsLista(SolutionsLista, NewSolutionsLista), % Size [4x4]
-  %  write(NewSolutionsLista), ->CONFIRMADO LISTA SOLUCOES LIMPAS
+  %  printMatrix(FinalTabuleiro, NewSize),
+    cleanSolutionsLista(SolutionsLista, NewSolutionsLista), % Size [4x4] Sem os valores dos cantos que nao interessam
+    printLine(NewSolutionsLista).
+  %  Aqui VAI O print Das SOLUCOES FEITAS ALEATORIAMENTE
+   
+  %  write(SolutionsLista), %->CONFIRMADO LISTA SOLUCOES LIMPAS
+  %  nl,
+   % solvingMiddle(FinalTabuleiro,NewSize,NewSolutionsLista).
+
+solvingMiddle(FinalTabuleiro,Size,SolutionsLista):-
+    printMatrix(FinalTabuleiro, Size),
     nl,
-    solvingMiddle(FinalTabuleiro,NewSize,NewSolutionsLista).
+    write('Size: '),
+    write(Size),
+    nl,
+    write(SolutionsLista).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  SolutionsLista
 
@@ -57,6 +70,7 @@ printLine([Head|Tail]) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Build Tabuleiro
 /**
+ * Preenchimento dos
  * @brief predicado de preenchimento da casa vazia nos 4 cantos
  * @param adjustBoard(+Tabuleiro,-NovoTabuleiro,+SizeInput)
  */
@@ -76,7 +90,7 @@ adjustBoard(Tabuleiro,NovoTabuleiro,SizeInput):-
 */
 makeBoard(SizeInput, Tabuleiro, NewSize):-
     NewSize is SizeInput + 2,
-    buildLists(2, NewSize, List), %se for 2X2 constroi uma lista de 4 valores [] em qe S1 A1 A2 S2
+    buildLists(_, NewSize, List), %se for 2X2 constroi uma lista de 4 valores [] em qe S1 A1 A2 S2
     buildMatrix(List, NewSize, Tabuleiro).
 
 /**

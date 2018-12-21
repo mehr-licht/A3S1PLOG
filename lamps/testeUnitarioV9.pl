@@ -109,10 +109,3 @@ testUnitarioV12(Vars):-
 
     labeling([ff],Vars),
     printLine(Vars),nl.
-
-
-:- statistics(runtime, [T0|_]),
-testUnitarioV12(_),
-        statistics(runtime, [T1|_]),
-        T is T1 - T0,
-        format('3x3 took ~16d sec.~n', [T]).

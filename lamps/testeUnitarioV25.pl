@@ -1,30 +1,4 @@
 
-
-
-    :- use_module(library(lists)).
-:- use_module(library(clpfd)).
-
-
-run:-
-    statistics(runtime, [T0|_]),
-    testUnitarioV20(Vars),
-    fd_statistics(backtracks,Value),
-    statistics(stack,Value2),
-    statistics(runtime, [T1|_]),
-    T is T1 - T0,nl,
-    printLineAux(Vars),    
-    write('Puzzle solved in: '),write(T),write('ms'),nl,
-    write('backtracks: '),
-    write(Value),  write( ': '),write(Value2).
-
-
-printLineAux([]).
-printLineAux([Head|Tail]) :-
-    write(Head),
-    write(' | '),
-    printLineAux(Tail).
-
-
 testUnitarioV20(Vars):-
     Vars = [N1,N2,N3,N4,N5,E1,E2,E3,E4,E5,S1,S2,S3,S4,S5,W1,W2,W3,W4,W5], %
     ValorCelula1 #= 2, ValorCelula2 #= 4, ValorCelula3 #= 2, ValorCelula4 #= 2, ValorCelula5 #= 1,               %
@@ -296,9 +270,3 @@ calc01(N1,N2,E1,S5,W4,W5, Dist1, Dist5, ValorCelula1):-
     (Dist1 #=< W4) #<=> B5,
     (Dist1 #=< W5) #<=> B6,
     ValorCelula1 #= B1 + B2 + B3 + B4 + B5 + B6.
-
-:- statistics(runtime, [T0|_]),
-testUnitarioV20(_),
-        statistics(runtime, [T1|_]),
-        T is T1 - T0,
-        format('5x5 took ~16d sec.~n', [T]).
