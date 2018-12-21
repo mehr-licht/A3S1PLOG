@@ -1,8 +1,3 @@
-:- statistics(runtime, [T0|_]),
-testUnitarioV12(_),
-        statistics(runtime, [T1|_]),
-        T is T1 - T0,
-        format('3x3 took ~16d sec.~n', [T]).
 
 calc1_12(N1,N2,E1,S3,W2,W3, Dist1, Dist3, ValorCelula1):-
     (Dist1 #=< N1) #<=> B1,
@@ -30,11 +25,11 @@ calc3_12(N2,N3,E1,E2,S1,W3,Dist1,Dist3,ValorCelula3):-
     (Dist3 #=< S1) #<=> B5,
     (Dist3 #=< W3) #<=> B6,
     ValorCelula3 #= B1 + B2 + B3 + B4 + B5 + B6.
-calc4_12(N1,N2,E2,S2,S3,W1,W2,W3, Dist1, Dist2, Dist3, ValorCelula4):-
+calc4_12(N1,N3,E2,S1,S3,W1,W2,W3, Dist1, Dist2, Dist3, ValorCelula4):-
     (Dist2 #=< N1) #<=> B1,
-    (Dist2 #=< N2) #<=> B2,
+    (Dist2 #=< N3) #<=> B2,
     (Dist3 #=< E2) #<=> B3,
-    (Dist2 #=< S2) #<=> B4,
+    (Dist2 #=< S1) #<=> B4,
     (Dist2 #=< S3) #<=> B5,
     (Dist1 #=< W1) #<=> B6,
     (Dist1 #=< W2) #<=> B7,
@@ -104,7 +99,7 @@ testUnitarioV12(Vars):-
     calc2_12(N1,N2,N3,E1,E3,S2,W1,W3, Dist1, Dist2, Dist3, ValorCelula2),
     calc3_12(N2,N3,E1,E2,S1,W3, Dist1, Dist3, ValorCelula3),
     
-    calc4_12(N1,N2,E2,S2,S3,W1,W2,W3, Dist1, Dist2, Dist3,ValorCelula4),
+    calc4_12(N1,N3,E2,S1,S3,W1,W2,W3, Dist1, Dist2, Dist3,ValorCelula4),
     calc5_12(N2,E2,S2,W2, Dist2, ValorCelula5),
     calc6_12(N1,N3,E1,E2,E3,S1,S3,W2, Dist1,Dist2, Dist3, ValorCelula6),
     
@@ -113,4 +108,11 @@ testUnitarioV12(Vars):-
     calc9_12(N3,E2,E3,S1,S2,W1, Dist1, Dist3, ValorCelula9),
 
     labeling([ff],Vars),
-    printLine(Vars).
+    printLine(Vars),nl.
+
+
+:- statistics(runtime, [T0|_]),
+testUnitarioV12(_),
+        statistics(runtime, [T1|_]),
+        T is T1 - T0,
+        format('3x3 took ~16d sec.~n', [T]).

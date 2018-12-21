@@ -1,8 +1,3 @@
-:- statistics(runtime, [T0|_]),
-testUnitarioV8(_),
-        statistics(runtime, [T1|_]),
-        T is T1 - T0,
-        format('2x2 took ~16d sec.~n', [T]).
 
 /**
  * FALTA A LIGACAO COM O RESTO DO PROBLEMA
@@ -213,7 +208,8 @@ testUnitarioV8(Vars):-
     calc2(N1,N2,E1,E2,S1,W2, Dist1, Distancia, ValorCelula2),
     calc3(E1,E2,W1,N2,S1,S2, Dist1, Distancia, ValorCelula3),
     calc4(W2,E2,W1,N1,S1,S2, Dist1, Distancia, ValorCelula4),
-    labeling([ff],Vars).
+    labeling([ff],Vars),
+    printLine(Vars),nl.
 
 calc1(N1,N2,E1,S2,W1,W2,Dist1,Distancia, ValorCelula1):-
     (Dist1 #=< N1) #<=> B1,
@@ -248,3 +244,9 @@ calc4(W2,E2,W1,N1,S1,S2,Dist1,Distancia,ValorCelula4):-
     (Dist1 #=< W2) #<=> B6,
     ValorCelula4 #= B1 + B2 + B3 + B4 + B5 + B6.
     
+
+:- statistics(runtime, [T0|_]),
+testUnitarioV8(_),
+        statistics(runtime, [T1|_]),
+        T is T1 - T0,
+        format('2x2 took ~16d sec.~n', [T]).
