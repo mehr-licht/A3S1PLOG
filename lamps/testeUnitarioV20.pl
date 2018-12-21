@@ -1,4 +1,7 @@
-:- use_module(library(lists)).
+
+
+
+    :- use_module(library(lists)).
 :- use_module(library(clpfd)).
 
 
@@ -60,7 +63,8 @@ testUnitarioV20(Vars):-
     calc023(N3,E2,E5,S2,S3,S4,W1,W4, Dist1, Dist3, Dist5, ValorCelula23),  
     calc024(N4,E3,E5,S1,S2,S3,W1,W5, Dist1, Dist2, Dist4, Dist5, ValorCelula24),  
     calc025(N5,E4,E5,S1,S2,W1, Dist1, Dist5, ValorCelula25),    
-    labeling([],Vars).
+    labeling([ff],Vars),
+    printLine(Vars),nl.
 
 calc025(N5,E4,E5,S1,S2,W1, Dist1, Dist5, ValorCelula25):-
     (Dist5 #=< N5) #<=> B1,
@@ -292,3 +296,9 @@ calc01(N1,N2,E1,S5,W4,W5, Dist1, Dist5, ValorCelula1):-
     (Dist1 #=< W4) #<=> B5,
     (Dist1 #=< W5) #<=> B6,
     ValorCelula1 #= B1 + B2 + B3 + B4 + B5 + B6.
+
+:- statistics(runtime, [T0|_]),
+testUnitarioV20(_),
+        statistics(runtime, [T1|_]),
+        T is T1 - T0,
+        format('5x5 took ~16d sec.~n', [T]).

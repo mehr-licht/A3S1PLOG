@@ -1,4 +1,5 @@
 
+
 calc1_16(N1,N2,E1,S4,W3,W4, Dist1, Dist4, ValorCelula1):-
     (Dist1 #=< N1) #<=> B1,
     (Dist1 #=< N2) #<=> B2,
@@ -192,11 +193,12 @@ calc14_16(N2,E1,E4,S2,S3,S4,W1,W3, Dist1, Dist2, Dist3,Dist4, ValorCelula14),
 calc15_16(N3,E2,E4,S1,S2,S3,W1,W4, Dist1, Dist2, Dist3,Dist4, ValorCelula15),
 calc16_16(N4,E3,E4,S1,S2,W1, Dist1, Dist4, ValorCelula16),
 
-    labeling([],Vars),
-    printLineAux1(Vars).
+    labeling([ff],Vars),
+    printLine(Vars),nl.
 
-printLineAux1([]).
-printLineAux1([Head|Tail]) :-
-    write(Head),
-    write(' | '),
-    printLineAux1(Tail).
+
+:- statistics(runtime, [T0|_]),
+testUnitarioV16(_),
+        statistics(runtime, [T1|_]),
+        T is T1 - T0,
+        format('4x4 took ~16d sec.~n', [T]).
