@@ -2,19 +2,18 @@
 :- use_module(library(clpfd)).
 
 
-
 run:-
     statistics(runtime, [T0|_]),
     testUnitarioV20(Vars),
     fd_statistics(backtracks,Value),
-    
+    statistics(stack,Value2),
     statistics(runtime, [T1|_]),
-    
     T is T1 - T0,nl,
     printLineAux(Vars),    
     write('Puzzle solved in: '),write(T),write('ms'),nl,
     write('backtracks: '),
-    write(Value).
+    write(Value),  write( ': '),write(Value2).
+
 
 printLineAux([]).
 printLineAux([Head|Tail]) :-

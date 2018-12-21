@@ -146,21 +146,21 @@ calc16_16(N4,E3,E4,S1,S2,W1, Dist1, Dist4, ValorCelula16):-
 
 testUnitarioV16(Vars):-
     Vars = [N1,N2,N3,N4,E1,E2,E3,E4,S1,S2,S3,S4,W1,W2,W3,W4], %
-    ValorCelula1 #= 4,               %
-    ValorCelula2 #= 6,  %
-    ValorCelula3 #= 6, %
-    ValorCelula4 #= 5, %
-    ValorCelula5 #= 5,               %
-    ValorCelula6 #= 2,  %
-    ValorCelula7 #= 6, %
-    ValorCelula8 #= 4, %
+    ValorCelula1 #= 2,               %
+    ValorCelula2 #= 3,  %
+    ValorCelula3 #= 3, %
+    ValorCelula4 #= 1, %
+    ValorCelula5 #= 3,               %
+    ValorCelula6 #= 3,  %
+    ValorCelula7 #= 3, %
+    ValorCelula8 #= 6, %
     ValorCelula9 #= 4,               %
-    ValorCelula10 #= 6,  %
-    ValorCelula11 #= 6, %
-    ValorCelula12 #= 6, %
-    ValorCelula13 #= 4,               %
-    ValorCelula14 #= 6,  %
-    ValorCelula15 #= 6, %
+    ValorCelula10 #= 2,  %
+    ValorCelula11 #= 3, %
+    ValorCelula12 #= 3, %
+    ValorCelula13 #= 3,               %
+    ValorCelula14 #= 8,  %
+    ValorCelula15 #= 4, %
     ValorCelula16 #= 4, %        
     Dist1 #= 1, 
     Dist2 #= 2, 
@@ -193,4 +193,10 @@ calc15_16(N3,E2,E4,S1,S2,S3,W1,W4, Dist1, Dist2, Dist3,Dist4, ValorCelula15),
 calc16_16(N4,E3,E4,S1,S2,W1, Dist1, Dist4, ValorCelula16),
 
     labeling([],Vars),
-    printLine(Vars).
+    printLineAux1(Vars).
+
+printLineAux1([]).
+printLineAux1([Head|Tail]) :-
+    write(Head),
+    write(' | '),
+    printLineAux1(Tail).
