@@ -80,14 +80,14 @@ calc9_12(N3,E2,E3,S1,S2,W1,Dist1,Dist3,ValorCelula9):-
 
 testUnitarioV12(Vars):-
     Vars = [N1,N2,N3,E1,E2,E3,S1,S2,S3,W1,W2,W3], %
-    ValorCelula1 #= 3,               %
-    ValorCelula2 #= 5,  %
+    ValorCelula1 #= 4,               %
+    ValorCelula2 #= 3,  %
     ValorCelula3 #= 4, %
-    ValorCelula4 #= 4, %
-    ValorCelula5 #= 2,               %
-    ValorCelula6 #= 4,  %
-    ValorCelula7 #= 5, %
-    ValorCelula8 #= 5, %
+    ValorCelula4 #= 3, %
+    ValorCelula5 #= 0,               %
+    ValorCelula6 #= 3,  %
+    ValorCelula7 #= 4, %
+    ValorCelula8 #= 3   , %
     ValorCelula9 #= 4,               %
     Dist1 #= 1, 
     Dist2 #= 2, 
