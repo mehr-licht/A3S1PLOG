@@ -1,7 +1,7 @@
 /**
  * 
  * */
-printTutorialMainMenu:- 
+printTutorialMainMenu(1):- 
     explanationMenu,
     askOption, 
     repeat,

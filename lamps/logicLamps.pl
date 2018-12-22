@@ -1,23 +1,42 @@
+%%#########################################################################################################
+solvingMiddleV9(Size,TabuleiroCentralIndexesWithValues, LampadasIndexes):-
+    casasIluminadas(TabuleiroCentralIndexesWithValues, LampadasIndexes, MatrixRangeWithZeros),
+    write('Solving Puzzle... '),nl,
+    statistics(runtime, [T0|_]),
+    testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros),
+    statistics(runtime, [T1|_]),
+    write('Solution: '),
+    write(Vars),nl,
+    write('Nota: Read the solution in clockwise'),nl,
+    nl,
+    T is T1 - T0,
+    format('took ~16d sec.~n', [T]).
 
+testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros):-
+    VarsSize #= Size*4,
+    length(Vars,VarsSize),
+    domain(Vars,0,Size),
+%    Vars [Lista de variaveis 8], MatrixRange([ [] [] [] [] ])
+    iluminatiGlobal(Vars, MatrixRangeWithZeros,TabuleiroCentralIndexesWithValues),
+    labeling([ff],Vars).
+
+
+iluminatiAux( [], [], Temp,Temp).
+iluminatiAux( [Var|Tvars], [(_-_)-Distancia|T], Temp,Total):-
+    (Var #>= Distancia #/\ Distancia #> 0)  #<=> B,
+    Temp2 #= Temp + B,
+    iluminatiAux(Tvars,T, Temp2,Total).
 /**
- * FALTA A LIGACAO COM O RESTO DO PROBLEMA
- * RECEBER AS LISTAS CRIADAS ALEATORIAMENTE
- * CALCULAR O CENTRO
- * PASSAR O CENTRO PARA a mesma forma do tabuleiroTeste
-*/
-
-
-solvingMiddle:-
-    %printMatrix(FinalTabuleiro,NewSize),
-    tabuleiroTeste(TabuleiroCentralIndexes),      
-    lampadasIndexes(4, LampadasIndexes),
-    casasIluminadas(TabuleiroCentralIndexes, LampadasIndexes, MatrixRangeWithZeros),
-   % cleaningZeroRange(MatrixRangeWithZeros,MatrixRange),        
-   % length(MatrixRangeWithZeros,Element),
-    nth1(1,MatrixRangeWithZeros,Elem),
-    length(Elem,ValueToprint),
-    write(ValueToprint).
-
+ * @param Vars Lista de variaveis - 8 elem caso base
+ * @param LampadaRange|Z - Lista com as lampadas que influenciam a celula 8 elem caso base
+ * @param Matix com as distancias de cada celula para todas as lampadas 
+ */
+iluminatiGlobal(_,[],[]).
+iluminatiGlobal(Vars, [LampadaRange|Z],[(_-_)-ValorCelula| T]):-
+    iluminatiAux(Vars, LampadaRange,0,Total), %Obtenho o valor da célula central
+    ValorCelula #= Total,
+    iluminatiGlobal(Vars,Z,T).
+%##################################################################################### Utilities
 /**
  * Calculo da distancia da iluminacao entre a Lampada e Casa iluminada
  * @param LinhaY, +ColunaY Celula da casa iluminada
@@ -92,75 +111,3 @@ casasIluminadas([],_,[]).
 casasIluminadas([H|T], ListLamp, [ListaInfluencias|NewLista]):-
             addRange(H, ListLamp, ListaInfluencias),
             casasIluminadas(T, ListLamp,NewLista ).                
-
-
-%myCelula((Linha-Coluna)-ValorCelula).
-%tabuleiro 4x4
-%myCelula(X).    X = 4-4-6 ?
-%myCelula(X-Y-Z).    X = 4, Y = 4, Z = 6 ? 
-%myCelula((X-Y)-Z).     X = 4, Y = 4,Z = 6 ? 
-%myCelula(X-Y).     X = 4-4, Y = 6 ?
-% celulasSol [  [0-1,N1],[0-2,N2],[1-3,E3],[2-3,E4],[3-2,S5],[3-1,S6],[2-0,S7],[1-0,S8] ]
-%vars([N1,N2,E3,E4,S5,S6,W7,W8]).
-%testUnitarioV8(Vars):-
-%    VarsNumber is 4 * 2,
-%    Distancia is 4,
-%    length(Vars,8),
-%    Tab = [1,1,2,3],
-
-/** RESOLUCAO CONFIRMADA
- * Conclusoes deste teste unitario: variavel igual vai influenciar o resultado de todas as equivalencia. 
- * Este mesmo resultado eh influenciado consoante se usa < ou >
- * Note-se que se B na equivalencia so resulta se X1 #=<Distancia
- * Se nas equivalencias tiver BX entao so resulta se X1 #>=Distancia
-*/
-testUnitario(Vars):-
-    Vars = [N1,E1,S1,W1],
-    ValorCelula #= 2, %mudanca desta variavel provoca alteracoes em Vars correctas
-    Distancia #= 1,                 
-    domain(Vars,0,1),
-    (N1 #>= Distancia) #<=> B1, %V = [0,0,0,1] ? ;
-    (E1 #>= Distancia) #<=> B2, %V = [0,0,1,0] ? ;
-    (S1 #>= Distancia) #<=> B3, %V = [0,1,0,0] ? ;
-    (W1 #>= Distancia) #<=> B4, %V = [1,0,0,0] ? ;
-    ValorCelula #= (B1 + B2 + B3 + B4),
-    labeling([],Vars).
-%%#########################################################################################################
-%tabuleiroCentralIndexes(2,Tci),testUnitarioV9(2,Tci,
-solvingMiddleV9:-
-                                                                             %printMatrix(FinalTabuleiro,NewSize),
-    Size is 2,
-    tabuleiroCentralIndexes(Size,TabuleiroCentralIndexesWithValues),
-    lampadasIndexes(Size, LampadasIndexes),
-    casasIluminadas(TabuleiroCentralIndexesWithValues, LampadasIndexes, MatrixRangeWithZeros),
-    %cleaningZeroRange(MatrixRangeWithZeros,MatrixRange),        
-    %inserir aqui testeUnitarioV9
-   testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros),    
-   % nth1(2,MatrixRangeWithZeros,Elem),
-    write(Vars).
-
-testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros):-
-    VarsSize #= Size*4,
-    length(Vars,VarsSize),
-    domain(Vars,0,Size),
-%    Vars [Lista de variaveis 8], MatrixRange([ [] [] [] [] ])
-    iluminatiGlobal(Vars, MatrixRangeWithZeros,TabuleiroCentralIndexesWithValues),
-    labeling([ff],Vars).
-
-
-iluminatiAux( [], [], Temp,Temp).
-iluminatiAux( [Var|Tvars], [(_-_)-Distancia|T], Temp,Total):-
-    (Var #>= Distancia #/\ Distancia #> 0)  #<=> B,
-    Temp2 #= Temp + B,
-    iluminatiAux(Tvars,T, Temp2,Total).
-/**
- * @param Vars Lista de variaveis - 8 elem caso base
- * @param LampadaRange|Z - Lista com as lampadas que influenciam a celula 8 elem caso base
- * @param Matix com as distancias de cada celula para todas as lampadas 
- */
-iluminatiGlobal(_,[],[]).
-iluminatiGlobal(Vars, [LampadaRange|Z],[(_-_)-ValorCelula| T]):-
-    iluminatiAux(Vars, LampadaRange,0,Total), %Obtenho o valor da célula central
-    ValorCelula #= Total,
-    iluminatiGlobal(Vars,Z,T).
-

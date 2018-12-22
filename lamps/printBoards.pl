@@ -5,26 +5,38 @@
 makingOfBoard(SizeInput):-
     makeBoard(SizeInput, Tabuleiro, NewSize), %NewSize is SizeInput + 2
     adjustBoard(Tabuleiro, NewTabuleiro,NewSize),
-  %  printMatrix(NewTabuleiro, NewSize), -> print an empty N-size matrix filled with zeros
+    printMatrix(NewTabuleiro, NewSize), %-> print an empty N-size matrix filled with zeros
     fillSides(NewTabuleiro, NewSize, FinalTabuleiro, SolutionsLista),
-  %  printMatrix(FinalTabuleiro, NewSize),
     cleanSolutionsLista(SolutionsLista, NewSolutionsLista), % Size [4x4] Sem os valores dos cantos que nao interessam
-    printLine(NewSolutionsLista).
-  %  Aqui VAI O print Das SOLUCOES FEITAS ALEATORIAMENTE
-   
-  %  write(SolutionsLista), %->CONFIRMADO LISTA SOLUCOES LIMPAS
-  %  nl,
-   % solvingMiddle(FinalTabuleiro,NewSize,NewSolutionsLista).
-
-solvingMiddle(FinalTabuleiro,Size,SolutionsLista):-
-    printMatrix(FinalTabuleiro, Size),
     nl,
-    write('Size: '),
-    write(Size),
+    write('New Board without the Middle Values'),
     nl,
-    write(SolutionsLista).
+    printMatrix(FinalTabuleiro, NewSize),
+    nl,
+    write('Future Solutions to Fill the middle:'), 
+    nl,
+    printLine(NewSolutionsLista),
+    nl, nl,
+    write('to continue press 0.'),
+    nl,
+    askOption,nl,
+    repeat,
+    read(TeclaEntrada),
+    (
+        ( (TeclaEntrada == 0 ; TeclaEntrada == 1 ), write('OPCAO VALIDA') )
+        ;
+        ( (TeclaEntrada \= 0 , TeclaEntrada \=1 ) , write('Opcao Invalida. escreva ?- 0.') )      
+     ),
+    filling(FinalTabuleiro, NewSolutionsLista, SizeInput).
 
 
+%solvingMiddle(FinalTabuleiro,Size,SolutionsLista):-
+%    printMatrix(FinalTabuleiro, Size),
+%    nl,
+%    write('Size: '),
+%    write(Size),
+%    nl,
+%    write(SolutionsLista).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  SolutionsLista
 
 cleanAUXFirst([_|T], NewLista):-
@@ -90,7 +102,7 @@ adjustBoard(Tabuleiro,NovoTabuleiro,SizeInput):-
 */
 makeBoard(SizeInput, Tabuleiro, NewSize):-
     NewSize is SizeInput + 2,
-    buildLists(_, NewSize, List), %se for 2X2 constroi uma lista de 4 valores [] em qe S1 A1 A2 S2
+    buildLists(0, NewSize, List), %se for 2X2 constroi uma lista de 4 valores [] em qe S1 A1 A2 S2
     buildMatrix(List, NewSize, Tabuleiro).
 
 /**
