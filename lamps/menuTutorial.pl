@@ -25,9 +25,9 @@ managerInputTutorial(1):-
     repeat,
     read(SizeInput),
     (
-     between(4,9,SizeInput), write('OPCAO VALIDA')      
+     between(2,9,SizeInput), write('OPCAO VALIDA'),nl      
     ),
-    printBoard(SizeInput).
+    makingOfBoard(SizeInput).
 
 
 printChooseSize:-
@@ -36,9 +36,9 @@ printChooseSize:-
     write('|                   Greetings, welcome to LAMPS                         |'),nl,
     write('|                                                                       |'),nl,
     write('|  # Choose the board size:                                             |'),nl, 
-    write('|                    Default size: 4 x 4                                |'),nl,
+    write('|                    Minimum size: 2 x 2                                |'),nl,
     write('|                                                                       |'),nl,
-    write('|                    Choose an integer between 4 and 9                  |'),nl,
+    write('|                    Choose an integer from 2  to 9                     |'),nl,
     write('|                    OR 0. to exit                                      |'),nl,   
     write('|                    0. Exit                                            |'),nl,
     write('|_______________________________________________________________________|'),nl,nl,nl.

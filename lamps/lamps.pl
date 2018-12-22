@@ -26,5 +26,5 @@
 /**
  * @brief lanca o jogo
  */
-play:-
+start:-
     printTutorialMainMenu(1).

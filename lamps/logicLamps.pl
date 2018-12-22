@@ -7,10 +7,16 @@ solvingMiddleV9(Size,TabuleiroCentralIndexesWithValues, LampadasIndexes):-
     statistics(runtime, [T1|_]),
     write('Solution: '),
     write(Vars),nl,
-    write('Nota: Read the solution in clockwise'),nl,
+    write('Diferent solution from the previous one, only means there is more than one solution'),nl,
     nl,
     T is T1 - T0,
-    format('took ~16d sec.~n', [T]).
+    write('Time solving: '),
+    write(T),nl. 
+   % format('took ~16d sec.~n', [T]),nl,
+   % write('Finding all possibe solutions: '),nl,
+   % findall(Vars,testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros), FindallLista),
+    %write(FindallLista).
+
 
 testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros):-
     VarsSize #= Size*4,
