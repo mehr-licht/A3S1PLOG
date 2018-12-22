@@ -1,5 +1,9 @@
-
-
+/**
+ *  xooo
+ *  oooo
+ *  oooo
+ *  oooo
+*/
 calc1_16(N1,N2,E1,S4,W3,W4, Dist1, Dist4, ValorCelula1):-
     (Dist1 #=< N1) #<=> B1,
     (Dist1 #=< N2) #<=> B2,
@@ -8,6 +12,13 @@ calc1_16(N1,N2,E1,S4,W3,W4, Dist1, Dist4, ValorCelula1):-
     (Dist1 #=< W3) #<=> B5,
     (Dist1 #=< W4) #<=> B6,
     ValorCelula1 #= B1 + B2 + B3 + B4 + B5 + B6.
+
+/**
+ *  oxoo
+ *  oooo
+ *  oooo
+ *  oooo
+*/
 calc2_16(N1,N2,N3,E1,E4,S3,W2,W4,Dist1,Dist2,Dist3,Dist4,ValorCelula2):-
     (Dist1 #=< N1) #<=> B1,
     (Dist1 #=< N2) #<=> B2,
