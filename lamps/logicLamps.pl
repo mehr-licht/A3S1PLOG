@@ -39,7 +39,7 @@ testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros)
     domain(Vars,0,Size),
 %    Vars [Lista de variaveis 8], MatrixRange([ [] [] [] [] ])
     iluminatiGlobal(Vars, MatrixRangeWithZeros,TabuleiroCentralIndexesWithValues),
-    labeling([ff],Vars).
+    labeling([max, bisect, up],Vars).
 
 
 iluminatiAux( [], [], Temp,Temp).
