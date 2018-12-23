@@ -4,20 +4,34 @@ solvingMiddleV9(Size,TabuleiroCentralIndexesWithValues, LampadasIndexes):-
     write('Solving Puzzle... '),nl,
     statistics(runtime, [T0|_]),
     testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros),
+    %################################### Statistics
     statistics(runtime, [T1|_]),
+    fd_statistics(resumptions, Resump),
+    fd_statistics(entailments, Entail),    
+    fd_statistics(prunings, Prun),
+    fd_statistics(backtracks, Back),
+    fd_statistics(constraints, Const),
+    %#################################   Statistics
     write('Solution: '),
     write(Vars),nl,
     write('Diferent solution from the previous one, only means there is more than one solution'),nl,
     nl,
     T is T1 - T0,
     write('Time solving: '),
-    write(T),nl. 
+    write(T),nl,
+    write('Resumptions:  '), write(Resump), write(' >>The number of times a constraint was resumed'), nl, 
+    write('Entailments:  '), write(Entail), write(' >>The number of times a (dis)entailment was detected by a constraint'), nl,
+    write('Prunings:     '), write(Prun), write('  >>The number of times a domain was pruned'), nl, 
+    write('Backtracks:   '), write(Back), write('  >>The number of times a contradiction was found by a domain being wiped out, or by a global constraint signalling failure'), nl, 
+    write('Constraints:  '), write(Const), write('  >>The number of constraints created'), nl. 
+   
    % format('took ~16d sec.~n', [T]),nl,
    % write('Finding all possibe solutions: '),nl,
    % findall(Vars,testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros), FindallLista),
     %write(FindallLista).
 
-
+%%%%%%%%%%%%%%%%%  ########################   End #########################################
+%%%
 testUnitarioV9(Vars,Size,TabuleiroCentralIndexesWithValues,MatrixRangeWithZeros):-
     VarsSize #= Size*4,
     length(Vars,VarsSize),
